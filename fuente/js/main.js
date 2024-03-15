@@ -19,41 +19,64 @@ const typeColors = {
     fairy: '#EE99AC',
 };
 
-function getFirstTenPokemon() {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=12')
-        .then(response => response.json())
-        .then(data => {
-            const pokemonPromises = data.results.map(pokemon => {
-                return fetch(pokemon.url)
-                    .then(response => response.json());
-            });
+let applyTransition = false;
+let offset = 0;
+const limit = 12;
 
-            Promise.all(pokemonPromises)
-                .then(pokemonDataArray => {
-                    pokemonDataArray.forEach(pokemonData => {
-                        const pokemonHTML = `
-                            <div class="pokemon-card bg-white shadow-md rounded-lg overflow-hidden flex flex-col items-center mx-auto transform transition duration-500 ease-in-out hover:-translate-y-2 cursor-pointer">
-                                <img class="w-2/4 h-auto" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
-                                <div class="p-4 text-center">
-                                    <h2 class="text-xl font-bold mb-2">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}</h2>
-                                    <p class="mb-2">Nº: ${pokemonData.id}</p>
-                                    ${pokemonData.types.map(typeInfo => `<span class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-white mr-2" style="background-color: ${typeColors[typeInfo.type.name.toLowerCase()]};">${typeInfo.type.name}</span>`).join('')}
-                                </div>
-                            </div>
-                        `;
-                        document.querySelector('#pokemon').innerHTML += pokemonHTML;
-                    });
-                    const navigationHTML = `
-                        <div class="flex justify-between w-1/3 mt-4 mb-4">
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Anterior</button>
-                            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Siguiente</button>
-                        </div>
-                    `;
-                    document.querySelector('#navegacion').innerHTML += navigationHTML;
-                })
-                .catch(error => console.error('Error:', error));
-        })
-        .catch(error => console.error('Error:', error));
+function crearTarjetaPokemon(pokemonData) {
+    const pokemonHTML = `
+    <div class="pokemon-card bg-gray-400 shadow-md rounded-lg overflow-hidden flex flex-col items-center mx-auto transform transition duration-500 ease-in-out ${applyTransition ? 'oculto' : ''}">
+            <img class="w-2/4 h-auto" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
+            <div class="p-4 text-center">
+                <h2 class="text-xl font-bold mb-2">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}</h2>
+                <p class="mb-2">Nº: ${pokemonData.id}</p>
+                ${pokemonData.types.map(typeInfo => `<span class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-white mr-2" style="background-color: ${typeColors[typeInfo.type.name.toLowerCase()]};">${typeInfo.type.name.charAt(0).toUpperCase() + typeInfo.type.name.slice(1)}</span>`).join('')}
+            </div>
+        </div>
+    `;
+    document.querySelector('#pokemon').innerHTML += pokemonHTML;
 }
 
-getFirstTenPokemon();
+async function obtenerPokemons() {
+    const url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const pokemonPromises = data.results.map(async pokemon => {
+        const pokemonResponse = await fetch(pokemon.url);
+        return pokemonResponse.json();
+    });
+
+    const pokemonDataArray = await Promise.all(pokemonPromises);
+
+    document.querySelector('#pokemon').innerHTML = ''; // Clear the current cards
+    pokemonDataArray.forEach(pokemonData => {
+        crearTarjetaPokemon(pokemonData);
+    });
+
+    if (applyTransition) {
+        setTimeout(() => {
+            document.querySelectorAll('.pokemon-card.oculto').forEach(card => {
+                card.classList.remove('oculto');
+            });
+        }, 100); // Adjust delay as needed
+        applyTransition = false; // Reset the flag
+    }
+
+
+    document.querySelector('#anterior').disabled = offset === 0; // Disable the button if there is no previous page
+}
+
+document.querySelector('#siguiente').addEventListener('click', () => {
+    offset += limit;
+    applyTransition = true; // Set the flag
+    obtenerPokemons().catch(console.error);
+});
+
+document.querySelector('#anterior').addEventListener('click', () => {
+    offset = Math.max(0, offset - limit);
+    applyTransition = true; // Set the flag
+    obtenerPokemons().catch(console.error);
+});
+
+obtenerPokemons().catch(error => console.error('Error:', error));

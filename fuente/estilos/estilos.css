@@ -2,37 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-#pokemon {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    box-sizing: border-box;
+.oculto {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s, transform 0.5s;
 }
-
-.pokemon-card {
-    width: 100%;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 5px;
-}
-
-.pokemon-card img {
-    width: 50%;
-    height: auto;
-}
-
-.pokemon-card h2 {
-    margin: 1rem 0;
-    text-transform: capitalize;
-}
-
-.pokemon-card p {
-    margin: 0;
-    text-transform: capitalize;
-}*/

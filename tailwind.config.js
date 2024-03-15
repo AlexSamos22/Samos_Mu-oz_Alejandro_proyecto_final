@@ -25,9 +25,13 @@ module.exports = {
         'bg-dark': '#705848', 
         'bg-steel': '#B8B8D0', 
         'bg-fairy': '#EE99AC',
-        'rojo-pokeball': '#C70000' 
+        'fondo-menu-footer': '#00579F',
+        'rojo-hover': '#FF0000'
+      },
+      width: {
+        'modificado-13': '13%',
+        // Add more custom widths as needed
       }
-
     },
   },
   plugins: [
