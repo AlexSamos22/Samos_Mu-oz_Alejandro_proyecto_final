@@ -22,10 +22,11 @@ const typeColors = {
 let applyTransition = false;
 let offset = 0;
 const limit = 12;
+let tipoActual = null;
 
 function crearTarjetaPokemon(pokemonData) {
     const pokemonHTML = `
-    <div class="pokemon-card bg-gray-400 shadow-md rounded-lg overflow-hidden flex flex-col items-center mx-auto transform transition duration-500 ease-in-out ${applyTransition ? 'oculto' : ''}">
+    <div class="pokemon-card bg-gray-400 shadow-md rounded-lg overflow-hidden flex flex-col items-center mx-auto">
             <img class="w-2/4 h-auto" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
             <div class="p-4 text-center">
                 <h2 class="text-xl font-bold mb-2">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}</h2>
@@ -67,16 +68,49 @@ async function obtenerPokemons() {
     document.querySelector('#anterior').disabled = offset === 0; // Disable the button if there is no previous page
 }
 
+async function obtenerPokemonsPorTipo(type) {
+    const url = `https://pokeapi.co/api/v2/type/${type}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    const pokemonPromises = data.pokemon.slice(0, 12).map(async ({ pokemon }) => {
+        const pokemonResponse = await fetch(pokemon.url);
+        return pokemonResponse.json();
+    });
+
+    const pokemonDataArray = await Promise.all(pokemonPromises);
+
+    document.querySelector('#pokemon').innerHTML = ''; // Clear the current cards
+    pokemonDataArray.forEach(pokemonData => {
+        crearTarjetaPokemon(pokemonData);
+    });
+}
+
+document.querySelectorAll('.tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+        tipoActual = tag.id; // Set the current type when a tag is clicked
+        obtenerPokemonsPorTipo(tipoActual).catch(console.error);
+    });
+});
+
 document.querySelector('#siguiente').addEventListener('click', () => {
     offset += limit;
     applyTransition = true; // Set the flag
-    obtenerPokemons().catch(console.error);
+    if (tipoActual) {
+        obtenerPokemonsPorTipo(tipoActual).catch(console.error);
+    } else {
+        obtenerPokemons().catch(console.error);
+    }
 });
 
 document.querySelector('#anterior').addEventListener('click', () => {
     offset = Math.max(0, offset - limit);
     applyTransition = true; // Set the flag
-    obtenerPokemons().catch(console.error);
+    if (tipoActual) {
+        obtenerPokemonsPorTipo(tipoActual).catch(console.error);
+    } else {
+        obtenerPokemons().catch(console.error);
+    }
 });
 
 obtenerPokemons().catch(error => console.error('Error:', error));
