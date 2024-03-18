@@ -11,7 +11,7 @@
 
 <body class="flex flex-col items-center m-0">
 
-    <nav class="bg-fondo-menu-footer border-gray-200 dark:bg-gray-900 w-full">
+    <nav class="bg-fondo-menu-footer border-gray-200 dark:bg-gray-900 w-full relative">
         <div class="w-11/12 flex flex-wrap items-center justify-between mx-auto">
             <img src="../fuente/img/PokeCrew-14-3-2024.png" class="w-modificado-13" alt="PokeCrew Logo" />
             <div class="flex md:order-2">
@@ -86,86 +86,125 @@
         </div>
     </nav>
 
-    <section id="filtro" class="w-11/12 mt-2">
-        <div class="grid grid-cols-6 gap-4">
+    <section id="botones_orden_filtro" class="w-11/12 flex flex-col items-center">
+        <article class="flex justify-between w-4/5 mt-4 mb-4 gap-6">
 
-            <div class="tag bg-bg-normal p-4 rounded text-white text-center" id="1">
-                <span>Normal</span>
+            <div class="flex justify-center items-center gap-4 bg-blue-500 text-white rounded-lg p-2 shadow-md">
+                <label for="orden" class="font-bold">Ordenar por: </label>
+                <select id="orden" class="bg-white text-blue-500 rounded-lg p-2">
+                    <option value="asc">A-Z</option>
+                    <option value="desc">Z-A</option>
+                    <option value="n-asc" selected>Nº Ascendente</option >
+                    <option value="n-desc">Nº Descendente</option>
+                </select>
+            </div>
+            
+            <div id="toggle-filtro" class="flex items-center justify-center bg-red-500 text-white rounded-lg p-2 shadow-md cursor-pointer">
+                <i class="fa-solid fa-filter"></i>
+                <p class="font-bold">Filtro</p>
             </div>
 
-            <div class=" tag bg-bg-fire p-4 rounded text-white text-center" id="10">
-                <span>Fire</span>
-            </div>
+        </article>
+    </section>
+    
 
-            <div class=" tag bg-bg-water p-4 rounded text-white text-center" id="11">
-                <span>Water</span>
-            </div>
+    <article id="filtro" class="w-1/4 h-screen absolute right-full top-modificado2 transition-all duration-500 overflow-auto bg-fondo-menu-footer grid grid-cols-2 place-items-center">
 
-            <div class=" tag bg-bg-grass p-4 rounded text-white text-center" id="12">
-                <span>Grass</span>
-            </div>
-
-            <div class="tag bg-bg-electric p-4 rounded text-white text-center" id="13">
-                <span>Electric</span>
-            </div>
-
-            <div class=" tag bg-bg-ice p-4 rounded text-white text-center" id="15">
-                <span>Ice</span>
-            </div>
-
-            <div class=" tag bg-bg-fighting p-4 rounded text-white text-center" id="2">
-                <span>Fighting</span>
-            </div>
-
-            <div class=" tag bg-bg-poison p-4 rounded text-white text-center" id="4">
-                <span>Poison</span>
-            </div>
-
-            <div class=" tag bg-bg-ground p-4 rounded text-white text-center" id="5">
-                <span>Ground</span>
-            </div>
-
-            <div class=" tag bg-bg-flying p-4 rounded text-white text-center" id="3">
-                <span>Flying</span>
-            </div>
-
-            <div class="tag bg-bg-psychic p-4 rounded text-white text-center" id="14">
-                <span>Psychic</span>
-            </div>
-
-            <div class=" tag bg-bg-bug p-4 rounded text-white text-center" id="7">
-                <span>Bug</span>
-            </div>
-
-            <div class=" tag bg-bg-rock p-4 rounded text-white text-center" id="6">
-                <span>Rock</span>
-            </div>
-
-            <div class=" tag bg-bg-ghost p-4 rounded text-white text-center" id="8">
-                <span>Ghost</span>
-            </div>
-
-            <div class=" tag bg-bg-dragon p-4 rounded text-white text-center" id="16">
-                <span>Dragon</span>
-            </div>
-
-            <div class=" tag bg-bg-dark p-4 rounded text-white text-center" id="17">
-                <span>Dark</span>
-            </div>
-
-            <div class=" tag bg-bg-steel p-4 rounded text-white text-center" id="9">
-                <span>Steel</span>
-            </div>
-
-            <div class=" tag bg-bg-fairy p-4 rounded text-white text-center" id="18">
-                <span>Fairy</span>
-            </div>
+        <div class="tag bg-white rounded-full  text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="1">
+            <img src="../fuente/img/Tipo_normal_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-normal">Normal</span>
         </div>
-    </section>
 
-    <section id="pokemon" class="grid grid-cols-4 gap-4 w-11/12 mt-4 mb-4">
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="10">
+            <img src="../fuente/img/Tipo_fuego_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-fire">Fire</span>
+        </div>
 
-    </section>
+        <div class="tag   bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="11">
+            <img src="../fuente/img/Tipo_agua_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-water">Water</span>
+        </div>
+
+        <div class="tag   bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11"  id="12">
+            <img src="../fuente/img/Tipo_planta_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-grass">Grass</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="13">
+            <img src="../fuente/img/Tipo_eléctrico_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-electric">Electric</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="15">
+            <img src="../fuente/img/Tipo_hielo_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-ice">Ice</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="2">
+            <img src="../fuente/img/Tipo_lucha_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-fighting">Fighting</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="4">
+            <img src="../fuente/img/Tipo_veneno_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-poison">Poison</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="5">
+            <img src="../fuente/img/Tipo_tierra_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-ground">Ground</span>
+        </div>
+
+        <div class="tag   bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="3">
+            <img src="../fuente/img/Tipo_volador_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-flying">Flying</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="14">
+            <img src="../fuente/img/Tipo_psíquico_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-psychic">Psychic</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="7">
+            <img src="../fuente/img/Tipo_bicho_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-bug">Bug</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="6">
+            <img src="../fuente/img/Tipo_roca_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-rock">Rock</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="8">
+            <img src="../fuente/img/Tipo_fantasma_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-ghost">Ghost</span>
+        </div>
+
+        <div class="tag bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="16">
+            <img src="../fuente/img/Tipo_dragón_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-dragon">Dragon</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="17">
+            <img src="../fuente/img/Tipo_siniestro_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-dark">Dark</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="9">
+            <img src="../fuente/img/Tipo_acero_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-steel">Steel</span>
+        </div>
+
+        <div class="tag  bg-white rounded-full text-white text-center flex items-center justify-center gap-3 max-w-32 h-11" id="18">
+            <img src="../fuente/img/Tipo_hada_icono_EP.svg" alt="" class="w-modificado-13">
+            <span class="text-bg-fairy">Fairy</span>
+        </div>
+
+    </article>
+
+    <article id="pokemon" class="grid grid-cols-4 gap-4 mt-4 mb-4 w-11/12">
+
+    </article>
 
     <section id="navegacion" class="w-11/12 flex flex-col items-center">
         <div class="flex justify-between w-1/3 mt-4 mb-4">
@@ -223,6 +262,7 @@
 
 
     <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script src="https://kit.fontawesome.com/3276d08f21.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

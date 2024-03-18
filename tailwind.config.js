@@ -28,10 +28,13 @@ module.exports = {
         'fondo-menu-footer': '#00579F',
         'rojo-hover': '#FF0000'
       },
+
       width: {
         'modificado-13': '13%',
-        // Add more custom widths as needed
-      }
+      },
+      spacing: {
+        'modificado2': '8%',
+      },
     },
   },
   plugins: [
