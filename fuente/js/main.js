@@ -26,8 +26,31 @@ let tipoActual = null;
 let ordenActual = null;
 let pokemonsPorTipo = []; // Almacena todos los Pokémon de un tipo específico
 let paginaActual = 0; // Almacena la página actual
+let pokemons = []; // Array global para almacenar los Pokémon
+
+
+async function obtenerTodosLosPokemons() {
+    let url = 'https://pokeapi.co/api/v2/pokemon?limit=100'; // Comienza con los primeros 100 Pokémon
+    let contador = 1;
+
+    while (url && contador <= 1025) {
+        const response = await fetch(url);
+        const data = await response.json();
+        const pokemonsConNumeros = data.results.slice(0, 1025 - pokemons.length).map(pokemon => ({
+            ...pokemon,
+            numero: contador++
+        }));
+
+        pokemons = pokemons.concat(pokemonsConNumeros);
+        url = data.next; // La URL para la siguiente página de resultados
+    }
+
+}
 
 function crearTarjetaPokemon(pokemonData) {
+    if (pokemonData.sprites.other['official-artwork'].front_default === null) {
+        return;
+    }
     const pokemonHTML = `
     <div class="pokemon-card bg-gray-400 shadow-md rounded-lg overflow-hidden flex flex-col items-center mx-auto">
             <img class="w-2/4 h-auto" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
@@ -41,53 +64,49 @@ function crearTarjetaPokemon(pokemonData) {
     document.querySelector('#pokemon').innerHTML += pokemonHTML;
 }
 
-async function obtenerPokemons(order) {
-    const url = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
-    const response = await fetch(url);
-    const data = await response.json();
-
-    const pokemonPromises = data.results.map(async pokemon => {
-        const pokemonResponse = await fetch(pokemon.url);
-        return pokemonResponse.json();
-    });
-
-    let pokemonDataArray = await Promise.all(pokemonPromises);
+async function obtenerPokemons(order = 'n-asc') {
 
     if (order === 'asc') {
-        pokemonDataArray = pokemonDataArray.sort((a, b) => a.name.localeCompare(b.name));
+        pokemons = pokemons.sort((a, b) => a.name.localeCompare(b.name));
     } else if (order === 'desc') {
-        pokemonDataArray = pokemonDataArray.sort((a, b) => b.name.localeCompare(a.name));
+        pokemons = pokemons.sort((a, b) => b.name.localeCompare(a.name));
     } else if (order === 'n-asc') {
-        pokemonDataArray = pokemonDataArray.sort((a, b) => a.id - b.id);
+        pokemons = pokemons.sort((a, b) => a.numero - b.numero);
     } else if (order === 'n-desc') {
-        pokemonDataArray = pokemonDataArray.sort((a, b) => b.id - a.id);
+        pokemons = pokemons.sort((a, b) => b.numero - a.numero);
     }
+
+    let pokemonDataArray = pokemons.slice(offset, offset + limit);
 
     document.querySelector('#pokemon').innerHTML = ''; // Clear the current cards
-    pokemonDataArray.forEach(pokemonData => {
+    const pokemonPromises = pokemonDataArray.map(pokemon => fetch(pokemon.url).then(response => response.json()));
+    const pokemonDataArrayComplete = await Promise.all(pokemonPromises);
+
+    for (const pokemonData of pokemonDataArrayComplete) {
         crearTarjetaPokemon(pokemonData);
-    });
-
-    if (applyTransition) {
-        setTimeout(() => {
-            document.querySelectorAll('.pokemon-card.oculto').forEach(card => {
-                card.classList.remove('oculto');
-            });
-        }, 100); // Adjust delay as needed
-        applyTransition = false; // Reset the flag
     }
-
-
-    document.querySelector('#anterior').disabled = offset === 0; // Disable the button if there is no previous page
 }
 
-async function obtenerPokemonsPorTipo(type) {
+async function obtenerPokemonsPorTipo(type, order = 'n-asc') {
     const url = `https://pokeapi.co/api/v2/type/${type}`;
     const response = await fetch(url);
     const data = await response.json();
 
-    pokemonsPorTipo = data.pokemon.map(({ pokemon }) => pokemon);
+    pokemonsPorTipo = data.pokemon.map(({ pokemon }, index) => ({
+        ...pokemon,
+        numero: index + 1
+    })).slice(0, -18);
 
+        if (order === 'asc') {
+            pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (order === 'desc') {
+            pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => b.name.localeCompare(a.name));
+        } else if (order === 'n-asc') {
+            pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => a.numero - b.numero);
+        } else if (order === 'n-desc') {
+            pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => b.numero - a.numero);
+        }
+    console.log(pokemonsPorTipo);
     mostrarPokemonsPorTipo();
 }
 
@@ -112,29 +131,37 @@ async function mostrarPokemonsPorTipo() {
 document.querySelectorAll('.tag').forEach(tag => {
     tag.addEventListener('click', () => {
         tipoActual = tag.id; // Set the current type when a tag is clicked
-        obtenerPokemonsPorTipo(tipoActual).catch(console.error);
+        obtenerPokemonsPorTipo(tipoActual, ordenActual).catch(console.error);
     });
 });
 
 document.querySelector('#siguiente').addEventListener('click', () => {
     applyTransition = true; // Set the flag
     if (tipoActual) {
-        paginaActual = Math.min(pokemonsPorTipo.length / limit, paginaActual + 1);
-        mostrarPokemonsPorTipo();
+        if (paginaActual < Math.round(pokemonsPorTipo.length / limit)) {
+            paginaActual = Math.min(pokemonsPorTipo.length / limit, paginaActual + 1);
+            mostrarPokemonsPorTipo();
+        }
     } else {
-        offset += limit;
-        obtenerPokemons(ordenActual).catch(console.error);
+        if (paginaActual < Math.round(pokemons.length / limit)) {
+            offset += limit;
+            obtenerPokemons(ordenActual).catch(console.error);
+        }
     }
 });
 
 document.querySelector('#anterior').addEventListener('click', () => {
     applyTransition = true; // Set the flag
     if (tipoActual) {
-        paginaActual = Math.max(0, paginaActual - 1);
-        mostrarPokemonsPorTipo();
+        if (paginaActual > 0) {
+            paginaActual = Math.max(0, paginaActual - 1);
+            mostrarPokemonsPorTipo();
+        }
     } else {
-        offset = Math.max(0, offset - limit);
-        obtenerPokemons(ordenActual).catch(console.error);
+        if (paginaActual > 0) {
+            offset = Math.max(0, offset - limit);
+            obtenerPokemons(ordenActual).catch(console.error);
+        }
     }
 });
 
@@ -152,10 +179,16 @@ document.querySelector('#toggle-filtro').addEventListener('click', () => {
 document.getElementById('orden').addEventListener('change', function(event) {
     ordenActual = event.target.value;
     if (tipoActual) {
-        obtenerPokemonsPorTipo(tipoActual).catch(console.error);
+        paginaActual = 0;
+        obtenerPokemonsPorTipo(tipoActual, ordenActual).catch(console.error);
     } else {
+        offset = 0;
         obtenerPokemons(ordenActual).catch(console.error);
     }
 });
 
-obtenerPokemons().catch(error => console.error('Error:', error));
+obtenerTodosLosPokemons()
+    .then(() => {
+        obtenerPokemons().catch(console.error);
+    })
+    .catch(console.error);
