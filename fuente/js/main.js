@@ -19,7 +19,7 @@ const typeColors = {
     steel: '#B8B8D0',
     fairy: '#EE99AC',
 };
-
+let pokemonHTML = '';
 let applyTransition = false;
 let offset = 0;
 const limit = 12;
@@ -80,11 +80,9 @@ async function obtenerPokemons(order = 'n-asc') {
 
     let pokemonDataArray = pokemons.slice(offset, offset + limit);
 
-    document.querySelector('#pokemon').innerHTML = ''; // Clear the current cards
     const pokemonPromises = pokemonDataArray.map(pokemon => fetch(pokemon.url).then(response => response.json()));
     const pokemonDataArrayComplete = await Promise.all(pokemonPromises);
 
-    let pokemonHTML = '';
     for (const pokemonData of pokemonDataArrayComplete) {
         pokemonHTML += crearTarjetaPokemon(pokemonData);
     }
@@ -129,21 +127,31 @@ async function mostrarPokemonsPorTipo() {
 
     const pokemonDataArray = await Promise.all(pokemonPromises);
 
-    document.querySelector('#pokemon').innerHTML = ''; // Clear the current cards
     pokemonDataArray.forEach(pokemonData => {
-        crearTarjetaPokemon(pokemonData);
+        pokemonHTML += crearTarjetaPokemon(pokemonData);
     });
+
+    document.querySelector('#pokemon').innerHTML = pokemonHTML;
 }
 
 document.querySelectorAll('.tag').forEach(tag => {
     tag.addEventListener('click', () => {
+        console.log(tag.id);
         tipoActual = tag.id; // Set the current type when a tag is clicked
+        pokemonHTML = '';
         obtenerPokemonsPorTipo(tipoActual, ordenActual).catch(console.error);
     });
 });
 
-document.querySelector('#siguiente').addEventListener('click', () => {
+document.querySelector('#mas').addEventListener('click', function() {
     applyTransition = true; // Set the flag
+    this.classList.add('animate-click');
+
+    // Remove the class after the animation has completed
+    setTimeout(() => {
+        this.classList.remove('animate-click');
+    }, 200); // This should match the duration of the animation
+
     if (tipoActual) {
         if (paginaActual < Math.round(pokemonsPorTipo.length / limit)) {
             paginaActual = Math.min(pokemonsPorTipo.length / limit, paginaActual + 1);
@@ -156,28 +164,13 @@ document.querySelector('#siguiente').addEventListener('click', () => {
             obtenerPokemons(ordenActual).catch(console.error);
         }
     }
-    window.scrollTo(0, 0);
+
+    document.getElementById('inicio').classList.remove('hidden');
 });
 
-
-
-document.querySelector('#anterior').addEventListener('click', () => {
-    applyTransition = true; // Set the flag
-    if (tipoActual) {
-        if (paginaActual > 0) {
-            paginaActual = Math.max(0, paginaActual - 1);
-            mostrarPokemonsPorTipo();
-        }
-    } else {
-        if (paginaActual > 0) {
-            offset = Math.max(0, offset - limit);
-            paginaActual = Math.max(0, paginaActual - 1);
-            obtenerPokemons(ordenActual).catch(console.error);
-        }
-    }
+document.getElementById('inicio').addEventListener('click', function() {
     window.scrollTo(0, 0);
 });
-
 
 document.querySelector('#toggle-filtro').addEventListener('click', () => {
     const filtro = document.querySelector('#filtro');
@@ -193,6 +186,7 @@ document.querySelector('#toggle-filtro').addEventListener('click', () => {
 document.getElementById('orden').addEventListener('change', function (event) {
     ordenActual = event.target.value;
     ordenar = true;
+    pokemonHTML = '';
     if (tipoActual) {
         paginaActual = 0;
         obtenerPokemonsPorTipo(tipoActual, ordenActual).catch(console.error);
