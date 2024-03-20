@@ -6,6 +6,7 @@ module.exports = {
   ],
   theme: {
     extend: {
+      scale: ['active'],
       colors:{
         'bg-normal': '#A8A878',
         'bg-fire': '#F08030',
@@ -39,7 +40,20 @@ module.exports = {
       spacing: {
         'modificado2': '8%',
         'modificado3': '50%',
+        'modificado4': '100%',
       },
+      screens: {
+        'grande': '1100px',
+        'mediano': '730px',
+        'pequeño': '470px',
+      },
+      scrollbar: (theme) => ({
+        thin: {
+          width: '10px',
+          backgroundColor: theme('colors.gray.200'),
+          thumbColor: theme('colors.gray.500'),
+        },
+      }),
     },
   },
   plugins: [

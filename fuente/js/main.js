@@ -1,3 +1,4 @@
+
 const typeColors = {
     normal: '#A8A878',
     fire: '#F08030',
@@ -27,7 +28,7 @@ let ordenActual = null;
 let pokemonsPorTipo = []; // Almacena todos los Pokémon de un tipo específico
 let paginaActual = 0; // Almacena la página actual
 let pokemons = []; // Array global para almacenar los Pokémon
-
+let ordenar = false;
 
 async function obtenerTodosLosPokemons() {
     let url = 'https://pokeapi.co/api/v2/pokemon?limit=100'; // Comienza con los primeros 100 Pokémon
@@ -48,34 +49,34 @@ async function obtenerTodosLosPokemons() {
 }
 
 function crearTarjetaPokemon(pokemonData) {
-    if (pokemonData.sprites.other['official-artwork'].front_default === null) {
-        return;
-    }
-    const pokemonHTML = `
-    <div class="pokemon-card bg-white border-2 border-gray-300 p-4 relative flex flex-col items-center mx-auto">
-    <h2 class="text-9xl text-gray-200 absolute top-modificado3 left-modificado3 transform -translate-x-1/2 -translate-y-1/2" z-0">#${pokemonData.id}</h2>
-            <img class="w-2/4 h-auto z-0" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
-            <div class="p-4 text-center z-1">
+    return  `
+    <div class="pokemon-card bg-white border-2 border-gray-300 p-4 relative flex flex-col items-center mx-auto cursor-pointer transform transition duration-500 ease-in-out hover:-translate-y-1 ${applyTransition ? 'animate-fadeIn' : ''}">
+            <img class="w-2/4 h-auto" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
+            <div class="p-4 text-center">
                 <h2 class="text-xl font-bold mb-2">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}</h2>
                 <p class="mb-2">Nº: ${pokemonData.id}</p>
                 ${pokemonData.types.map(typeInfo => `<span class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-white mr-2" style="background-color: ${typeColors[typeInfo.type.name.toLowerCase()]};">${typeInfo.type.name.charAt(0).toUpperCase() + typeInfo.type.name.slice(1)}</span>`).join('')}
             </div>
         </div>
     `;
-    document.querySelector('#pokemon').innerHTML += pokemonHTML;
 }
 
 async function obtenerPokemons(order = 'n-asc') {
-
-    if (order === 'asc') {
-        pokemons = pokemons.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (order === 'desc') {
-        pokemons = pokemons.sort((a, b) => b.name.localeCompare(a.name));
-    } else if (order === 'n-asc') {
-        pokemons = pokemons.sort((a, b) => a.numero - b.numero);
-    } else if (order === 'n-desc') {
-        pokemons = pokemons.sort((a, b) => b.numero - a.numero);
+    console.log(ordenar);
+    if (ordenar) {
+        if (order === 'asc') {
+            pokemons = pokemons.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (order === 'desc') {
+            pokemons = pokemons.sort((a, b) => b.name.localeCompare(a.name));
+        } else if (order === 'n-asc') {
+            pokemons = pokemons.sort((a, b) => a.numero - b.numero);
+        } else if (order === 'n-desc') {
+            pokemons = pokemons.sort((a, b) => b.numero - a.numero);
+        }
     }
+
+    ordenar = false;
+    console.log(ordenar);
 
     let pokemonDataArray = pokemons.slice(offset, offset + limit);
 
@@ -83,9 +84,12 @@ async function obtenerPokemons(order = 'n-asc') {
     const pokemonPromises = pokemonDataArray.map(pokemon => fetch(pokemon.url).then(response => response.json()));
     const pokemonDataArrayComplete = await Promise.all(pokemonPromises);
 
+    let pokemonHTML = '';
     for (const pokemonData of pokemonDataArrayComplete) {
-        crearTarjetaPokemon(pokemonData);
+        pokemonHTML += crearTarjetaPokemon(pokemonData);
     }
+
+    document.querySelector('#pokemon').innerHTML = pokemonHTML;
 }
 
 async function obtenerPokemonsPorTipo(type, order = 'n-asc') {
@@ -98,6 +102,7 @@ async function obtenerPokemonsPorTipo(type, order = 'n-asc') {
         numero: index + 1
     })).slice(0, -18);
 
+    if (ordenar) {
         if (order === 'asc') {
             pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => a.name.localeCompare(b.name));
         } else if (order === 'desc') {
@@ -107,7 +112,8 @@ async function obtenerPokemonsPorTipo(type, order = 'n-asc') {
         } else if (order === 'n-desc') {
             pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => b.numero - a.numero);
         }
-    console.log(pokemonsPorTipo);
+    }
+    ordenar = false;
     mostrarPokemonsPorTipo();
 }
 
@@ -145,11 +151,15 @@ document.querySelector('#siguiente').addEventListener('click', () => {
         }
     } else {
         if (paginaActual < Math.round(pokemons.length / limit)) {
+            paginaActual = Math.min(pokemons.length / limit, paginaActual + 1);
             offset += limit;
             obtenerPokemons(ordenActual).catch(console.error);
         }
     }
+    window.scrollTo(0, 0);
 });
+
+
 
 document.querySelector('#anterior').addEventListener('click', () => {
     applyTransition = true; // Set the flag
@@ -161,24 +171,28 @@ document.querySelector('#anterior').addEventListener('click', () => {
     } else {
         if (paginaActual > 0) {
             offset = Math.max(0, offset - limit);
+            paginaActual = Math.max(0, paginaActual - 1);
             obtenerPokemons(ordenActual).catch(console.error);
         }
     }
+    window.scrollTo(0, 0);
 });
+
 
 document.querySelector('#toggle-filtro').addEventListener('click', () => {
     const filtro = document.querySelector('#filtro');
-    if (filtro.classList.contains('left-0')) {
-        filtro.classList.remove('left-0');
-        filtro.classList.add('right-full');
+    if (filtro.classList.contains('translate-x-0')) {
+        filtro.classList.remove('translate-x-0');
+        filtro.classList.add('-translate-x-full');
     } else {
-        filtro.classList.remove('right-full');
-        filtro.classList.add('left-0');
+        filtro.classList.remove('-translate-x-full');
+        filtro.classList.add('translate-x-0');
     }
 });
 
-document.getElementById('orden').addEventListener('change', function(event) {
+document.getElementById('orden').addEventListener('change', function (event) {
     ordenActual = event.target.value;
+    ordenar = true;
     if (tipoActual) {
         paginaActual = 0;
         obtenerPokemonsPorTipo(tipoActual, ordenActual).catch(console.error);
@@ -187,6 +201,24 @@ document.getElementById('orden').addEventListener('change', function(event) {
         obtenerPokemons(ordenActual).catch(console.error);
     }
 });
+
+document.querySelector('#toggle-filtro').addEventListener('click', function () {
+    this.classList.add('animate-click');
+
+    // Remove the class after the animation has completed
+    setTimeout(() => {
+        this.classList.remove('animate-click');
+    }, 200); // This should match the duration of the animation
+
+
+});
+
+document.querySelector('#cerrar-filtro').addEventListener('click', function () {
+    const filtro = document.querySelector('#filtro');
+    filtro.classList.remove('translate-x-0');
+    filtro.classList.add('-translate-x-full');
+});
+
 
 obtenerTodosLosPokemons()
     .then(() => {
