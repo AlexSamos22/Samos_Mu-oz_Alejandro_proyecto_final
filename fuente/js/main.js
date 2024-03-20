@@ -52,9 +52,10 @@ function crearTarjetaPokemon(pokemonData) {
         return;
     }
     const pokemonHTML = `
-    <div class="pokemon-card bg-gray-400 shadow-md rounded-lg overflow-hidden flex flex-col items-center mx-auto">
-            <img class="w-2/4 h-auto" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
-            <div class="p-4 text-center">
+    <div class="pokemon-card bg-white border-2 border-gray-300 p-4 relative flex flex-col items-center mx-auto">
+    <h2 class="text-9xl text-gray-200 absolute top-modificado3 left-modificado3 transform -translate-x-1/2 -translate-y-1/2" z-0">#${pokemonData.id}</h2>
+            <img class="w-2/4 h-auto z-0" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
+            <div class="p-4 text-center z-1">
                 <h2 class="text-xl font-bold mb-2">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}</h2>
                 <p class="mb-2">Nº: ${pokemonData.id}</p>
                 ${pokemonData.types.map(typeInfo => `<span class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-white mr-2" style="background-color: ${typeColors[typeInfo.type.name.toLowerCase()]};">${typeInfo.type.name.charAt(0).toUpperCase() + typeInfo.type.name.slice(1)}</span>`).join('')}

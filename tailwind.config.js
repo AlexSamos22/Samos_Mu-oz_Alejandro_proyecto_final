@@ -26,7 +26,11 @@ module.exports = {
         'bg-steel': '#B8B8D0', 
         'bg-fairy': '#EE99AC',
         'fondo-menu-footer': '#00579F',
-        'rojo-hover': '#FF0000'
+        'fondo-menu-footer-hover': '#004275',
+        'rojo-hover': '#FF0000',
+        'bg-ghost-dark': '#50406A', 
+        'bg-dragon-dark': '#5028A8', 
+        'bg-dark-dark': '#504030', 
       },
 
       width: {
@@ -34,6 +38,7 @@ module.exports = {
       },
       spacing: {
         'modificado2': '8%',
+        'modificado3': '50%',
       },
     },
   },
