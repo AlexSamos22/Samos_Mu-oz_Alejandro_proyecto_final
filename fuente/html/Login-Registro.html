@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../estilos/salida.css">
+    <title>Document</title>
+    <script src="../js/login-Registro.js" defer></script>
+</head>
+<body id="l-r-html" class=" flex flex-col items-center justify-center h-screen ">
+
+    <section id="login" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mb-10">
+
+        <article id="inicio-sesion" class="p-8 flex flex-col">
+            <h2 class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-4 text-center">Iniciar Sesion</h2>
+
+            <div class="flex space-x-4 mb-4 self-center">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                    <i class="fab fa-google"></i>
+                </button>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+            </div>
+
+            <form class="flex flex-col items-center">
+
+                <div class="relative">
+                    <input type="text" id="usuario" placeholder="Usuario" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <i class="fas fa-user absolute left-0 top-0 ml-3 mt-3"></i>
+                </div>
+
+                <div class="relative mt-4">
+                    <input type="password" id="contrasena" placeholder="Contraseña" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <i class="fas fa-lock absolute left-0 top-0 ml-3 mt-3"></i>
+                </div>
+
+                <p class="mt-4 text-center">¿No tienes cuenta? <a href="#" id="r-registro" class="text-blue-500 hover:text-blue-700">Regístrate</a></p>
+
+                <input type="submit" value="Iniciar Sesion" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 self-center">
+            </form>
+        </article>
+    </section>
+
+    <section id="registro" class=" ocultar-l-r max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+        <article id="registro" class="p-8 flex flex-col">
+            <h2 class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-4 text-center">Registro</h2>
+
+            <div class="flex space-x-4 mb-4 self-center">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                    <i class="fab fa-google"></i>
+                </button>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                    <i class="fab fa-twitter"></i>
+                </button>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                    <i class="fab fa-facebook-f"></i>
+                </button>
+            </div>
+
+            <form class="flex flex-col items-center">
+                <div class="relative">
+                    <input type="text" id="r-usuario" placeholder="Usuario" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <i class="fas fa-user absolute left-0 top-0 ml-3 mt-3"></i>
+                </div>
+
+                <div class="relative mt-4">
+                    <input type="password" id="r-contrasena" placeholder="Contraseña" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <i class="fas fa-lock absolute left-0 top-0 ml-3 mt-3"></i>
+                </div>
+
+                <div class="relative mt-4">
+                    <input type="email" id="correo" placeholder="Correo" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <i class="fas fa-envelope absolute left-0 top-0 ml-3 mt-3"></i>
+                </div>
+
+                <div class="relative mt-4">
+                    <input type="text" id="nombre" placeholder="Nombre" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <i class="fas fa-user-tie absolute left-0 top-0 ml-3 mt-3"></i>
+                </div>
+
+                <div class="relative mt-4">
+                    <input type="text" id="apellido" placeholder="Apellido" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <i class="fas fa-user-tag absolute left-0 top-0 ml-3 mt-3"></i>
+                </div>
+
+                <p class="mt-4 text-center">¿Ya tienes cuenta? <a href="#" id="r-login" class="text-blue-500 hover:text-blue-700">Inicia sesión</a></p>
+
+                <input type="submit" value="Registrarse" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 self-center">
+            </form>
+        </article>
+
+    </section>
+
+    <script src="https://kit.fontawesome.com/3276d08f21.js" crossorigin="anonymous"></script>
+</body>
+</html>

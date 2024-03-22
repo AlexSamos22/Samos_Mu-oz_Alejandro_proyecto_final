@@ -18,3 +18,21 @@
     100% { transform: scale(1); }
 }
 
+#inicio-sesion, #registro {
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.ocultar-l-r{
+    opacity: 0;
+    transform: scale(0.95);
+    display: none;
+}
+
+#l-r-html{
+    background-image: url('../img/pokemon___megalucario_vs_weavile_by_sa_dui_d8dj0pw-fullview.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
