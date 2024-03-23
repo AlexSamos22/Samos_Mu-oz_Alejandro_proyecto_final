@@ -9,8 +9,8 @@
 </head>
 <body id="l-r-html" class=" flex flex-col items-center justify-center h-screen ">
 
-    <section id="login" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mb-10">
-
+    <section id="login" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mb-10 relative">
+        <i class="fas fa-times close-icon absolute top-1 right-2 block cursor-pointer text-blue-500"></i>
         <article id="inicio-sesion" class="p-8 flex flex-col">
             <h2 class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-4 text-center">Iniciar Sesion</h2>
 
@@ -26,15 +26,14 @@
                 </button>
             </div>
 
-            <form class="flex flex-col items-center">
-
+            <form class="flex flex-col items-center relative" id="form-login">
                 <div class="relative">
-                    <input type="text" id="usuario" placeholder="Usuario" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <input type="text" id="usuario" name="usuario" placeholder="Usuario" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
                     <i class="fas fa-user absolute left-0 top-0 ml-3 mt-3"></i>
                 </div>
 
                 <div class="relative mt-4">
-                    <input type="password" id="contrasena" placeholder="Contraseña" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
                     <i class="fas fa-lock absolute left-0 top-0 ml-3 mt-3"></i>
                 </div>
 
@@ -45,7 +44,9 @@
         </article>
     </section>
 
-    <section id="registro" class=" ocultar-l-r max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+    <section id="registro" class=" ocultar-l-r max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl relative">
+        <i class="fas fa-times close-icon absolute top-1 right-2  block cursor-pointer text-blue-500"></i>
+
         <article id="registro" class="p-8 flex flex-col">
             <h2 class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-4 text-center">Registro</h2>
 
@@ -61,29 +62,30 @@
                 </button>
             </div>
 
-            <form class="flex flex-col items-center">
+            <form class="flex flex-col items-center" id="form-registro">
+
                 <div class="relative">
-                    <input type="text" id="r-usuario" placeholder="Usuario" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <input type="text" id="r-usuario" name="r-usuario" placeholder="Usuario" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
                     <i class="fas fa-user absolute left-0 top-0 ml-3 mt-3"></i>
                 </div>
 
                 <div class="relative mt-4">
-                    <input type="password" id="r-contrasena" placeholder="Contraseña" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <input type="password" id="r-contrasena" name="r-contrasena" placeholder="Contraseña" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
                     <i class="fas fa-lock absolute left-0 top-0 ml-3 mt-3"></i>
                 </div>
 
                 <div class="relative mt-4">
-                    <input type="email" id="correo" placeholder="Correo" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <input type="email" id="correo" name="correo" placeholder="Correo" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
                     <i class="fas fa-envelope absolute left-0 top-0 ml-3 mt-3"></i>
                 </div>
 
                 <div class="relative mt-4">
-                    <input type="text" id="nombre" placeholder="Nombre" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <input type="text" id="nombre" name="nombre" placeholder="Nombre" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
                     <i class="fas fa-user-tie absolute left-0 top-0 ml-3 mt-3"></i>
                 </div>
 
                 <div class="relative mt-4">
-                    <input type="text" id="apellido" placeholder="Apellido" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
+                    <input type="text" id="apellido" name="apellido" placeholder="Apellido" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pl-10">
                     <i class="fas fa-user-tag absolute left-0 top-0 ml-3 mt-3"></i>
                 </div>
 
