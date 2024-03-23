@@ -46,6 +46,13 @@ async function obtenerTodosLosPokemons() {
         url = data.next; // La URL para la siguiente página de resultados
     }
 
+    
+     // Oculta la pantalla de carga
+     setTimeout(() => {
+        document.getElementById('pantalla-carga').classList.remove('flex');
+        document.getElementById('pantalla-carga').classList.add('hidden');
+    }, 4000);
+     
 }
 
 function crearTarjetaPokemon(pokemonData) {

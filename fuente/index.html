@@ -9,7 +9,14 @@
     <script src="../fuente/js/main.js" defer></script>
 </head>
 
-<body class="flex flex-col items-center m-0">
+<body class="flex flex-col items-center m-0 relative">
+
+    <div id="pantalla-carga" class="fixed top-0 left-0 w-full h-full bg-white bg-opacity-80 flex justify-center items-center z-50">
+        <div class="relative w-full h-full">
+            <iframe src="https://gifer.com/embed/5Q0v" class="absolute top-0 left-0 w-full h-full" frameBorder="0" allowFullScreen></iframe>
+            <p class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-2xl">Cargando Pokémons...</p>
+        </div>
+    </div>
 
     <nav class="bg-fondo-menu-footer border-gray-200 dark:bg-gray-900 w-full relative">
         <div class="w-11/12 flex flex-wrap items-center justify-between mx-auto">
