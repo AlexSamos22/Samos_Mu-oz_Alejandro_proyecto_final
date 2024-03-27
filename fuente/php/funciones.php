@@ -55,4 +55,19 @@
             return false;
         }
     }
+
+    function equipos(){
+        $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
+        $db = new PDO($res[0], $res[1], $res[2]);
+       
+        $equipos = "SELECT * FROM equiposfinalistas";
+
+        $result = $db->query($equipos);
+
+        if ($result) {
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            return false;
+        }
+    }
 ?>

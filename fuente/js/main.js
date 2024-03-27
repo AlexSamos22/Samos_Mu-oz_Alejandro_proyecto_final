@@ -51,7 +51,7 @@ async function obtenerTodosLosPokemons() {
      setTimeout(() => {
         document.getElementById('pantalla-carga').classList.remove('flex');
         document.getElementById('pantalla-carga').classList.add('hidden');
-    }, 4000);
+    }, 2000);
      
 }
 
