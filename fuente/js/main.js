@@ -144,20 +144,20 @@ async function mostrarPokemonsPorTipo() {
 document.querySelectorAll('.tag').forEach(tag => {
     tag.addEventListener('click', () => {
         console.log(tag.id);
-        tipoActual = tag.id; // Set the current type when a tag is clicked
+        tipoActual = tag.id; 
         pokemonHTML = '';
         obtenerPokemonsPorTipo(tipoActual, ordenActual).catch(console.error);
     });
 });
 
 document.querySelector('#mas').addEventListener('click', function() {
-    applyTransition = true; // Set the flag
+    applyTransition = true; 
     this.classList.add('animate-click');
 
-    // Remove the class after the animation has completed
+   
     setTimeout(() => {
         this.classList.remove('animate-click');
-    }, 200); // This should match the duration of the animation
+    }, 200);
 
     if (tipoActual) {
         if (paginaActual < Math.round(pokemonsPorTipo.length / limit)) {
@@ -205,11 +205,9 @@ document.getElementById('orden').addEventListener('change', function (event) {
 
 document.querySelector('#toggle-filtro').addEventListener('click', function () {
     this.classList.add('animate-click');
-
-    // Remove the class after the animation has completed
     setTimeout(() => {
         this.classList.remove('animate-click');
-    }, 200); // This should match the duration of the animation
+    }, 200); 
 
 
 });
