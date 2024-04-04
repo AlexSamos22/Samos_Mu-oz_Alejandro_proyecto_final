@@ -47,6 +47,10 @@ module.exports = {
         'mediano': '730px',
         'pequeño': '470px',
       },
+      flexGrow: {
+        'g': '1',
+        'p': '0',
+      },
       scrollbar: (theme) => ({
         thin: {
           width: '10px',
