@@ -111,41 +111,65 @@ async function obtenerPokemons(order = 'n-asc') {
 }
 
 async function obtenerPokemonsPorTipo(type, order = 'n-asc') {
-    const url = `https://pokeapi.co/api/v2/type/${type}`;
-    const response = await fetch(url);
-    const data = await response.json();
 
-    pokemonsPorTipo = data.pokemon.map(({ pokemon }, index) => ({
-        ...pokemon,
-        numero: index + 1
-    })).slice(0, -18);
+    if (type == "todos") {
+        document.getElementById('pantalla-cambio').classList.add('flex');
+        document.getElementById('pantalla-cambio').classList.remove('hidden');
+        document.getElementById('pokemon').classList.remove("grid");
+        document.getElementById('pokemon').classList.add("hidden");
+        document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
 
-    document.getElementById('pantalla-cambio').classList.add('flex');
-    document.getElementById('pantalla-cambio').classList.remove('hidden');
-    document.getElementById('pokemon').classList.remove("grid");
-    document.getElementById('pokemon').classList.add("hidden");
-    document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
+        obtenerPokemons();
 
-    if (ordenar) {
-        if (order === 'asc') {
-            pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => a.name.localeCompare(b.name));
-        } else if (order === 'desc') {
-            pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => b.name.localeCompare(a.name));
-        } else if (order === 'n-asc') {
-            pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => a.numero - b.numero);
-        } else if (order === 'n-desc') {
-            pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => b.numero - a.numero);
+        setTimeout(() => {
+            document.getElementById('pantalla-cambio').classList.remove('flex');
+            document.getElementById('pantalla-cambio').classList.add('hidden');
+            document.getElementById('pokemon').classList.remove("hidden");
+            document.getElementById('pokemon').classList.add("grid");
+            document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
+        }, 2000);
+
+    }else{
+
+        document.getElementById('pantalla-cambio').classList.add('flex');
+        document.getElementById('pantalla-cambio').classList.remove('hidden');
+        document.getElementById('pokemon').classList.remove("grid");
+        document.getElementById('pokemon').classList.add("hidden");
+        document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
+        
+        const url = `https://pokeapi.co/api/v2/type/${type}`;
+        const response = await fetch(url);
+        const data = await response.json();
+
+        pokemonsPorTipo = data.pokemon.map(({ pokemon }, index) => ({
+            ...pokemon,
+            numero: index + 1
+        })).slice(0, -18);
+
+        if (ordenar) {
+            if (order === 'asc') {
+                pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (order === 'desc') {
+                pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => b.name.localeCompare(a.name));
+            } else if (order === 'n-asc') {
+                pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => a.numero - b.numero);
+            } else if (order === 'n-desc') {
+                pokemonsPorTipo = pokemonsPorTipo.sort((a, b) => b.numero - a.numero);
+            }
         }
+        ordenar = false;
+
+        mostrarPokemonsPorTipo();
+
+        setTimeout(() => {
+            document.getElementById('pantalla-cambio').classList.remove('flex');
+            document.getElementById('pantalla-cambio').classList.add('hidden');
+            document.getElementById('pokemon').classList.remove("hidden");
+            document.getElementById('pokemon').classList.add("grid");
+            document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
+        }, 2000);
+
     }
-    ordenar = false;
-    mostrarPokemonsPorTipo();
-    setTimeout(() => {
-        document.getElementById('pantalla-cambio').classList.remove('flex');
-        document.getElementById('pantalla-cambio').classList.add('hidden');
-        document.getElementById('pokemon').classList.remove("hidden");
-        document.getElementById('pokemon').classList.add("grid");
-        document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-    }, 2000);
 }
 
 async function mostrarPokemonsPorTipo() {
@@ -172,6 +196,9 @@ document.querySelectorAll('.tag').forEach(tag => {
         console.log(tag.id);
         tipoActual = tag.id; 
         pokemonHTML = '';
+        window.scrollTo(0, 0);
+        document.querySelector('#filtro').classList.add("-translate-x-full");
+        document.querySelector('#filtro').classList.remove("translate-x-0");
         obtenerPokemonsPorTipo(tipoActual, ordenActual).catch(console.error);
     });
 });

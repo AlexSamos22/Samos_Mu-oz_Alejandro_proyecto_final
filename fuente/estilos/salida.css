@@ -1687,10 +1687,6 @@ input:checked + .toggle-bg {
   padding: 0.625rem;
 }
 
-.p-28 {
-  padding: 7rem;
-}
-
 .p-3 {
   padding: 0.75rem;
 }
@@ -2260,8 +2256,12 @@ input:checked + .toggle-bg {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .mediano\:p-28 {
-    padding: 7rem;
+  .mediano\:p-96 {
+    padding: 24rem;
+  }
+
+  .mediano\:p-24 {
+    padding: 6rem;
   }
 }
 
