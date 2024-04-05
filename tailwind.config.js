@@ -43,6 +43,7 @@ module.exports = {
         'modificado4': '100%',
       },
       screens: {
+        'm-grande': '1200px',
         'grande': '1100px',
         'mediano': '730px',
         'pequeño': '470px',

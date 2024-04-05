@@ -1047,6 +1047,12 @@ input:checked + .toggle-bg {
   }
 }
 
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1200px;
+  }
+}
+
 @media (min-width: 1280px) {
   .container {
     max-width: 1280px;
@@ -1291,6 +1297,10 @@ input:checked + .toggle-bg {
 
 .h-screen {
   height: 100vh;
+}
+
+.min-h-screen {
+  min-height: 100vh;
 }
 
 .w-1\/2 {
@@ -2256,10 +2266,6 @@ input:checked + .toggle-bg {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .mediano\:p-96 {
-    padding: 24rem;
-  }
-
   .mediano\:p-24 {
     padding: 6rem;
   }
@@ -2371,6 +2377,12 @@ input:checked + .toggle-bg {
 
   .grande\:justify-between {
     justify-content: space-between;
+  }
+}
+
+@media (min-width: 1200px) {
+  .m-grande\:bottom-0 {
+    bottom: 0px;
   }
 }
 
