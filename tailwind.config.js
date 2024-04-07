@@ -35,7 +35,9 @@ module.exports = {
       },
 
       width: {
+        'modificado-10': '10%',
         'modificado-13': '13%',
+        'modificado-5': '5%',
       },
       spacing: {
         'modificado2': '8%',
