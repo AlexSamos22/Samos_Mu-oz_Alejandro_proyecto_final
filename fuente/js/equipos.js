@@ -27,6 +27,18 @@ async function obtenerEquipos() {
     const tarjetasNoCampeones = crearTarjeta(noCampeones);
     document.getElementById('resto-equipos').innerHTML = tarjetasNoCampeones;
 
+    document.querySelectorAll('.boton-fav').forEach(function(button) {
+        button.addEventListener('click', function() {
+            if (this.classList.contains('text-black')) {
+                this.classList.remove("text-black");
+                this.classList.add('text-red-500');
+            }else{
+                this.classList.remove("text-red-500");
+                this.classList.add('text-black');
+            }
+            
+        });
+    });
     /*
     setTimeout(() => {
         document.getElementById('pantalla-carga').classList.remove('flex');
@@ -40,9 +52,9 @@ function crearTarjeta(datos) {
 
     datos.forEach(campo => {
         // Crea la cadena de HTML para las imágenes de los Pokémon
-        let imagenesPokemonHtml = '<div class="grid grid-cols-3  gap-3 w-full justify-items-center items ">';
+        let imagenesPokemonHtml = '<div class="grid grid-cols-3  w-full justify-items-center items ">';
         for (let i = 1; i <= 6; i++) {
-            imagenesPokemonHtml += `<img src="${campo[`P${i}`]}" class="w-2/5 h-auto">`;
+            imagenesPokemonHtml += `<img src="${campo[`P${i}`]}" class=" w-3/4 pequeño:w-1/2 mediano:w-3/4 grande:w-2/5 h-auto">`;
         }
         imagenesPokemonHtml += '</div>';
 
@@ -51,7 +63,7 @@ function crearTarjeta(datos) {
             <div class="p-4 rounded-lg shadow-md mb-4 flex flex-col justify-center items-center w-full bg-white border border-gray-200 space-y-2">
                 <div class="flex items-center justify-center  gap-3">
                     <p class="font-bold text-black mr-2">${campo.Autor}</p>
-                    <img src="${campo.Pais}" class="w-modificado-5 h-auto">
+                    <img src="${campo.Pais}" class=" w-1/12 grande:w-modificado-5 h-auto">
                 </div>
             
                 <div class=" m-4 flex flex-col justify-center items-center w-full">
@@ -63,7 +75,7 @@ function crearTarjeta(datos) {
                 ${imagenesPokemonHtml}
                 <div class="flex justify-between items-center w-full mt-4">
                     <button class="bg-blue-500 text-white p-2 rounded"><i class="fas fa-file-export"></i> Export</button>
-                    <button class="bg-red-500 text-white p-2 rounded"><img src="../img/icons8-corazón-pokemon-50.png" class="w-6 h-6"></button>
+                    <button class="boton-fav text-black p-2 rounded"><i class="fas fa-heart fa-lg"></i></button>
                 </div>
             </div>
         `;
@@ -73,3 +85,4 @@ function crearTarjeta(datos) {
 }
 
 obtenerEquipos();
+
