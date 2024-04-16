@@ -193,6 +193,7 @@ async function mostrarPokemonsPorTipo() {
 
 document.querySelectorAll('.tag').forEach(tag => {
     tag.addEventListener('click', () => {
+        ordenar = true;
         console.log(tag.id);
         tipoActual = tag.id; 
         pokemonHTML = '';

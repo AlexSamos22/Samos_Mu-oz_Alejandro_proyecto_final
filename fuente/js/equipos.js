@@ -74,8 +74,11 @@ function crearTarjeta(datos) {
             
                 ${imagenesPokemonHtml}
                 <div class="flex justify-between items-center w-full mt-4">
-                    <button class="bg-blue-500 text-white p-2 rounded"><i class="fas fa-file-export"></i> Export</button>
-                    <button class="boton-fav text-black p-2 rounded"><i class="fas fa-heart fa-lg"></i></button>
+                <a href="equipo-${campo.ID}.html" id="equipo-${campo.ID}" class="bg-blue-500 hover:bg-blue-800 text-white p-2 rounded inline-flex items-center">
+                <i class="fas fa-file-export mr-1"></i>
+                See more
+                </a>
+                    <button id=fav-${campo.ID} class="boton-fav text-black p-2 rounded"><i class="fas fa-heart fa-lg"></i></button>
                 </div>
             </div>
         `;
