@@ -39,6 +39,7 @@ module.exports = {
         'modificado-13': '13%',
         'modificado-5': '5%',
         'modificado-45': '45%',
+        'modificado-95': '95%',
       },
       spacing: {
         'modificado2': '8%',
@@ -46,12 +47,15 @@ module.exports = {
         'modificado4': '100%',
       },
       screens: {
+        'gigante': '1300px',
         'm-grande': '1200px',
+        'grande-m': '1140px',
         'grande': '1100px',
         'grande-s': '850px',
         'mediano': '730px',
         'mediano-s': '540px',
         'pequeño': '470px',
+        'pequeño-s': '450px',
       },
       flexGrow: {
         'g': '1',

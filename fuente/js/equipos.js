@@ -39,12 +39,6 @@ async function obtenerEquipos() {
             
         });
     });
-    /*
-    setTimeout(() => {
-        document.getElementById('pantalla-carga').classList.remove('flex');
-        document.getElementById('pantalla-carga').classList.add('hidden');
-    }, 2000);
-    */
 }
 
 function crearTarjeta(datos) {

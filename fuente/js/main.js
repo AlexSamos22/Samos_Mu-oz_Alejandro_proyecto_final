@@ -119,7 +119,7 @@ async function obtenerPokemonsPorTipo(type, order = 'n-asc') {
         document.getElementById('pokemon').classList.add("hidden");
         document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
 
-        obtenerPokemons();
+        obtenerPokemons(ordenActual).catch(console.error);
 
         setTimeout(() => {
             document.getElementById('pantalla-cambio').classList.remove('flex');
@@ -213,7 +213,7 @@ document.querySelector('#mas').addEventListener('click', function() {
         this.classList.remove('animate-click');
     }, 200);
 
-    if (tipoActual) {
+    if (tipoActual && tipoActual !== 'todos') {
         if (paginaActual < Math.round(pokemonsPorTipo.length / limit)) {
             paginaActual = Math.min(pokemonsPorTipo.length / limit, paginaActual + 1);
             mostrarPokemonsPorTipo();
@@ -248,7 +248,7 @@ document.getElementById('orden').addEventListener('change', function (event) {
     ordenActual = event.target.value;
     ordenar = true;
     pokemonHTML = '';
-    if (tipoActual) {
+    if (tipoActual && tipoActual !== 'todos') {
         paginaActual = 0;
         obtenerPokemonsPorTipo(tipoActual, ordenActual).catch(console.error);
     } else {
@@ -266,7 +266,8 @@ document.querySelector('#toggle-filtro').addEventListener('click', function () {
 
 });
 
-document.querySelector('#cerrar-filtro').addEventListener('click', function () {
+document.querySelector('#cerrar-filtro').addEventListener('click', function (event) {
+    event.stopPropagation();
     const filtro = document.querySelector('#filtro');
     filtro.classList.remove('translate-x-0');
     filtro.classList.add('-translate-x-full');
