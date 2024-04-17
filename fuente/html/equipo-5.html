@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../estilos/salida.css">
+</head>
+<body>
+
+    <nav class="bg-fondo-menu-footer border-gray-200 dark:bg-gray-900 w-full relative">
+        <div class="w-11/12 flex flex-wrap items-center justify-between mx-auto">
+            <img src="../img/PokeCrew-14-3-2024.png" class=" w-1/2 pequeño:w-1/4 mediano:w-1/5 grande:w-modificado-13"
+                alt="PokeCrew Logo" />
+            <div class="flex md:order-2">
+                <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search"
+                    aria-expanded="false" class="md:hidden text-sm p-2.5 me-1">
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                    <span class="sr-only">Search</span>
+                </button>
+                <div class="relative hidden md:block">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                        <span class="sr-only">Search icon</span>
+                    </div>
+                    <input type="text" id="search-navbar"
+                        class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Search...">
+                </div>
+                <button data-collapse-toggle="navbar-search" type="button"
+                    class="inline-flex items-center w-10 h-10 justify-center text-sm rounded-lg md:hidden"
+                    aria-controls="navbar-search" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M1 1h15M1 7h15M1 13h15" />
+                    </svg>
+                </button>
+            </div>
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-search">
+                <div class="relative mt-3 md:hidden">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                    </div>
+                    <input type="text" id="search-navbar"
+                        class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Search...">
+                </div>
+                <ul
+                    class="flex flex-col p-4 md:p-0 mt-4 mb-4 font-medium text-lg border rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:mb-0">
+                    <li class="p-2 hover:bg-red-500 w-full md:w-1/3">
+                        <a href="../index.html"
+                            class="flex flex-row gap-4 md:gap-0 md:flex-col items-center space-x-2 text-white rounded  md:hover:bg-transparent  md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                            <img src="../img/pokeball-icon-256x256-r2f3u1oa.png" alt="" class="w-9">
+                            Pokedex
+                        </a>
+                    </li>
+                    <li class="p-2 hover:bg-red-500 w-full md:w-1/3">
+                        <a href="../html/Equipos.html"
+                            class="flex flex-row gap-4 md:gap-0 md:flex-col items-center space-x-2 text-white rounded md:hover:bg-transparent  md:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                            <img src="../img/png-transparent-pokemon-go-pokemon-red-and-blue-t-shirt-decal-pokemon-team-logo-video-game-sticker-40-40.png"
+                                alt="" class="w-9">
+                            Teams
+                        </a>
+                    </li>
+                    <li class="p-2 hover:bg-red-500 w-full md:w-1/3">
+                        <a href="../html/Login-Registro.html"
+                            class="flex flex-row gap-4 md:gap-0 md:flex-col items-center space-x-2 text-white rounded  md:hover:bg-transparent  md:p-0 dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                            <img src="../img/64572.png" alt="" class="w-9">
+                            Log in
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="flex justify-center items-center mt-4 mb-4">
+        <article class="grid grid-cols-1 grande-s:grid-cols-2 place-items-center gap-5 w-modificado-95 pequeño-s:w-11/12">
+
+            <div class="flex justify-around items-center bg-gray-50 p-6 rounded-lg shadow-md">
+                <img src="../img/archaludon.png" alt="archaludon" class=" w-modificado-45 mediano-s:w-2/6 grande-s:w-2/5 grande:w-1/3 gigante:w-1/4 h-auto rounded-lg shadow-md">
+                <div class="ml-6">
+                    <div class="flex mb-2 gap-0 grande:gap-2 flex-col mediano-s:flex-row grande-s:flex-col grande-m:flex-row">
+                        <h3 class="text-xl font-semibold text-black ">Archaludon</h3>
+                        <h3 class="text-xl font-semibold text-black "> @Assault Vest</h3>
+                    </div>
+                    
+                    <ul class="text-black">
+                        <li><b>Ability:</b> Stamina</li>
+                        <li><b>Tera Type:</b> Steel</li>
+                        <li><b>Evs:</b> 0 HP / 0 Atk / 252 Def / 252 SpD / 4 Spe</li>
+                        <li><b>Nature:</b> Modest</li>
+                        <li><b>IVs:</b> 20 SpA</li>
+                        <li><b>Moves:</b></li>
+                        <ul class="list-disc ml-6">
+                            <li>Flash Cannon </li>
+                            <li>Electro Shot</li>
+                            <li>Draco Meteor</li>
+                            <li>Body Press</li>
+                        </ul>
+                    </ul>
+                </div>
+            </div>
+            
+
+            <div class="flex justify-around items-center bg-gray-50 p-6 rounded-lg shadow-md">
+                <img src="../img/amoonguss.png" alt="amoonguss" class="w-modificado-45 mediano-s:w-2/6 grande-s:w-2/5 grande:w-1/3 gigante:w-1/4 h-auto rounded-lg shadow-md">
+                <div class="ml-6">
+
+                    <div class="flex mb-2 gap-0 grande:gap-2 flex-col mediano-s:flex-row grande-s:flex-col grande-m:flex-row">
+                        <h3 class="text-xl font-semibold text-black ">Amooguss</h3>
+                        <h3 class="text-xl font-semibold text-black "> @Sitrus Berry</h3>
+                    </div>
+                    <ul class="text-black">
+                        <li><b>Ability:</b> Regenerator</li>
+                        <li><b>Tera Type:</b> Grass</li>
+                        <li><b>Evs:</b> 244 HP / 0 Atk / 188 Def / 76 SpD / 0 Spe</li>
+                        <li><b>Nature:</b> Bold</li>
+                        <li><b>IVs:</b> 10 HP</li>
+                        <li><b>Moves:</b>
+                            <ul class="list-disc ml-6">
+                                <li>Spore</li>
+                                <li>Rage Powder</li>
+                                <li>Protect</li>
+                                <li>Pollen Puff</li>
+                            </ul>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+            
+
+            <div class="flex justify-around items-center bg-gray-50 p-6 rounded-lg shadow-md">
+                <img src="../img/entei.png" alt="entei" class="w-modificado-45 mediano-s:w-2/6 grande-s:w-2/5 grande:w-1/3 gigante:w-1/4 h-auto rounded-lg shadow-md">
+                <div class="ml-6">
+                    <div class="flex mb-2 gap-0 grande:gap-2 flex-col mediano-s:flex-row grande-s:flex-col grande-m:flex-row">
+                        <h3 class="text-xl font-semibold text-black ">Entei</h3>
+                        <h3 class="text-xl font-semibold text-black "> @Choice Band</h3>
+                    </div>
+                    <ul class="text-black">
+                        <li><b>Ability:</b> Inner Focus</li>
+                        <li><b>Tera Type:</b> Normal</li>
+                        <li><b>Evs:</b> 20 HP / 4 Def / 228 Atk / 4 SpD / 252 Spe</li>
+                        <li><b>Nature:</b> Adamant</li>
+                        <li><b>IVs:</b> 10 Atk</li>
+                        <li><b>Moves:</b>
+                            <ul class="list-disc ml-6">
+                                <li>Extreme Speed </li>
+                                <li>Sacred Fire </li>
+                                <li>Stomping Tantrum </li>
+                                <li>Flare Blitz </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex justify-around items-center bg-gray-50 p-6 rounded-lg shadow-md">
+                <img src="../img/urshifu.png" alt="urshifu" class="w-modificado-45 mediano-s:w-2/6 grande-s:w-2/5 grande:w-1/3 gigante:w-1/4 h-auto rounded-lg shadow-md">
+                <div class="ml-6">
+                    <div class="flex mb-2 gap-0 grande:gap-2 flex-col mediano-s:flex-row grande-s:flex-col grande-m:flex-row">
+                        <h3 class="text-xl font-semibold text-black ">Urshifu</h3>
+                        <h3 class="text-xl font-semibold text-black "> @Focus Sash</h3>
+                    </div>
+                    <ul class="text-black">
+                        <li><b>Ability:</b> Unseen Fist</li>
+                        <li><b>Tera Type:</b> Water</li>
+                        <li><b>Evs:</b> 0 HP / 0 Def / 252 Atk / 4 SpD / 252 Spe</li>
+                        <li><b>Nature:</b> Adamant</li>
+                        <li><b>IVs:</b> 10 Atk </li>
+                        <li><b>Moves:</b>
+                            <ul class="list-disc ml-6">
+                                <li>Wicked Blow</li>
+                                <li>Close Combat</li>
+                                <li>Sucker Punch</li>
+                                <li>Protect </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex justify-around items-center bg-gray-50 p-6 rounded-lg shadow-md">
+                <img src="../img/645.png" alt="" class="w-modificado-45 mediano-s:w-2/6 grande-s:w-2/5 grande:w-1/3 gigante:w-1/4 h-auto 3 rounded-lg shadow-md">
+                <div class="ml-6">
+                    <div class="flex mb-2 gap-0 grande:gap-2 flex-col mediano-s:flex-row grande-s:flex-col grande-m:flex-row">
+                        <h3 class="text-xl font-semibold text-black ">Landorus</h3>
+                        <h3 class="text-xl font-semibold text-black "> @Life Orb</h3>
+                    </div>
+                    <ul class="text-black">
+                        <li><b>Ability:</b> Sheer Force</li>
+                        <li><b>Tera Type:</b> Steel</li>
+                        <li><b>Evs:</b> 84 HP / 44 Def / 124 SpA / 4 SpD / 252 Spe</li>
+                        <li><b>Nature:</b> Timid</li>
+                        <li><b>IVs:</b> 10 Atk</li>
+                        <li><b>Moves:</b>
+                            <ul class="list-disc ml-6">
+                                <li>Earth Power</li>
+                                <li>Sludge Bomb</li>
+                                <li>Substitute</li>
+                                <li>Protect</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex justify-around items-center bg-gray-50 p-6 rounded-lg shadow-md">
+                <img src="../img/tornadus.png" alt="tornadus" class="w-modificado-45 mediano-s:w-2/6 grande-s:w-2/5 grande:w-1/3 gigante:w-1/4 h-auto rounded-lg shadow-md">
+                <div class="ml-6">
+                    <div class="flex mb-2 gap-0 grande:gap-2 flex-col mediano-s:flex-row grande-s:flex-col grande-m:flex-row">
+                        <h3 class="text-xl font-semibold text-black ">Tornadus</h3>
+                        <h3 class="text-xl font-semibold text-black "> @Rocky Helmet</h3>
+                    </div>
+                    <ul class="text-black">
+                        <li><b>Ability:</b> Prankster </li>
+                        <li><b>Tera Type:</b> Flying  </li>
+                        <li><b>Evs:</b> 212 HP / 4 Def / 204 SpA / 204 SpD / 84 Spe</li>
+                        <li><b>Nature:</b> Calm</li>
+                        <li><b>IVs:</b> 20 SpA</li>
+                        <li><b>Moves:</b>
+                            <ul class="list-disc ml-6">
+                                <li>Tailwind</li>
+                                <li>Bleakwind Storm</li>
+                                <li>Icy Wind</li>
+                                <li>Protect </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </article>
+    </section>
+
+    <footer class="bg-fondo-menu-footer dark:bg-gray-900 w-full text-white">
+        <div class="mx-auto w-11/12 p-3 py-5 lg:py-8">
+            <div class="grande:flex grande:justify-between">
+                <div class="mb-6 md:mb-0">
+                    <img src="../img/PokeCrew-14-3-2024.png" class=" w-1/2 mediano:w-1/3 grande:w-1/4"
+                        alt="PokeCrew Logo" />
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                    <div>
+                        <h2 class="mb-6 text-sm font-semibold uppercase">Resources</h2>
+                        <ul class="font-medium">
+                            <li class="mb-4">
+                                <a href="https://flowbite.com/" class="hover:underline">Flowbite</a>
+                            </li>
+                            <li>
+                                <a href="https://tailwindcss.com/" class="hover:underline">Tailwind CSS</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="mb-6 text-sm font-semibold uppercase">Follow us</h2>
+                        <ul class="font-medium">
+                            <li class="mb-4">
+                                <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
+                            </li>
+                            <li>
+                                <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Discord</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 class="mb-6 text-sm font-semibold uppercase">Legal</h2>
+                        <ul class="font-medium">
+                            <li class="mb-4">
+                                <a href="#" class="hover:underline">Privacy Policy</a>
+                            </li>
+                            <li>
+                                <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="../../node_modules/flowbite/dist/flowbite.min.js"></script>
+    <script src="https://kit.fontawesome.com/3276d08f21.js" crossorigin="anonymous"></script>
+</body>
+</html>
