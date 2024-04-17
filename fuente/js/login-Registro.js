@@ -33,6 +33,7 @@ async function login(e) {
 
         if (respuesta == "TRUE") {
             alert("Inicio de sesión exitoso");
+            localStorage.setItem("sesion-iniciada", usuario);
             window.location.href = "../index.html";
         } else {
             alert("Inicio de sesión fallido");
