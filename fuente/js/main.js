@@ -52,6 +52,7 @@ async function obtenerTodosLosPokemons() {
         document.getElementById('pantalla-carga').classList.remove('flex');
         document.getElementById('pantalla-carga').classList.add('hidden');
     }, 2000);
+    
      
 }
 
@@ -85,6 +86,7 @@ async function obtenerPokemons(order = 'n-asc') {
         } else if (order === 'n-desc') {
             pokemons = pokemons.sort((a, b) => b.numero - a.numero);
         }
+        
         setTimeout(() => {
             document.getElementById('pantalla-cambio').classList.remove('flex');
             document.getElementById('pantalla-cambio').classList.add('hidden');
@@ -93,6 +95,7 @@ async function obtenerPokemons(order = 'n-asc') {
             document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
             
         }, 2000);
+        
     }
 
     ordenar = false;
@@ -282,7 +285,7 @@ if (localStorage.getItem('sesion-iniciada')) {
 document.getElementById('log-out').addEventListener('click', function() {
     alert('Sesión cerrada');
     localStorage.removeItem('sesion-iniciada');
-    window.location.href = '../fuente/html/Login-Registro.html';
+    window.location.reload();
 })
 
 obtenerTodosLosPokemons()

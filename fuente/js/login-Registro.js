@@ -75,8 +75,8 @@ async function registrarse(e) {
             alert("Cuenta no creada");
         }
 
-        document.getElementById("inicio-sesion").classList.remove("ocultar-l-r");
-        document.getElementById("registro").classList.add("ocultar-l-r");
+        document.getElementById("inicio-sesion").classList.remove("hidden");
+        document.getElementById("registro").classList.add("hidden");
     } catch (error) {
         console.error('Error:', error);
     }
