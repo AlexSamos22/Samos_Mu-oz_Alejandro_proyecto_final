@@ -31,7 +31,8 @@ module.exports = {
         'rojo-hover': '#FF0000',
         'bg-ghost-dark': '#50406A', 
         'bg-dragon-dark': '#5028A8', 
-        'bg-dark-dark': '#504030', 
+        'bg-dark-dark': '#504030',
+        'bg-info-pokemon': '#30a7d7' 
       },
 
       width: {

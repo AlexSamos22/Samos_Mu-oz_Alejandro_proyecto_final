@@ -51,6 +51,7 @@ async function obtenerTodosLosPokemons() {
      setTimeout(() => {
         document.getElementById('pantalla-carga').classList.remove('flex');
         document.getElementById('pantalla-carga').classList.add('hidden');
+        document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
     }, 2000);
     
      
@@ -58,7 +59,7 @@ async function obtenerTodosLosPokemons() {
 
 function crearTarjetaPokemon(pokemonData) {
     return  `
-    <div class="pokemon-card bg-white border-2 border-gray-300 p-4 relative flex flex-col items-center mx-auto cursor-pointer transform transition duration-500 ease-in-out hover:-translate-y-1 ${applyTransition ? 'animate-fadeIn' : ''}">
+    <div id="${pokemonData.id}" class="pokemon-card bg-white border-2 border-gray-300 p-4 relative flex flex-col items-center mx-auto cursor-pointer transform transition duration-500 ease-in-out hover:-translate-y-1 ${applyTransition ? 'animate-fadeIn' : ''}">
             <img class="w-2/4 h-auto" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
             <div class="p-4 text-center">
                 <h2 class="text-xl font-bold mb-2">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}</h2>
@@ -111,6 +112,16 @@ async function obtenerPokemons(order = 'n-asc') {
     }
 
     document.querySelector('#pokemon').innerHTML = pokemonHTML;
+
+    document.querySelectorAll('.pokemon-card').forEach(card => {
+        card.addEventListener('click', function() {
+            // Obtén el ID del Pokémon de la tarjeta haciendo referencia al ID del elemento HTML
+            const pokemonId = this.id;
+            
+            // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
+            window.location.href = `../fuente/html/pokemon.html?id=${pokemonId}`;
+        });
+    });
 }
 
 async function obtenerPokemonsPorTipo(type, order = 'n-asc') {
@@ -192,6 +203,16 @@ async function mostrarPokemonsPorTipo() {
     });
 
     document.querySelector('#pokemon').innerHTML = pokemonHTML;
+
+    document.querySelectorAll('.pokemon-card').forEach(card => {
+        card.addEventListener('click', function() {
+            // Obtén el ID del Pokémon de la tarjeta haciendo referencia al ID del elemento HTML
+            const pokemonId = this.id;
+            
+            // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
+            window.location.href = `../fuente/html/pokemon.html?id=${pokemonId}`;
+        });
+    });
 }
 
 document.querySelectorAll('.tag').forEach(tag => {
@@ -204,6 +225,7 @@ document.querySelectorAll('.tag').forEach(tag => {
         document.querySelector('#filtro').classList.add("-translate-x-full");
         document.querySelector('#filtro').classList.remove("translate-x-0");
         obtenerPokemonsPorTipo(tipoActual, ordenActual).catch(console.error);
+        document.getElementById('inicio').classList.add('hidden');
     });
 });
 
@@ -251,6 +273,7 @@ document.getElementById('orden').addEventListener('change', function (event) {
     ordenActual = event.target.value;
     ordenar = true;
     pokemonHTML = '';
+    document.getElementById('inicio').classList.add('hidden');
     if (tipoActual && tipoActual !== 'todos') {
         paginaActual = 0;
         obtenerPokemonsPorTipo(tipoActual, ordenActual).catch(console.error);
@@ -287,6 +310,8 @@ document.getElementById('log-out').addEventListener('click', function() {
     localStorage.removeItem('sesion-iniciada');
     window.location.reload();
 })
+
+document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
 
 obtenerTodosLosPokemons()
     .then(() => {
