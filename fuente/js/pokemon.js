@@ -37,6 +37,7 @@ async function mostrarDetallesPokemon(pokemonId) {
     const description = (speciesData.flavor_text_entries.find(entry => entry.language.name === 'en' && entry.version.name === 'x')
     || speciesData.flavor_text_entries.find(entry => entry.language.name === 'en')).flavor_text;
     console.log(description);
+
     // Obtiene los tipos del Pokémon
     const types = pokemonData.types.map(typeInfo => typeInfo.type.name).join(', ');
 
@@ -70,12 +71,16 @@ async function mostrarDetallesPokemon(pokemonId) {
         // Obtiene los datos del Pokémon para esta evolución
         const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${currentEvolution.species.name}`);
         const pokemonData = await pokemonResponse.json();
+ 
     
         evolutionChain.push({
             species_name: currentEvolution.species.name.charAt(0).toUpperCase() + currentEvolution.species.name.slice(1),
             sprite: pokemonData.sprites.other['official-artwork'].front_default,
             types: pokemonData.types.map(typeInfo => typeInfo.type.name),
+            id: pokemonData.id
         });
+
+
     
         currentEvolution = currentEvolution.evolves_to[0];
     } while (!!currentEvolution && currentEvolution.hasOwnProperty('evolves_to'));
@@ -83,8 +88,8 @@ async function mostrarDetallesPokemon(pokemonId) {
 
     // Crea una estructura HTML con los datos del Pokémon
     const pokemonHTML = `
-        <h1 class="text-4xl font-bold text-blue-600 mb-5">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
-        <div class="grid grid-cols-2 place-items-center ">
+        <h1 class="text-4xl font-bold text-blue-600 mb-5 block mediano-g:hidden">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
+        <div class="grid grid-cols-1 gap-3 mediano-g:grid-cols-2 mediano-g:gap-0 place-items-center ">
             <div class="w-1/2 h-auto rounded-md">
                 <img id="normalImage" class="w-full h-auto rounded-md" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
                 <img id="shinyImage" class="w-full h-auto rounded-md hidden" src="${pokemonData.sprites.other['official-artwork'].front_shiny}" alt="${pokemonData.name}">
@@ -94,13 +99,21 @@ async function mostrarDetallesPokemon(pokemonId) {
                 </div>
             </div>
             <div class="flex flex-col text-black rounded-lg items-center w-11/12">
+            <h1 class="text-4xl font-bold text-blue-600 mb-5 hidden mediano-g:block">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
                 <p class="m-2">${description}</p>
-                <div class="grid grid-cols-2 border-2 border-gray-300 rounded-lg shadow-lg p-4 min-h-36 w-full">
-                    <p class="p-5"><span class="text-black font-bold">Height:</span> <span>${pokemonData.height} m</span></p>
-                    <p class="p-5"><span class="text-black font-bold">Weight:</span> <span>${pokemonData.weight} kg</span></p>
-                    <p class="p-5"><span class="text-black font-bold">Capture Rate:</span> <span>${captureRate}</span></p>
-                    <p class="p-5"><span class="text-black font-bold">Base Experience:</span> <span>${baseExperience}</span></p>
-                    <p class="p-5 col-span-2"><span class="text-black font-bold">Abilities:</span> <span>${abilities}</span></p>
+                <div class="hidden grid-cols-1 pequeño:grid  border-2 border-gray-300 rounded-lg shadow-lg p-2 grande:p-3 min-h-36 w-full">
+                    <p class=" p-1 grande-sm:p-5"><span class="text-black font-bold">Height:</span> <span>${pokemonData.height} m</span></p>
+                    <p class="p-1 grande-sm:p-5"><span class="text-black font-bold">Weight:</span> <span>${pokemonData.weight} kg</span></p>
+                    <p class="p-1 grande-sm:p-5"><span class="text-black font-bold">Capture Rate:</span> <span>${captureRate}</span></p>
+                    <p class="p-1 grande-sm:p-5"><span class="text-black font-bold">Base Experience:</span> <span>${baseExperience}</span></p>
+                    <p class="p-1 grande-sm:p-5 col-span-2"><span class="text-black font-bold">Abilities:</span> <span>${abilities}</span></p>
+                </div>
+                <div class=" block pequeño:hidden border-2 border-gray-300 rounded-lg shadow-lg p-2 grande:p-4 min-h-36 w-full">
+                    <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Height</span> <span>${pokemonData.height} m</span></p>
+                    <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Weight</span> <span>${pokemonData.weight} kg</span></p>
+                    <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Capture Rate</span> <span>${captureRate}</span></p>
+                    <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Base Experience</span> <span>${baseExperience}</span></p>
+                    <p class="flex flex-col justify-center items-center w-full"><span class="text-black font-bold">Abilities</span> <span>${abilities}</span></p>
                 </div>
             </div>
         </div>
@@ -115,8 +128,8 @@ async function mostrarDetallesPokemon(pokemonId) {
     <h2 class="text-xl font-bold mb-4">Base Stats</h2>
     ${stats.map(stat => `
         <div class="flex items-center justify-center mb-2 w-full">
-            <div class="w-3/4 flex justify-start items-center">
-                <div class="flex w-1/5 justify-between">
+            <div class="w-3/4 flex justify-start items-center gap-6 mediano-s:gap-0">
+                <div class="flex w-1/5 justify-between ">
                     <span class="mr-3">${getStatLabel(stat.stat.name)}</span>
                     <span class="mr-2">${stat.base_stat}</span>
                 </div>  
@@ -137,7 +150,7 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
     <div class=" w-11/12">
         <div class="mb-4 flex flex-col items-center justify-center">
             <span class="text-lg font-bold text-black">Type</span>
-            <div class="mt-2 flex flex-wrap">
+            <div class="mt-2 flex flex-wrap justify-center">
                 ${types.split(', ').map(type => `
                     <span class="text-sm text-white font-semibold rounded px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
                 `).join('')}
@@ -145,7 +158,7 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
         </div>
         <div class="mb-4 flex flex-col items-center justify-center">
             <span class="text-lg font-bold text-black">Weaknesses</span>
-            <div class="mt-2 flex flex-wrap">
+            <div class="mt-2 flex flex-wrap justify-center">
                 ${weaknesses.split(', ').map(type => `
                     <span class="text-sm text-white font-semibold rounded px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
                 `).join('')}
@@ -153,7 +166,7 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
         </div>
         <div class="mb-4 flex flex-col items-center justify-center">
             <span class="text-lg font-bold text-black">Strengths</span>
-            <div class="mt-2 flex flex-wrap">
+            <div class="mt-2 flex flex-wrap justify-center">
                 ${strengths.split(', ').map(type => `
                     <span class="text-sm text-white font-semibold rounded px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
                 `).join('')}
@@ -167,8 +180,8 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
     // Genera el HTML para la cadena de evolución
     const evolutionHTML = evolutionChain.map((evolution, index) => `
         <div class="flex flex-col items-center m-4">
-            <div class="flex justify-center items-center">
-                <img class="${evolutionChain.length === 3 ? 'w-1/2' : 'w-1/3'}" src="${evolution.sprite}" alt="${evolution.species_name}">
+            <div id="${evolution.id}" class="flex justify-center items-center cursor-pointer" onclick="changePokemon(this.id)">
+                <img class="${evolutionChain.length === 3 ? 'w-2/5 mediano-g:w-1/2' : ' w-2/5 pequeño:w-1/3'}" src="${evolution.sprite}" alt="${evolution.species_name}">
             </div>
             <h2 class="mt-2">${evolution.species_name}</h2>
             <div class="flex flex-wrap justify-center">
@@ -178,7 +191,7 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
             </div>
         </div>
         ${index < evolutionChain.length - 1 ? `
-        <i class="fas fa-arrow-right fa-2x flex items-center justify-center mx-8"></i>` : ''}
+        <div class="mediano-g:flex hidden items-center justify-center"><i class=" fas fa-arrow-right fa-2x mx-8"></i></div>  <div class="mediano-g:hidden flex items-center justify-center"><i class="mediano-g:hidden flex fas fa-arrow-down fa-2x  items-center justify-center mx-8"></i></div>` : ''}
     `).join('');
 
     // Establece el HTML del elemento de la cadena de evolución
@@ -211,7 +224,7 @@ async function getLevelUpMoves(pokemonId) {
 
         // Devuelve el HTML para el movimiento
         return `
-            <tr class="border-b border-gray-200">
+            <tr class="border-b border-gray-300 hover:bg-gray-200 transition-colors duration-200">
                 <td class="p-3 text-center">${moveData.name.charAt(0).toUpperCase() + moveData.name.slice(1)}</td>
                 <td class="p-3 text-center">${levelUpDetail.level_learned_at}</td>
                 <td class="p-3 text-center text-white flex justify-center"> <p class=" w-full font-semibold rounded px-2 py-1 m-1" style="background-color: ${typeColors[moveData.type.name]};" >${moveData.type.name}</p></td>
@@ -224,8 +237,8 @@ async function getLevelUpMoves(pokemonId) {
 
     // Devuelve el HTML de los movimientos
     const tableHTML = `
-        <table class="w-full text-left table-auto">
-            <thead class="bg-gray-800 text-white">
+        <table class="w-full text-left table-auto shadow-lg">
+            <thead class="bg-blue-800 text-white">
                 <tr>
                     <th class="p-3 text-center">Name</th>
                     <th class="p-3 text-center">Level</th>
@@ -344,6 +357,10 @@ function getBarColor(value) {
     } else {
         return '#32CD32'; // Verde puro para valores altos
     }
+}
+
+function changePokemon(id) {
+    window.location.href = `../html/pokemon.html?id=${id}`;
 }
 
 mostrarDetallesPokemon(pokemonId);

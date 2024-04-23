@@ -8,7 +8,6 @@
     transition: opacity 0.5s, transform 0.5s;
 }
 
-
 .animate-click {
     animation: clickAnimation 0.2s;
 }
