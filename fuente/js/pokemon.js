@@ -85,7 +85,14 @@ async function mostrarDetallesPokemon(pokemonId) {
     const pokemonHTML = `
         <h1 class="text-4xl font-bold text-blue-600 mb-5">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
         <div class="grid grid-cols-2 place-items-center ">
-            <img class="w-1/2 h-auto rounded-md" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
+            <div class="w-1/2 h-auto rounded-md">
+                <img id="normalImage" class="w-full h-auto rounded-md" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
+                <img id="shinyImage" class="w-full h-auto rounded-md hidden" src="${pokemonData.sprites.other['official-artwork'].front_shiny}" alt="${pokemonData.name}">
+                <div class="flex justify-center space-x-4">
+                    <button onclick="document.getElementById('normalImage').classList.remove('hidden'); document.getElementById('shinyImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Normal</button>
+                    <button onclick="document.getElementById('shinyImage').classList.remove('hidden'); document.getElementById('normalImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Shiny</button>
+                </div>
+            </div>
             <div class="flex flex-col text-black rounded-lg items-center w-11/12">
                 <p class="m-2">${description}</p>
                 <div class="grid grid-cols-2 border-2 border-gray-300 rounded-lg shadow-lg p-4 min-h-36 w-full">
@@ -128,7 +135,7 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
     // Añadir contenedor de tipos, debilidades, fortalezas del Pokémon
     const typeHTML = `
     <div class=" w-11/12">
-        <div class="mb-4">
+        <div class="mb-4 flex flex-col items-center justify-center">
             <span class="text-lg font-bold text-black">Type</span>
             <div class="mt-2 flex flex-wrap">
                 ${types.split(', ').map(type => `
@@ -136,7 +143,7 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
                 `).join('')}
             </div>
         </div>
-        <div class="mb-4">
+        <div class="mb-4 flex flex-col items-center justify-center">
             <span class="text-lg font-bold text-black">Weaknesses</span>
             <div class="mt-2 flex flex-wrap">
                 ${weaknesses.split(', ').map(type => `
@@ -144,7 +151,7 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
                 `).join('')}
             </div>
         </div>
-        <div class="mb-4">
+        <div class="mb-4 flex flex-col items-center justify-center">
             <span class="text-lg font-bold text-black">Strengths</span>
             <div class="mt-2 flex flex-wrap">
                 ${strengths.split(', ').map(type => `
@@ -186,26 +193,56 @@ async function getLevelUpMoves(pokemonId) {
     // Filtra los movimientos para obtener solo los que el Pokémon aprende por nivel
     const levelUpMoves = pokemonData.moves.filter(move => move.version_group_details.some(detail => detail.move_learn_method.name === 'level-up'));
 
+    // Ordena los movimientos por nivel de aprendizaje
+    levelUpMoves.sort((a, b) => {
+        const aLevel = a.version_group_details.find(detail => detail.move_learn_method.name === 'level-up').level_learned_at;
+        const bLevel = b.version_group_details.find(detail => detail.move_learn_method.name === 'level-up').level_learned_at;
+        return aLevel - bLevel;
+    });
+
     // Mapea los movimientos a un formato más legible
-    const movesHTML = levelUpMoves.map(move => {
+    const movesHTML = await Promise.all(levelUpMoves.map(async move => {
         // Encuentra los detalles del movimiento que corresponden al método de aprendizaje por nivel
         const levelUpDetail = move.version_group_details.find(detail => detail.move_learn_method.name === 'level-up');
 
+        // Haz una solicitud a la API de Pokémon para obtener los datos del movimiento
+        const moveResponse = await fetch(move.move.url);
+        const moveData = await moveResponse.json();
+
         // Devuelve el HTML para el movimiento
         return `
-        <li>
-            <h3>${move.move.name}</h3>
-            <p>Nivel: ${levelUpDetail.level_learned_at}</p>
-            <p>Tipo: ${move.move.type}</p>
-            <p>PP: ${move.move.pp}</p>
-            <p>Precisión: ${move.move.accuracy}</p>
-            <p>Potencia: ${move.move.power || 0}</p>
-        </li>
-    `;
-}).join('');
+            <tr class="border-b border-gray-200">
+                <td class="p-3 text-center">${moveData.name.charAt(0).toUpperCase() + moveData.name.slice(1)}</td>
+                <td class="p-3 text-center">${levelUpDetail.level_learned_at}</td>
+                <td class="p-3 text-center text-white flex justify-center"> <p class=" w-full font-semibold rounded px-2 py-1 m-1" style="background-color: ${typeColors[moveData.type.name]};" >${moveData.type.name}</p></td>
+                <td class="p-3 text-center">${moveData.pp}</td>
+                <td class="p-3 text-center">${moveData.accuracy || 0}</td>
+                <td class="p-3 text-center">${moveData.power || 0}</td>
+            </tr>
+        `;
+    }));
 
     // Devuelve el HTML de los movimientos
-    document.getElementById("ataques-lvl").innerHTML = movesHTML;
+    const tableHTML = `
+        <table class="w-full text-left table-auto">
+            <thead class="bg-gray-800 text-white">
+                <tr>
+                    <th class="p-3 text-center">Name</th>
+                    <th class="p-3 text-center">Level</th>
+                    <th class="p-3 text-center">Type</th>
+                    <th class="p-3 text-center">PP</th>
+                    <th class="p-3 text-center">Accuracy</th>
+                    <th class="p-3 text-center">Power</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${movesHTML.join('')}
+            </tbody>
+        </table>
+    `;
+
+    // Establece el HTML de la lista de movimientos
+    document.getElementById('ataques').innerHTML += tableHTML;
 }
 
 function calculateWeaknesses(types) {
