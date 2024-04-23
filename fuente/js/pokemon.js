@@ -88,7 +88,7 @@ async function mostrarDetallesPokemon(pokemonId) {
 
     // Crea una estructura HTML con los datos del Pokémon
     const pokemonHTML = `
-        <h1 class="text-4xl font-bold text-blue-600 mb-5 block mediano-g:hidden">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
+        <h1 class="text-4xl font-bold text-blue-600 mb-5 block mediano-g:hidden text-center">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
         <div class="grid grid-cols-1 gap-3 mediano-g:grid-cols-2 mediano-g:gap-0 place-items-center ">
             <div class="w-1/2 h-auto rounded-md">
                 <img id="normalImage" class="w-full h-auto rounded-md" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
