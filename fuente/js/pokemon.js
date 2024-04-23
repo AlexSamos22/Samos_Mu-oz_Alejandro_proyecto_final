@@ -34,8 +34,8 @@ async function mostrarDetallesPokemon(pokemonId) {
     const speciesData = await speciesResponse.json();
 
     // Encuentra la descripción en inglés
-    const description = speciesData.flavor_text_entries.find(entry => entry.language.name === 'en' && entry.version.name === 'x').flavor_text 
-    || speciesData.flavor_text_entries.find(entry => entry.language.name === 'en').flavor_text;
+    const description = (speciesData.flavor_text_entries.find(entry => entry.language.name === 'en' && entry.version.name === 'x')
+    || speciesData.flavor_text_entries.find(entry => entry.language.name === 'en')).flavor_text;
     console.log(description);
     // Obtiene los tipos del Pokémon
     const types = pokemonData.types.map(typeInfo => typeInfo.type.name).join(', ');
@@ -58,19 +58,42 @@ async function mostrarDetallesPokemon(pokemonId) {
     // Calcula los tipos contra los que el Pokémon es eficaz
     const strengths = calculateStrengths(types.split(', ')).join(', ');
 
+    // Obtiene los datos de la cadena de evolución
+    const evolutionResponse = await fetch(speciesData.evolution_chain.url);
+    const evolutionData = await evolutionResponse.json();
+
+     // Procesa la cadena de evolución
+     let currentEvolution = evolutionData.chain;
+     const evolutionChain = [];
+ 
+     do {
+        // Obtiene los datos del Pokémon para esta evolución
+        const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${currentEvolution.species.name}`);
+        const pokemonData = await pokemonResponse.json();
+    
+        evolutionChain.push({
+            species_name: currentEvolution.species.name.charAt(0).toUpperCase() + currentEvolution.species.name.slice(1),
+            sprite: pokemonData.sprites.other['official-artwork'].front_default,
+            types: pokemonData.types.map(typeInfo => typeInfo.type.name),
+        });
+    
+        currentEvolution = currentEvolution.evolves_to[0];
+    } while (!!currentEvolution && currentEvolution.hasOwnProperty('evolves_to'));
+    
+
     // Crea una estructura HTML con los datos del Pokémon
     const pokemonHTML = `
-        <h1 class="text-4xl font-bold text-blue-600">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
+        <h1 class="text-4xl font-bold text-blue-600 mb-5">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
         <div class="grid grid-cols-2 place-items-center ">
-            <img class="w-2/5 h-auto rounded-md" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
+            <img class="w-1/2 h-auto rounded-md" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
             <div class="flex flex-col text-black rounded-lg items-center w-11/12">
                 <p class="m-2">${description}</p>
-                <div class="grid grid-cols-2  bg-bg-info-pokemon rounded-lg min-h-36 w-full">
-                    <p class="p-5"><span class="text-white">Height:</span> <span>${pokemonData.height} m</span></p>
-                    <p class="p-5"><span class="text-white">Weight:</span> <span>${pokemonData.weight} kg</span></p>
-                    <p class="p-5"><span class="text-white">Capture Rate:</span> <span>${captureRate}</span></p>
-                    <p class="p-5"><span class="text-white">Base Experience:</span> <span>${baseExperience}</span></p>
-                    <p class="p-5 col-span-2"><span class="text-white">Abilities:</span> <span>${abilities}</span></p>
+                <div class="grid grid-cols-2 border-2 border-gray-300 rounded-lg shadow-lg p-4 min-h-36 w-full">
+                    <p class="p-5"><span class="text-black font-bold">Height:</span> <span>${pokemonData.height} m</span></p>
+                    <p class="p-5"><span class="text-black font-bold">Weight:</span> <span>${pokemonData.weight} kg</span></p>
+                    <p class="p-5"><span class="text-black font-bold">Capture Rate:</span> <span>${captureRate}</span></p>
+                    <p class="p-5"><span class="text-black font-bold">Base Experience:</span> <span>${baseExperience}</span></p>
+                    <p class="p-5 col-span-2"><span class="text-black font-bold">Abilities:</span> <span>${abilities}</span></p>
                 </div>
             </div>
         </div>
@@ -97,7 +120,7 @@ async function mostrarDetallesPokemon(pokemonId) {
             </div>
         </div>
     `).join('')}
-</div>
+    </div>
 
     `;
 document.getElementById('stats-tipos').innerHTML += statsHTML;
@@ -106,33 +129,83 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
     const typeHTML = `
     <div class=" w-11/12">
         <div class="mb-4">
-            <span class="text-lg font-semibold text-gray-700">Type</span>
+            <span class="text-lg font-bold text-black">Type</span>
             <div class="mt-2 flex flex-wrap">
                 ${types.split(', ').map(type => `
-                    <span class="text-sm text-white rounded-full px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
+                    <span class="text-sm text-white font-semibold rounded px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
                 `).join('')}
             </div>
         </div>
         <div class="mb-4">
-            <span class="text-lg font-semibold text-gray-700">Weaknesses</span>
+            <span class="text-lg font-bold text-black">Weaknesses</span>
             <div class="mt-2 flex flex-wrap">
                 ${weaknesses.split(', ').map(type => `
-                    <span class="text-sm text-white rounded-full px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
+                    <span class="text-sm text-white font-semibold rounded px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
                 `).join('')}
             </div>
         </div>
         <div class="mb-4">
-            <span class="text-lg font-semibold text-gray-700">Strengths</span>
+            <span class="text-lg font-bold text-black">Strengths</span>
             <div class="mt-2 flex flex-wrap">
                 ${strengths.split(', ').map(type => `
-                    <span class="text-sm text-white rounded-full px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
+                    <span class="text-sm text-white font-semibold rounded px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
                 `).join('')}
             </div>
         </div>
     </div>
-`;
+    `;
 
-document.getElementById('stats-tipos').innerHTML += typeHTML;
+    document.getElementById('stats-tipos').innerHTML += typeHTML;
+
+    // Genera el HTML para la cadena de evolución
+    const evolutionHTML = evolutionChain.map((evolution, index) => `
+        <div class="flex flex-col items-center m-4">
+            <div class="flex justify-center items-center">
+                <img class="${evolutionChain.length === 3 ? 'w-1/2' : 'w-1/3'}" src="${evolution.sprite}" alt="${evolution.species_name}">
+            </div>
+            <h2 class="mt-2">${evolution.species_name}</h2>
+            <div class="flex flex-wrap justify-center">
+                ${evolution.types.map(type => `
+                    <span class="text-sm text-white font-semibold rounded px-2 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
+                `).join('')}
+            </div>
+        </div>
+        ${index < evolutionChain.length - 1 ? `
+        <i class="fas fa-arrow-right fa-2x flex items-center justify-center mx-8"></i>` : ''}
+    `).join('');
+
+    // Establece el HTML del elemento de la cadena de evolución
+    document.getElementById("evo").innerHTML = evolutionHTML;
+}
+
+async function getLevelUpMoves(pokemonId) {
+    // Haz una solicitud a la API de Pokémon para obtener los datos del Pokémon
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+    const pokemonData = await response.json();
+
+    // Filtra los movimientos para obtener solo los que el Pokémon aprende por nivel
+    const levelUpMoves = pokemonData.moves.filter(move => move.version_group_details.some(detail => detail.move_learn_method.name === 'level-up'));
+
+    // Mapea los movimientos a un formato más legible
+    const movesHTML = levelUpMoves.map(move => {
+        // Encuentra los detalles del movimiento que corresponden al método de aprendizaje por nivel
+        const levelUpDetail = move.version_group_details.find(detail => detail.move_learn_method.name === 'level-up');
+
+        // Devuelve el HTML para el movimiento
+        return `
+        <li>
+            <h3>${move.move.name}</h3>
+            <p>Nivel: ${levelUpDetail.level_learned_at}</p>
+            <p>Tipo: ${move.move.type}</p>
+            <p>PP: ${move.move.pp}</p>
+            <p>Precisión: ${move.move.accuracy}</p>
+            <p>Potencia: ${move.move.power || 0}</p>
+        </li>
+    `;
+}).join('');
+
+    // Devuelve el HTML de los movimientos
+    document.getElementById("ataques-lvl").innerHTML = movesHTML;
 }
 
 function calculateWeaknesses(types) {
@@ -237,3 +310,4 @@ function getBarColor(value) {
 }
 
 mostrarDetallesPokemon(pokemonId);
+getLevelUpMoves(pokemonId);
