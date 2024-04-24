@@ -321,6 +321,7 @@ Array.from(buscador).forEach(buscador => {
 
     buscador.addEventListener('input', () => {
         sugerencias.innerHTML = "";
+        console.log(buscador.value);
 
         if (buscador.value == '') {
             sugerencias.classList.add("hidden");
@@ -358,7 +359,14 @@ Array.from(buscador).forEach(buscador => {
             if (pokemonSeleccionado) {
                 window.location.href = `../fuente/html/pokemon.html?id=${pokemonSeleccionado.numero}`;
             }
-            
+        }
+    });
+
+    buscador.addEventListener('search', (e) => {
+        e.preventDefault();
+        const pokemonSeleccionado = pokemons.find(pokemon => pokemon.name === buscador.value.toLowerCase());
+        if (pokemonSeleccionado) {
+            window.location.href = `../fuente/html/pokemon.html?id=${pokemonSeleccionado.numero}`;
         }
     });
 

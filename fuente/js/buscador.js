@@ -70,7 +70,14 @@ Array.from(buscador).forEach(buscador => {
             if (pokemonSeleccionado) {
                 window.location.href = `../html/pokemon.html?id=${pokemonSeleccionado.numero}`;
             }
-            
+        }
+    });
+
+    buscador.addEventListener('search', (e) => {
+        e.preventDefault();
+        const pokemonSeleccionado = pokemons.find(pokemon => pokemon.name === buscador.value.toLowerCase());
+        if (pokemonSeleccionado) {
+            window.location.href = `../html/pokemon.html?id=${pokemonSeleccionado.numero}`;
         }
     });
 
