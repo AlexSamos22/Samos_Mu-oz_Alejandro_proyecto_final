@@ -113,7 +113,7 @@ async function mostrarDetallesPokemon(pokemonId) {
                     <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Weight</span> <span>${pokemonData.weight} kg</span></p>
                     <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Capture Rate</span> <span>${captureRate}</span></p>
                     <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Base Experience</span> <span>${baseExperience}</span></p>
-                    <p class="flex flex-col justify-center items-center w-full"><span class="text-black font-bold">Abilities</span> <span>${abilities}</span></p>
+                    <p class="flex flex-col justify-center items-center w-full"><span class="text-black font-bold">Abilities</span> <span class="block text-center mx-auto">${abilities}</span></p>
                 </div>
             </div>
         </div>
@@ -196,6 +196,13 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
 
     // Establece el HTML del elemento de la cadena de evolución
     document.getElementById("evo").innerHTML = evolutionHTML;
+
+     // Oculta la pantalla de carga
+     setTimeout(() => {
+        document.getElementById('pantalla-carga').classList.remove('flex');
+        document.getElementById('pantalla-carga').classList.add('hidden');
+        document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
+    }, 2000);
 }
 
 async function getLevelUpMoves(pokemonId) {

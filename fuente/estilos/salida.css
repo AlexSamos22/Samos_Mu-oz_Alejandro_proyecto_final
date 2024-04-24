@@ -1661,6 +1661,10 @@ input:checked + .toggle-bg {
   gap: 2rem;
 }
 
+.gap-2 {
+  gap: 0.5rem;
+}
+
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -1677,6 +1681,17 @@ input:checked + .toggle-bg {
   --tw-space-y-reverse: 0;
   margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
+.divide-y > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-y-reverse: 0;
+  border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+  border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+}
+
+.divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1;
+  border-color: rgb(229 231 235 / var(--tw-divide-opacity));
 }
 
 .self-start {
@@ -2453,11 +2468,27 @@ input:checked + .toggle-bg {
   .peque\F1o-s\:w-11\/12 {
     width: 91.666667%;
   }
+
+  .peque\F1o-s\:flex-row {
+    flex-direction: row;
+  }
+
+  .peque\F1o-s\:flex-col {
+    flex-direction: column;
+  }
 }
 
 @media (min-width: 470px) {
   .peque\F1o\:mt-0 {
     margin-top: 0px;
+  }
+
+  .peque\F1o\:block {
+    display: block;
+  }
+
+  .peque\F1o\:flex {
+    display: flex;
   }
 
   .peque\F1o\:grid {

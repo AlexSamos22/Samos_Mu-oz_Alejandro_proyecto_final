@@ -71,7 +71,6 @@ function crearTarjetaPokemon(pokemonData) {
 }
 
 async function obtenerPokemons(order = 'n-asc') {
-    console.log(ordenar);
     if (ordenar) {
         document.getElementById('pantalla-cambio').classList.add('flex');
         document.getElementById('pantalla-cambio').classList.remove('hidden');
@@ -100,7 +99,6 @@ async function obtenerPokemons(order = 'n-asc') {
     }
 
     ordenar = false;
-    console.log(ordenar);
 
     let pokemonDataArray = pokemons.slice(offset, offset + limit);
 
@@ -312,6 +310,60 @@ document.getElementById('log-out').addEventListener('click', function() {
 })
 
 document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
+
+const buscador = document.getElementsByClassName('search-navbar');
+
+Array.from(buscador).forEach(buscador => {
+    const sugerencias = document.createElement("ul");
+    sugerencias.id = 'sugerencias';
+    sugerencias.classList.add("absolute", "w-full", "bg-white", "border", "border-gray-300", "rounded", "z-10", "hidden", "divide-y", "divide-gray-200");
+    buscador.parentNode.appendChild(sugerencias);
+
+    buscador.addEventListener('input', () => {
+        sugerencias.innerHTML = "";
+
+        if (buscador.value == '') {
+            sugerencias.classList.add("hidden");
+            sugerencias.classList.remove("block");
+            return;
+        }
+
+        let resultadosBusqueda = pokemons.filter(pokemon => pokemon.name.startsWith(buscador.value.toLowerCase())).slice(0, 10);
+
+        resultadosBusqueda.forEach(pokemon => {
+            let li = document.createElement("li");
+            li.textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+            li.classList.add("px-4", "py-2", "cursor-pointer", "hover:bg-gray-200");
+            li.addEventListener("click", () => {
+                buscador.value = pokemon.name;
+                sugerencias.innerHTML = "";
+                sugerencias.classList.add("hidden");
+            });
+            sugerencias.appendChild(li);
+        });
+
+        if (resultadosBusqueda.length > 0) {
+            sugerencias.classList.remove("hidden");
+            sugerencias.classList.add("block");
+        } else {
+            sugerencias.classList.add("hidden");
+            sugerencias.classList.remove("block");
+        }
+    });
+
+    buscador.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const pokemonSeleccionado = pokemons.find(pokemon => pokemon.name === buscador.value.toLowerCase());
+            if (pokemonSeleccionado) {
+                window.location.href = `../fuente/html/pokemon.html?id=${pokemonSeleccionado.numero}`;
+            }
+            
+        }
+    });
+
+});
+
 
 obtenerTodosLosPokemons()
     .then(() => {
