@@ -19,9 +19,26 @@ const typeColors = {
     fairy: '#EE99AC',
 };
 
+const formasPokemon = [
+    "rotom-heat", "rotom-wash", "rotom-frost", "rotom-fan", "rotom-mow",
+    "giratina-origin", "giratina-altered",
+    "basculin-red-striped", "basculin-blue-striped",
+    "kyurem-black", "kyurem-white",
+    "thundurus-incarnate", "thundurus-therian",
+    "tornadus-incarnate", "tornadus-therian",
+    "landorus-incarnate", "landorus-therian",
+    "meowstic-male", "meowstic-female",
+    "hoopa-confined", "hoopa-unbound",
+    "zygarde-50", "zygarde-10", "zygarde-complete",
+    "lycanroc-midday", "lycanroc-midnight", "lycanroc-dusk",
+    "urshifu-single-strike", "urshifu-rapid-strike"
+  ];
+  
+
 // Recoge la ID del Pokémon de la URL
 const urlParams = new URLSearchParams(window.location.search);
 const pokemonId = urlParams.get('id');
+const pokemonName = urlParams.get('name');
 
 
 async function mostrarDetallesPokemon(pokemonId) {
@@ -72,8 +89,8 @@ async function mostrarDetallesPokemon(pokemonId) {
      do {
         // Obtiene los datos del Pokémon para esta evolución
         let pokemonResponse = "";
-        if (currentEvolution.species.name === "keldeo") {
-            pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/keldeo-ordinary`);
+        if (currentEvolution.species.name != pokemonName) {
+            pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
         }else{
             pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${currentEvolution.species.name}`);
         }
@@ -208,13 +225,6 @@ document.getElementById('i').innerHTML += statsHTML;
 
     // Establece el HTML del elemento de la cadena de evolución
     document.getElementById("evo").innerHTML = evolutionHTML;
-
-     // Oculta la pantalla de carga
-     setTimeout(() => {
-        document.getElementById('pantalla-carga').classList.remove('flex');
-        document.getElementById('pantalla-carga').classList.add('hidden');
-        document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-    }, 2000);
 }
 
 async function getLevelUpMoves(pokemonId) {
