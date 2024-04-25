@@ -2464,6 +2464,10 @@ input:checked + .toggle-bg {
   .peque\F1o-s\:w-11\/12 {
     width: 91.666667%;
   }
+
+  .peque\F1o-s\:w-1\/2 {
+    width: 50%;
+  }
 }
 
 @media (min-width: 470px) {

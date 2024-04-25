@@ -339,6 +339,11 @@ Array.from(buscador).forEach(buscador => {
                 buscador.value = pokemon.name;
                 sugerencias.innerHTML = "";
                 sugerencias.classList.add("hidden");
+
+                const pokemonSeleccionado = pokemons.find(pokemon => pokemon.name === buscador.value.toLowerCase());
+                if (pokemonSeleccionado) {
+                    window.location.href = `../fuente/html/pokemon.html?id=${pokemonSeleccionado.numero}`;
+                }
             });
             sugerencias.appendChild(li);
         });

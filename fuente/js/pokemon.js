@@ -66,10 +66,18 @@ async function mostrarDetallesPokemon(pokemonId) {
      // Procesa la cadena de evolución
      let currentEvolution = evolutionData.chain;
      const evolutionChain = [];
+
+     
  
      do {
         // Obtiene los datos del Pokémon para esta evolución
-        const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${currentEvolution.species.name}`);
+        let pokemonResponse = "";
+        if (currentEvolution.species.name === "keldeo") {
+            pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/keldeo-ordinary`);
+        }else{
+            pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${currentEvolution.species.name}`);
+        }
+        
         const pokemonData = await pokemonResponse.json();
  
     
@@ -89,18 +97,18 @@ async function mostrarDetallesPokemon(pokemonId) {
     // Crea una estructura HTML con los datos del Pokémon
     const pokemonHTML = `
         <h1 class="text-4xl font-bold text-blue-600 mb-5 block mediano-g:hidden text-center">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
-        <div class="grid grid-cols-1 gap-3 mediano-g:grid-cols-2 mediano-g:gap-0 place-items-center ">
-            <div class="w-1/2 h-auto rounded-md">
+        <div class="grid grid-cols-1 gap-3 mediano-g:grid-cols-2 mediano-g:gap-0 place-items-center w-full">
+            <div class=" w-3/4 pequeño-s:w-1/2 h-auto rounded-md flex flex-col items-center justify-center">
                 <img id="normalImage" class="w-full h-auto rounded-md" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
                 <img id="shinyImage" class="w-full h-auto rounded-md hidden" src="${pokemonData.sprites.other['official-artwork'].front_shiny}" alt="${pokemonData.name}">
-                <div class="flex justify-center space-x-4">
+                <div class="flex justify-between w-full">
                     <button onclick="document.getElementById('normalImage').classList.remove('hidden'); document.getElementById('shinyImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Normal</button>
                     <button onclick="document.getElementById('shinyImage').classList.remove('hidden'); document.getElementById('normalImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Shiny</button>
                 </div>
             </div>
             <div class="flex flex-col text-black rounded-lg items-center w-11/12">
             <h1 class="text-4xl font-bold text-blue-600 mb-5 hidden mediano-g:block">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
-                <p class="m-2">${description}</p>
+                <p class="m-2 text-center">${description}</p>
                 <div class="hidden grid-cols-1 pequeño:grid  border-2 border-gray-300 rounded-lg shadow-lg p-2 grande:p-3 min-h-36 w-full">
                     <p class=" p-1 grande-sm:p-5"><span class="text-black font-bold">Height:</span> <span>${pokemonData.height} m</span></p>
                     <p class="p-1 grande-sm:p-5"><span class="text-black font-bold">Weight:</span> <span>${pokemonData.weight} kg</span></p>
@@ -143,11 +151,11 @@ async function mostrarDetallesPokemon(pokemonId) {
     </div>
 
     `;
-document.getElementById('stats-tipos').innerHTML += statsHTML;
+document.getElementById('i').innerHTML += statsHTML;
 
     // Añadir contenedor de tipos, debilidades, fortalezas del Pokémon
     const typeHTML = `
-    <div class=" w-11/12">
+    <div class=" w-11/12 flex flex-col items-center">
         <div class="mb-4 flex flex-col items-center justify-center">
             <span class="text-lg font-bold text-black">Type</span>
             <div class="mt-2 flex flex-wrap justify-center">
@@ -167,15 +175,19 @@ document.getElementById('stats-tipos').innerHTML += statsHTML;
         <div class="mb-4 flex flex-col items-center justify-center">
             <span class="text-lg font-bold text-black">Strengths</span>
             <div class="mt-2 flex flex-wrap justify-center">
-                ${strengths.split(', ').map(type => `
+            ${
+                strengths.trim() === '' 
+                ? '<p>Este Pokémon no tiene debilidad a ningún tipo</p>' 
+                : strengths.split(', ').map(type => `
                     <span class="text-sm text-white font-semibold rounded px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
-                `).join('')}
+                `).join('')
+            }
             </div>
         </div>
     </div>
     `;
 
-    document.getElementById('stats-tipos').innerHTML += typeHTML;
+    document.getElementById('i').innerHTML += typeHTML;
 
     // Genera el HTML para la cadena de evolución
     const evolutionHTML = evolutionChain.map((evolution, index) => `
