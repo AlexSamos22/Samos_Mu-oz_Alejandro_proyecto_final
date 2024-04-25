@@ -207,7 +207,7 @@ document.getElementById('i').innerHTML += statsHTML;
             <div class="mt-2 flex flex-wrap justify-center">
             ${
                 strengths.trim() === '' 
-                ? '<p>Este Pokémon no tiene debilidad a ningún tipo</p>' 
+                ? '<p>Este Pokémon no es fuerte contra ningun tipo</p>' 
                 : strengths.split(', ').map(type => `
                     <span class="text-sm text-white font-semibold rounded px-3 py-1 m-1" style="background-color: ${typeColors[type]};">${type}</span>
                 `).join('')
