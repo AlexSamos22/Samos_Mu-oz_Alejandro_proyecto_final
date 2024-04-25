@@ -84,7 +84,7 @@ async function obtenerTodosLosPokemons() {
 
 function crearTarjetaPokemon(pokemonData) {
     return  `
-    <div id="${pokemonData.id}" class="pokemon-card bg-white border-2 border-gray-300 p-4 relative flex flex-col items-center mx-auto cursor-pointer transform transition duration-500 ease-in-out hover:-translate-y-1 ${applyTransition ? 'animate-fadeIn' : ''}">
+    <div id="${pokemonData.id}" class=" ${pokemonData.species.name} pokemon-card bg-white border-2 border-gray-300 p-4 relative flex flex-col items-center mx-auto cursor-pointer transform transition duration-500 ease-in-out hover:-translate-y-1 ${applyTransition ? 'animate-fadeIn' : ''}">
             <img class="w-2/4 h-auto" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
             <div class="p-4 text-center">
                 <h2 class="text-xl font-bold mb-2">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}</h2>
@@ -141,8 +141,11 @@ async function obtenerPokemons(order = 'n-asc') {
             // Obtén el ID del Pokémon de la tarjeta haciendo referencia al ID del elemento HTML
             const pokemonId = this.id;
             
+            // Obtén la clase con el nombre del Pokémon
+            const pokemonClass = this.classList[0]; // La clase está en la posición 1 del array
+            
             // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
-            window.location.href = `../fuente/html/pokemon.html?id=${pokemonId}`;
+            window.location.href = `../fuente/html/pokemon.html?id=${pokemonId}&name=${pokemonClass}`;
         });
     });
 }
@@ -232,8 +235,11 @@ async function mostrarPokemonsPorTipo() {
             // Obtén el ID del Pokémon de la tarjeta haciendo referencia al ID del elemento HTML
             const pokemonId = this.id;
             
+            // Obtén la clase con el nombre del Pokémon
+            const pokemonClass = this.classList[0]; // La clase está en la posición 1 del array
+            
             // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
-            window.location.href = `../fuente/html/pokemon.html?id=${pokemonId}`;
+            window.location.href = `../fuente/html/pokemon.html?id=${pokemonId}&name=${pokemonClass}`;
         });
     });
 }

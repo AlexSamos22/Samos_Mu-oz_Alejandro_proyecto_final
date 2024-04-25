@@ -89,11 +89,24 @@ async function mostrarDetallesPokemon(pokemonId) {
      do {
         // Obtiene los datos del Pokémon para esta evolución
         let pokemonResponse = "";
-        if (currentEvolution.species.name != pokemonName) {
-            pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-        }else{
+
+        try {
             pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${currentEvolution.species.name}`);
+            if (!pokemonResponse.ok) {
+                throw new Error(`HTTP error! status: ${pokemonResponse.status}`);
+            }
+        } catch (error) {
+            try {
+                pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+                if (!pokemonResponse.ok) {
+                    throw new Error(`HTTP error! status: ${pokemonResponse.status}`);
+                }
+            } catch (error) {
+                // Manejar el error aquí
+            }
         }
+        
+        
         
         const pokemonData = await pokemonResponse.json();
  
