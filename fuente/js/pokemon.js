@@ -401,8 +401,8 @@ function getBarColor(value) {
     }
 }
 
-function changePokemon(id) {
-    window.location.href = `../html/pokemon.html?id=${id}`;
+function changePokemon(id, name=pokemonName) {
+    window.location.href = `../html/pokemon.html?id=${id}&name=${name}`;
 }
 
 mostrarDetallesPokemon(pokemonId);
