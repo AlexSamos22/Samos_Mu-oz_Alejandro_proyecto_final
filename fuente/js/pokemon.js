@@ -238,6 +238,12 @@ document.getElementById('i').innerHTML += statsHTML;
 
     // Establece el HTML del elemento de la cadena de evolución
     document.getElementById("evo").innerHTML = evolutionHTML;
+
+    setTimeout(() => {
+        document.getElementById('pantalla-carga').classList.remove('flex');
+        document.getElementById('pantalla-carga').classList.add('hidden');
+        document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
+    }, 1000);
 }
 
 async function getLevelUpMoves(pokemonId) {

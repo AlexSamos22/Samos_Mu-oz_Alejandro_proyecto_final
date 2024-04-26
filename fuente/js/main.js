@@ -30,35 +30,41 @@ let paginaActual = 0; // Almacena la página actual
 let pokemons = []; // Array global para almacenar los Pokémon
 let ordenar = false;
 
-let pokemonsBuscador = []; 
+let pokemonsBuscador = [];
+let cache = {}; 
 
 // Función para obtener todos los pokemons
 async function obtenerTodosLosPokemonsBuscador() {
+    if (cache['pokemonsBuscador']) {
+        return cache['pokemonsBuscador'];
+    }
+
     let url = 'https://pokeapi.co/api/v2/pokemon?limit=100'; // Comienza con los primeros 100 Pokémon
 
     while (url) {
         const response = await fetch(url);
         const data = await response.json();
-        const pokemonsConNumeros = await Promise.all(data.results.map(async pokemon => {
-            const pokemonResponse = await fetch(pokemon.url);
-            const pokemonData = await pokemonResponse.json();
-            return {
-                ...pokemon,
-                numero: pokemonData.id,
-                imagen: pokemonData.sprites.front_default
-            };
+
+        const pokemonPromises = data.results.map(pokemon => fetch(pokemon.url));
+        const pokemonResponses = await Promise.all(pokemonPromises);
+
+        const pokemonDatas = await Promise.all(pokemonResponses.map(response => response.json()));
+
+        const pokemonsConNumeros = pokemonDatas.map((pokemonData, index) => ({
+            ...data.results[index],
+            numero: pokemonData.id,
+            imagen: pokemonData.sprites.front_default
         }));
 
         pokemonsBuscador = pokemonsBuscador.concat(pokemonsConNumeros.filter(pokemon => pokemon.imagen));
         url = data.next; // La URL para la siguiente página de resultados
     }
 
-    // Oculta la pantalla de carga
-    setTimeout(() => {
-        document.getElementById('pantalla-carga').classList.remove('flex');
-        document.getElementById('pantalla-carga').classList.add('hidden');
-        document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-    }, 1000);
+    console.log(pokemonsBuscador);
+
+    // Guarda los datos en el caché
+    cache['pokemonsBuscador'] = pokemonsBuscador;
+
 }
 
 // Llama a la función para obtener todos los pokemons
@@ -80,6 +86,13 @@ async function obtenerTodosLosPokemons() {
         pokemons = pokemons.concat(pokemonsConNumeros);
         url = data.next; // La URL para la siguiente página de resultados
     }
+
+    // Oculta la pantalla de carga
+    setTimeout(() => {
+        document.getElementById('pantalla-carga').classList.remove('flex');
+        document.getElementById('pantalla-carga').classList.add('hidden');
+        document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
+    }, 1000);
 }
 
 function crearTarjetaPokemon(pokemonData) {
