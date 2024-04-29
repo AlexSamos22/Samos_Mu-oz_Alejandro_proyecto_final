@@ -29,11 +29,16 @@ async function login(e) {
             body: formData
         });
 
-        let respuesta = await response.text();
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-        if (respuesta == "TRUE") {
+        let respuesta = await response.json();
+        console.log(respuesta);
+
+        if (respuesta != "FALSE") {
             alert("Inicio de sesión exitoso");
-            localStorage.setItem("sesion-iniciada", usuario);
+            localStorage.setItem("sesion-iniciada", JSON.stringify(respuesta));
             window.location.href = "../index.html";
         } else {
             alert("Inicio de sesión fallido");

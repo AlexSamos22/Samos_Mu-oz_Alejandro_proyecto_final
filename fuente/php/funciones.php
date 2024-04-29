@@ -20,6 +20,7 @@
    }
    function comprobar_usuario($usuario, $cont){
         $encontrado = false;
+        $arr = [];
         $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
         $bd = new PDO($res[0], $res[1], $res[2]);
 
@@ -30,11 +31,12 @@
         foreach ($resul as $fila) {
             if($fila['usuario'] === $usuario and password_verify($cont, $fila['clave'])) {
             $encontrado = true;
+            array_unshift($arr, $fila['ID'], obtenerEquiposFavs($fila['ID']) , obtenerPokemonFavs($fila['ID']));
             }
         }
 
         if ($encontrado) {
-            return true;
+            return $arr;
         }else{
             return false;
         }
@@ -61,6 +63,36 @@
         $db = new PDO($res[0], $res[1], $res[2]);
        
         $equipos = "SELECT * FROM equiposfinalistas";
+
+        $result = $db->query($equipos);
+
+        if ($result) {
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            return false;
+        }
+    }
+
+    function obtenerPokemonFavs($id){
+        $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
+        $db = new PDO($res[0], $res[1], $res[2]);
+
+        $pokemon = "SELECT pokemonID FROM pokemonfavoritos WHERE UsuarioID = $id";
+
+        $result = $db->query($pokemon);
+
+        if ($result) {
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            return false;
+        }
+    }
+
+    function obtenerEquiposFavs($id){
+        $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
+        $db = new PDO($res[0], $res[1], $res[2]);
+
+        $equipos = "SELECT equipoID FROM equiposfavoritos WHERE UsuarioID = $id";
 
         $result = $db->query($equipos);
 

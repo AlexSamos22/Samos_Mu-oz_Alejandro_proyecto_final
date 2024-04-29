@@ -5,11 +5,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$usuario = $_POST['usuario'];
     $clave = $_POST['contrasena'];
 	$usu = comprobar_usuario($usuario, $clave);
-	if($usu){
-		echo "TRUE";
+	if(count($usu) > 0){
+		echo json_encode($usu);
     } else {
-        echo "FALSE";
+        echo json_encode("FALSE");
     }
 }else{
-    echo "FALSE";
+    echo json_encode("FALSE");
 }
