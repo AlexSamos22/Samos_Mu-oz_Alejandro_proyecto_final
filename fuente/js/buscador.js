@@ -19,11 +19,13 @@ async function obtenerTodosLosPokemonsBuscador() {
 
         const pokemonDatas = await Promise.all(pokemonResponses.map(response => response.json()));
 
-        const pokemonsConNumeros = pokemonDatas.map((pokemonData, index) => ({
+        let pokemonsConNumeros = pokemonDatas.map((pokemonData, index) => ({
             ...data.results[index],
             numero: pokemonData.id,
             imagen: pokemonData.sprites.front_default
         }));
+
+        pokemonsConNumeros = pokemonsConNumeros.filter(pokemon => !/-gmax$/.test(pokemon.name));
 
         pokemonsBuscador = pokemonsBuscador.concat(pokemonsConNumeros.filter(pokemon => pokemon.imagen));
         url = data.next; // La URL para la siguiente página de resultados
