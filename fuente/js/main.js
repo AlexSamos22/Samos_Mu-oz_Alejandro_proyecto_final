@@ -554,8 +554,17 @@ Array.from(buscador1).forEach(buscador => {
 
         resultadosBusqueda.forEach(pokemon => {
             let li = document.createElement("li");
-            li.textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
-            li.classList.add("px-4", "py-2", "cursor-pointer", "hover:bg-gray-200");
+            li.classList.add("px-4", "py-2", "cursor-pointer", "hover:bg-gray-200", "flex", "items-center", "justufy-between");
+            // Crea un elemento de imagen y establece su fuente en la imagen del Pokémon
+            let img = document.createElement("img");
+            img.src = pokemon.imagen; 
+            img.alt = pokemon.name;
+            img.classList.add("w-modificado-13" ,"mediano-sm:w-1/12", "h-auto", "md:w-1/3");
+        
+            // Añade la imagen y el nombre del Pokémon al elemento de la lista
+            li.appendChild(img);
+            li.appendChild(document.createTextNode(pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)));
+            
             li.addEventListener("click", () => {
                 buscador.value = pokemon.name;
                 sugerencias.innerHTML = "";
