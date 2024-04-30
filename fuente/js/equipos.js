@@ -27,18 +27,88 @@ async function obtenerEquipos() {
     const tarjetasNoCampeones = crearTarjeta(noCampeones);
     document.getElementById('resto-equipos').innerHTML = tarjetasNoCampeones;
 
-    document.querySelectorAll('.boton-fav').forEach(function(button) {
-        button.addEventListener('click', function() {
-            if (this.classList.contains('text-black')) {
-                this.classList.remove("text-black");
-                this.classList.add('text-red-500');
-            }else{
-                this.classList.remove("text-red-500");
-                this.classList.add('text-black');
+        // Añade un evento de clic a cada botón de favoritos
+        document.querySelectorAll('.boton-fav').forEach(function(button) {
+            // Obtiene el array del localStorage
+            const localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
+    
+            // Comprueba si el localStorage está iniciado
+            if (!localStorageData) {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    alert('Para añadir un equipo a favoritos debes iniciar sesión');
+                });
+                return;
             }
-            
+    
+            const usuarioId = localStorageData[0];
+            console.log(usuarioId)
+        
+            // Comprueba si el ID del botón está en el array
+            if (localStorageData && localStorageData[1].some(equipo => equipo.equipoID == parseInt(button.id))) {
+                button.classList.remove("text-black");
+                button.classList.add('text-red-500');
+            }
+        
+            button.addEventListener('click', async function(e) {
+                e.stopPropagation();
+                const equipoId = parseInt(this.id);
+        
+                if (this.classList.contains('text-black')) {
+                    this.classList.remove("text-black");
+                    this.classList.add('text-red-500');
+                    // Almacena el ID del botón en el localStorage cuando se hace clic en él
+                    localStorageData[1].push({equipoID: equipoId});
+                    localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
+        
+                    // Llama a la función PHP para insertar el Pokémon en favoritos
+                    let formData = new URLSearchParams();
+                    formData.append('usuarioId', usuarioId);
+                    formData.append('equipoId', equipoId);
+                    formData.append('operacion', 'insertar');
+                    try {
+                        let response = await fetch('../php/gestionarEquiposFavs.php', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const text = await response.text();
+                        if (text === "TRUE") {
+                            console.log("Hecho");
+                        } else {
+                            console.log("No hecho");
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                } else {
+                    this.classList.remove("text-red-500");
+                    this.classList.add('text-black');
+                    // Elimina el ID del botón del localStorage cuando se hace clic de nuevo
+                    localStorageData[1] = localStorageData[2].filter(equipo => equipo.equipoID != equipoId);
+                    localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
+        
+                    // Llama a la función PHP para eliminar el Pokémon de favoritos
+                    let formData = new URLSearchParams();
+                    formData.append('usuarioId', usuarioId);
+                    formData.append('equipoId', equipoId);
+                    formData.append('operacion', 'eliminar');
+                    try {
+                        const response = await fetch('../php/gestionarEquiposFavs.php', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const text = await response.text();
+                        if (text === "TRUE") {
+                            console.log("Hecho");
+                        } else {
+                            console.log("No hecho");
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                }
+            });
         });
-    });
 }
 
 function crearTarjeta(datos) {
@@ -72,7 +142,7 @@ function crearTarjeta(datos) {
                 <i class="fas fa-file-export mr-1"></i>
                 See more
                 </a>
-                    <button id=fav-${campo.ID} class="boton-fav text-black p-2 rounded"><i class="fas fa-heart fa-lg"></i></button>
+                    <button id="${campo.ID}" class="boton-fav text-black p-2 rounded"><i class="fas fa-heart fa-lg"></i></button>
                 </div>
             </div>
         `;

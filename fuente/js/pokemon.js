@@ -92,12 +92,14 @@ async function mostrarDetallesPokemon(pokemonId) {
 
         try {
             pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${currentEvolution.species.name}`);
+            console.log(currentEvolution.species.name);
             if (!pokemonResponse.ok) {
                 throw new Error(`HTTP error! status: ${pokemonResponse.status}`);
             }
         } catch (error) {
             try {
                 pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+                console.log(pokemonName);
                 if (!pokemonResponse.ok) {
                     throw new Error(`HTTP error! status: ${pokemonResponse.status}`);
                 }

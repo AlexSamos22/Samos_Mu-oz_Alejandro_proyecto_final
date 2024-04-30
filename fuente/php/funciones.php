@@ -77,7 +77,7 @@
         $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
         $db = new PDO($res[0], $res[1], $res[2]);
 
-        $pokemon = "SELECT pokemonID FROM pokemonfavoritos WHERE UsuarioID = $id";
+        $pokemon = "SELECT pokemonID FROM pokemonfavoritos WHERE usuarioID = $id";
 
         $result = $db->query($pokemon);
 
@@ -92,12 +92,72 @@
         $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
         $db = new PDO($res[0], $res[1], $res[2]);
 
-        $equipos = "SELECT equipoID FROM equiposfavoritos WHERE UsuarioID = $id";
+        $equipos = "SELECT equipoID FROM equiposfavoritos WHERE usuarioID = $id";
 
         $result = $db->query($equipos);
 
         if ($result) {
             return $result->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            return false;
+        }
+    }
+
+    function insertarPokemonFav($id, $pokemon){
+        $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
+        $db = new PDO($res[0], $res[1], $res[2]);
+
+        $ins = "INSERT INTO pokemonfavoritos(usuarioID, pokemonID) values($id, $pokemon)";
+
+        $result = $db->query($ins);
+
+        if ($result) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function borrarPokemonFav($id, $pokemon){
+        $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
+        $db = new PDO($res[0], $res[1], $res[2]);
+
+        $del = "DELETE FROM pokemonfavoritos WHERE UsuarioID = $id AND pokemonID = $pokemon";
+
+        $result = $db->query($del);
+
+        if ($result) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function insertarEquipoFav($id, $equipo){
+        $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
+        $db = new PDO($res[0], $res[1], $res[2]);
+
+        $ins = "INSERT INTO equiposfavoritos(UsuarioID, equipoID) values($id, $equipo)";
+
+        $result = $db->query($ins);
+
+        if ($result) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function borrarEquipoFav($id, $equipo){
+        $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
+        $db = new PDO($res[0], $res[1], $res[2]);
+
+        $del = "DELETE FROM equiposfavoritos WHERE UsuarioID = $id AND equipoID = $equipo";
+
+        $result = $db->query($del);
+
+        if ($result) {
+            return true;
         }else{
             return false;
         }

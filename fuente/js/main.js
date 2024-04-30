@@ -99,14 +99,15 @@ async function obtenerTodosLosPokemons() {
 
 function crearTarjetaPokemon(pokemonData) {
     return  `
-    <div id="${pokemonData.id}" class=" ${pokemonData.species.name} pokemon-card bg-white border-2 border-gray-300 p-4 relative flex flex-col items-center mx-auto cursor-pointer transform transition duration-500 ease-in-out hover:-translate-y-1 ${applyTransition ? 'animate-fadeIn' : ''}">
+    <div id="${pokemonData.id}" class=" ${pokemonData.forms[0].name} pokemon-card bg-white border-2 border-gray-300 p-4 relative flex flex-col items-center mx-auto cursor-pointer transform transition duration-500 ease-in-out hover:-translate-y-1 ${applyTransition ? 'animate-fadeIn' : ''}">
             <img class="w-2/4 h-auto" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
             <div class="p-4 text-center">
                 <h2 class="text-xl font-bold mb-2">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)}</h2>
                 <p class="mb-2">Nº: ${pokemonData.id}</p>
                 ${pokemonData.types.map(typeInfo => `<span class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-white mr-2" style="background-color: ${typeColors[typeInfo.type.name.toLowerCase()]};">${typeInfo.type.name.charAt(0).toUpperCase() + typeInfo.type.name.slice(1)}</span>`).join('')}
             </div>
-        </div>
+            <button id="${pokemonData.id}" class="boton-fav text-black p-2 rounded absolute bottom-2 right-2"><i class="fas fa-heart fa-xl"></i></button>
+    </div>
     `;
 }
 
@@ -158,9 +159,91 @@ async function obtenerPokemons(order = 'n-asc') {
             
             // Obtén la clase con el nombre del Pokémon
             const pokemonClass = this.classList[0]; // La clase está en la posición 1 del array
-            
+            console.log(pokemonClass);
             // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
             window.location.href = `../fuente/html/pokemon.html?id=${pokemonId}&name=${pokemonClass}`;
+        });
+    });
+
+    document.querySelectorAll('.boton-fav').forEach(function(button) {
+        // Obtiene el array del localStorage
+        const localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
+
+        // Comprueba si el localStorage está iniciado
+        if (!localStorageData) {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alert('Para añadir pokemon a favoritos debes iniciar sesión');
+            });
+            return;
+        }
+
+        const usuarioId = localStorageData[0];
+        console.log(usuarioId)
+    
+        // Comprueba si el ID del botón está en el array
+        if (localStorageData && localStorageData[2].some(pokemon => pokemon.pokemonID == parseInt(button.id))) {
+            button.classList.remove("text-black");
+            button.classList.add('text-red-500');
+        }
+    
+        button.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            const pokemonId = parseInt(this.id);
+    
+            if (this.classList.contains('text-black')) {
+                this.classList.remove("text-black");
+                this.classList.add('text-red-500');
+                // Almacena el ID del botón en el localStorage cuando se hace clic en él
+                localStorageData[2].push({pokemonID: pokemonId});
+                localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
+    
+                // Llama a la función PHP para insertar el Pokémon en favoritos
+                let formData = new URLSearchParams();
+                formData.append('usuarioId', usuarioId);
+                formData.append('pokemonId', pokemonId);
+                formData.append('operacion', 'insertar');
+                try {
+                    let response = await fetch('../fuente/php/gestionarPokemonFavs.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const text = await response.text();
+                    if (text === "TRUE") {
+                        console.log("Hecho");
+                    } else {
+                        console.log("No hecho");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            } else {
+                this.classList.remove("text-red-500");
+                this.classList.add('text-black');
+                // Elimina el ID del botón del localStorage cuando se hace clic de nuevo
+                localStorageData[2] = localStorageData[2].filter(pokemon => pokemon.pokemonID != pokemonId);
+                localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
+    
+                // Llama a la función PHP para eliminar el Pokémon de favoritos
+                let formData = new URLSearchParams();
+                formData.append('usuarioId', usuarioId);
+                formData.append('pokemonId', pokemonId);
+                formData.append('operacion', 'eliminar');
+                try {
+                    const response = await fetch('../fuente/php/gestionarPokemonFavs.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const text = await response.text();
+                    if (text === "TRUE") {
+                        console.log("Hecho");
+                    } else {
+                        console.log("No hecho");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
         });
     });
 }
@@ -200,6 +283,9 @@ async function obtenerPokemonsPorTipo(type, order = 'n-asc') {
             ...pokemon,
             numero: index + 1
         })).slice(0, -18);
+
+        // Filtra los Pokémon con un ID inferior a 10000
+        pokemonsPorTipo = pokemonsPorTipo.filter(pokemon => parseInt(pokemon.url.split('/')[6]) < 10000);
 
         if (ordenar) {
             if (order === 'asc') {
@@ -252,9 +338,92 @@ async function mostrarPokemonsPorTipo() {
             
             // Obtén la clase con el nombre del Pokémon
             const pokemonClass = this.classList[0]; // La clase está en la posición 1 del array
-            
+            console.log(pokemonClass);
             // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
             window.location.href = `../fuente/html/pokemon.html?id=${pokemonId}&name=${pokemonClass}`;
+        });
+    });
+
+    // Añade un evento de clic a cada botón de favoritos
+    document.querySelectorAll('.boton-fav').forEach(function(button) {
+        // Obtiene el array del localStorage
+        const localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
+
+        // Comprueba si el localStorage está iniciado
+        if (!localStorageData) {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alert('Para añadir pokemon a favoritos debes iniciar sesión');
+            });
+            return;
+        }
+
+        const usuarioId = localStorageData[0];
+        console.log(usuarioId)
+    
+        // Comprueba si el ID del botón está en el array
+        if (localStorageData && localStorageData[2].some(pokemon => pokemon.pokemonID == parseInt(button.id))) {
+            button.classList.remove("text-black");
+            button.classList.add('text-red-500');
+        }
+    
+        button.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            const pokemonId = parseInt(this.id);
+    
+            if (this.classList.contains('text-black')) {
+                this.classList.remove("text-black");
+                this.classList.add('text-red-500');
+                // Almacena el ID del botón en el localStorage cuando se hace clic en él
+                localStorageData[2].push({pokemonID: pokemonId});
+                localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
+    
+                // Llama a la función PHP para insertar el Pokémon en favoritos
+                let formData = new URLSearchParams();
+                formData.append('usuarioId', usuarioId);
+                formData.append('pokemonId', pokemonId);
+                formData.append('operacion', 'insertar');
+                try {
+                    let response = await fetch('../fuente/php/gestionarPokemonFavs.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const text = await response.text();
+                    if (text === "TRUE") {
+                        console.log("Hecho");
+                    } else {
+                        console.log("No hecho");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            } else {
+                this.classList.remove("text-red-500");
+                this.classList.add('text-black');
+                // Elimina el ID del botón del localStorage cuando se hace clic de nuevo
+                localStorageData[2] = localStorageData[2].filter(pokemon => pokemon.pokemonID != pokemonId);
+                localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
+    
+                // Llama a la función PHP para eliminar el Pokémon de favoritos
+                let formData = new URLSearchParams();
+                formData.append('usuarioId', usuarioId);
+                formData.append('pokemonId', pokemonId);
+                formData.append('operacion', 'eliminar');
+                try {
+                    const response = await fetch('../fuente/php/gestionarPokemonFavs.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const text = await response.text();
+                    if (text === "TRUE") {
+                        console.log("Hecho");
+                    } else {
+                        console.log("No hecho");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
         });
     });
 }
@@ -281,6 +450,11 @@ document.querySelector('#mas').addEventListener('click', function() {
     setTimeout(() => {
         this.classList.remove('animate-click');
     }, 200);
+
+    const filtroDiv = document.getElementById('filtro');
+    if (filtroDiv.classList.contains('m-grande:bottom-0')) {
+        filtroDiv.classList.remove('m-grande:bottom-0');
+    }
 
     if (tipoActual && tipoActual !== 'todos') {
         if (paginaActual < Math.round(pokemonsPorTipo.length / limit)) {

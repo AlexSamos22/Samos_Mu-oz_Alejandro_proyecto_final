@@ -36,7 +36,7 @@ async function login(e) {
         let respuesta = await response.json();
         console.log(respuesta);
 
-        if (respuesta != "FALSE") {
+        if (Object.keys(respuesta).length > 0) {
             alert("Inicio de sesión exitoso");
             localStorage.setItem("sesion-iniciada", JSON.stringify(respuesta));
             window.location.href = "../index.html";
