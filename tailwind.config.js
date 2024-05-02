@@ -68,6 +68,11 @@ module.exports = {
         'pequeño-xs': '430px',
         'pequeño-xxs': '405px',
       },
+      
+      backgroundImage: theme => ({
+        'custom-background': "url('../img/posible-fondo1.jpg')",
+      }),
+
       flexGrow: {
         'g': '1',
         'p': '0',

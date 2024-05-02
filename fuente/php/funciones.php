@@ -73,6 +73,21 @@
         }
     }
 
+    function obtenerEquipoPorId($id){
+        $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
+        $db = new PDO($res[0], $res[1], $res[2]);
+
+        $equipo = "SELECT * FROM equiposfinalistas WHERE ID = $id";
+
+        $result = $db->query($equipo);
+
+        if ($result) {
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+            return false;
+        }
+    }
+
     function obtenerPokemonFavs($id){
         $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
         $db = new PDO($res[0], $res[1], $res[2]);
