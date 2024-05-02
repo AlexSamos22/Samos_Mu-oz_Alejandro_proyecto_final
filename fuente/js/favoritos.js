@@ -38,6 +38,20 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
 
     // Crea las tarjetas de pokemon y añádelas al DOM
     document.getElementById('pokemon').innerHTML = pokemonDatas.map(pokemonData => crearTarjetaPokemon(pokemonData)).join('');
+
+    // Añade un evento de clic a cada tarjeta de Pokémon para tener mas info del pokemon
+    document.querySelectorAll('.pokemon-card').forEach(card => {
+        card.addEventListener('click', function() {
+            // Obtén el ID del Pokémon de la tarjeta haciendo referencia al ID del elemento HTML
+            const pokemonId = this.id;
+            
+            // Obtén la clase con el nombre del Pokémon
+            const pokemonClass = this.classList[0]; // La clase está en la posición 1 del array
+            console.log(pokemonClass);
+            // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
+            window.location.href = `../html/pokemon.html?id=${pokemonId}&name=${pokemonClass}`;
+        });
+    });
 }
 
 // Llama a la función obtenerPokemonsYCrearTarjetas con el array de pokemons
@@ -52,7 +66,7 @@ function crearTarjetaPokemon(pokemonData) {
                 <p class="mb-2">Nº: ${pokemonData.id}</p>
                 ${pokemonData.types.map(typeInfo => `<span class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-white mr-2" style="background-color: ${typeColors[typeInfo.type.name.toLowerCase()]};">${typeInfo.type.name.charAt(0).toUpperCase() + typeInfo.type.name.slice(1)}</span>`).join('')}
             </div>
-            <button id="${pokemonData.id}" class="boton-fav text-black p-2 rounded absolute bottom-2 right-2"><i class="fas fa-heart fa-xl"></i></button>
+            <button id="${pokemonData.id}" class="boton-del text-black p-2 rounded absolute bottom-2 right-2"><i class="fas fa-trash fa-lg"></i></button>
     </div>
     `;
 }
@@ -106,13 +120,13 @@ function crearTarjeta(datos) {
         // Crea la cadena de HTML para las imágenes de los Pokémon
         let imagenesPokemonHtml = '<div class="grid grid-cols-3  w-full justify-items-center items ">';
         for (let i = 1; i <= 6; i++) {
-            imagenesPokemonHtml += `<img src="${campo[`P${i}`]}" class=" w-3/4 pequeño:w-1/2 mediano:w-3/4 grande:w-2/5 h-auto">`;
+            imagenesPokemonHtml += `<img src="${campo[`P${i}`]}" class=" ${equipos.length === 1 ? 'w-3/4 pequeño:w-1/2' : 'w-3/4 pequeño:w-1/2 mediano:w-3/4 grande:w-2/5 h-auto'}">`;
         }
         imagenesPokemonHtml += '</div>';
 
         // Añade la tarjeta a la cadena de HTML
         tarjetasHtml += `
-            <div class="p-4 rounded-lg shadow-md mb-4 flex flex-col justify-center items-center w-full bg-white border border-gray-200 space-y-2">
+            <div class="p-4 rounded-lg shadow-md mb-4 flex flex-col justify-center items-center bg-white border border-gray-200 space-y-2 ${equipos.length === 1 ? 'mediano:w-3/5 grande:w-1/2' : 'w-full'}">
                 <div class="flex items-center justify-center  gap-3">
                     <p class="font-bold text-black mr-2">${campo.Autor}</p>
                     <img src="${campo.Pais}" class=" w-1/12 grande:w-modificado-5 h-auto">
@@ -130,7 +144,7 @@ function crearTarjeta(datos) {
                 <i class="fas fa-file-export mr-1"></i>
                 See more
                 </a>
-                    <button id="${campo.ID}" class="boton-fav text-black p-2 rounded"><i class="fas fa-heart fa-lg"></i></button>
+                    <button id="${campo.ID}" class="boton-del text-black p-2 rounded"><i class="fas fa-trash fa-lg"></i></button>
                 </div>
             </div>
         `;
@@ -142,9 +156,47 @@ function crearTarjeta(datos) {
 let divPokemon = document.getElementById("pokemon");
 let divEquipos = document.getElementById("equiposFav");
 
+function actualizarEstilosPokemons(numeroPokemons) {
+    if (numeroPokemons == 0) {
+        divPokemon.innerHTML = `<p class="text-center text-xl">No tienes pokemons favoritos</p>`;
+        divPokemon.classList.remove();
+    }else if (numeroPokemons == 1) {
+        divPokemon.classList.remove();
+        divPokemon.classList.add("grid", "grid-cols-1", "w-10/12" , "place-items-center", "mb-5");
+    }else if (numeroPokemons == 2) {
+        divPokemon.classList.remove();
+        divPokemon.classList.add("grid", "grid-cols-1", "mediano:grid-cols-2", "gap-4", "mt-4", "mb-4", "w-10/12" , "mb-5");
+    }else if (numeroPokemons == 3) {
+        divPokemon.classList.remove();
+        divPokemon.classList.add("grid", "grid-cols-1", "mediano-sm:grid-cols-2", "grande:grid-cols-3", "gap-3", "w-10/12" , "mb-5");
+    }else if (numeroPokemons >= 4) {
+        divPokemon.classList.remove();
+        divPokemon.classList.add("grid", "grid-cols-1", "mediano-sm:grid-cols-2", "mediano-xl:grid-cols-3", "grande:grid-cols-4", "gap-4", "mt-4", "mb-5", "w-10/12");
+    }
+
+}
+
+function actualizarEstilosEquipos(numeroEquipos) {
+    if (numeroEquipos == 0) {
+        divEquipos.innerHTML = `<p class="text-center text-xl">No tienes equipos favoritos</p>`;
+        divEquipos.classList.remove();
+    }else if (numeroEquipos == 1) {
+        divEquipos.classList.remove();
+        divEquipos.classList.add("grid", "grid-cols-1", "w-10/12" , "place-items-center");
+    }else if (numeroEquipos >= 2) {
+        divEquipos.classList.remove();
+        divEquipos.classList.add("grid", "grid-cols-1", "mediano:grid-cols-2", "gap-3", "w-10/12");
+    }
+}
 
 // Llama a la función obtenerPokemonsYCrearTarjetas con el array de pokemons
 obtenerPokemonsYCrearTarjetas(pokemons);
 
 // Llama a la función obtenerEquiposYCrearTarjetas
 obtenerEquiposYCrearTarjetas();
+
+// Actualiza los estilos de los equipos
+actualizarEstilosEquipos(equipos.length);
+
+// Actualiza los estilos de los pokemons
+actualizarEstilosPokemons(pokemons.length);

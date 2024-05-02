@@ -59,6 +59,7 @@ module.exports = {
         'grande': '1100px',
         'grande-sm': '1040px',
         'mediano-g': '990px',
+        'mediano-xl': '880px',
         'grande-s': '850px',
         'mediano': '730px',
         'mediano-sm': '650px',
