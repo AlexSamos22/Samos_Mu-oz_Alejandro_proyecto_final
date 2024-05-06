@@ -52,6 +52,50 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
             window.location.href = `../html/pokemon.html?id=${pokemonId}&name=${pokemonClass}`;
         });
     });
+
+    // Añade un evento de clic a cada botón de eliminar Pokémon
+    document.querySelectorAll('.boton-del-poke').forEach(boton => {
+        boton.addEventListener('click', async function(event) {
+            event.stopPropagation(); // Evita que el evento de clic se propague a la tarjeta de Pokémon
+
+            // Obtiene el ID del Pokémon a eliminar
+            const pokemonId = this.id;
+
+            // Elimina el Pokémon del array de pokemons
+            pokemons = pokemons.filter(pokemon => pokemon.pokemonID !== pokemonId);
+
+            // Actualiza el localStorage
+            data[2] = pokemons;
+            localStorage.setItem('sesion-iniciada', JSON.stringify(data));
+
+            // Elimina la tarjeta de Pokémon del DOM
+            this.parentElement.remove();
+
+            // Actualiza los estilos de los pokemons
+            actualizarEstilosPokemons(pokemons.length);
+
+            // Eliminar el pokemon de la base de datos
+            let formData = new URLSearchParams();
+            formData.append('pokemonId', pokemonId);
+            formData.append('usuarioId', data[0]);
+            formData.append('accion', 'eliminar');
+            try {
+                const response = await fetch('../php/gestionarPokemonFavs.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const text = await response.text();
+                if (text === "TRUE") {
+                    console.log("Hecho");
+                } else {
+                    console.log("No hecho");
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+
+        });
+    });
 }
 
 // Llama a la función obtenerPokemonsYCrearTarjetas con el array de pokemons
@@ -66,7 +110,7 @@ function crearTarjetaPokemon(pokemonData) {
                 <p class="mb-2">Nº: ${pokemonData.id}</p>
                 ${pokemonData.types.map(typeInfo => `<span class="inline-block rounded-full px-3 py-1 text-sm font-semibold text-white mr-2" style="background-color: ${typeColors[typeInfo.type.name.toLowerCase()]};">${typeInfo.type.name.charAt(0).toUpperCase() + typeInfo.type.name.slice(1)}</span>`).join('')}
             </div>
-            <button id="${pokemonData.id}" class="boton-del text-black p-2 rounded absolute bottom-2 right-2"><i class="fas fa-trash fa-lg"></i></button>
+            <button id="${pokemonData.id}" class="boton-del-poke text-black p-2 rounded absolute bottom-2 right-2"><i class="fas fa-trash fa-lg"></i></button>
     </div>
     `;
 }
@@ -106,10 +150,53 @@ async function obtenerEquiposYCrearTarjetas() {
 
     // Filtra los resultados nulos (en caso de error)
     let equiposData = (await Promise.all(promises)).filter(result => result !== null);
-    console.log(equiposData);
 
     // Crea las tarjetas de equipo y añádelas al DOM
     document.getElementById('equiposFav').innerHTML = equiposData.map(equipoData => crearTarjeta(equipoData)).join('');
+
+    // Añade un evento de clic a cada botón de eliminar equipo
+    document.querySelectorAll('.boton-del-equipo').forEach(boton => {
+        boton.addEventListener('click', async function(event) {
+            event.stopPropagation(); // Evita que el evento de clic se propague a la tarjeta de equipo
+
+            // Obtiene el ID del equipo a eliminar
+            const equipoId = this.id;
+
+            // Elimina el equipo del array de equipos
+            equipos = equipos.filter(equipo => equipo.equipoID !== equipoId);
+            console.log(equipos);
+
+            // Actualiza el localStorage
+            data[1] = equipos;
+            localStorage.setItem('sesion-iniciada', JSON.stringify(data));
+
+            // Elimina la tarjeta de equipo del DOM
+            this.parentElement.remove();
+
+            // Actualiza los estilos de los equipos
+            actualizarEstilosEquipos(equipos.length);
+
+            // Eliminar el equipo de la base de datos
+            let formData = new URLSearchParams();
+            formData.append('equipoId', equipoId);
+            formData.append('usuarioId', data[0]);
+            formData.append('accion', 'eliminar');
+            try {
+                const response = await fetch('../php/gestionarEquipoFavs.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const text = await response.text();
+                if (text === "TRUE") {
+                    console.log("Hecho");
+                } else {
+                    console.log("No hecho");
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
 }
 
 
@@ -144,7 +231,7 @@ function crearTarjeta(datos) {
                 <i class="fas fa-file-export mr-1"></i>
                 See more
                 </a>
-                    <button id="${campo.ID}" class="boton-del text-black p-2 rounded"><i class="fas fa-trash fa-lg"></i></button>
+                    <button id="${campo.ID}" class="boton-del-equipo text-black p-2 rounded"><i class="fas fa-trash fa-lg"></i></button>
                 </div>
             </div>
         `;
