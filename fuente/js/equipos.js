@@ -60,6 +60,11 @@ async function obtenerEquipos() {
                     // Almacena el ID del botón en el localStorage cuando se hace clic en él
                     localStorageData[1].push({equipoID: equipoId});
                     localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
+
+                    // Si el array de favoritos no está vacío, quita la clase 'hidden'
+                    if (localStorageData[2].length > 0 || localStorageData[1].length > 0) {
+                        liFavoritos.classList.remove('hidden');
+                    }
         
                     // Llama a la función PHP para insertar el Pokémon en favoritos
                     let formData = new URLSearchParams();
@@ -84,8 +89,13 @@ async function obtenerEquipos() {
                     this.classList.remove("text-red-500");
                     this.classList.add('text-black');
                     // Elimina el ID del botón del localStorage cuando se hace clic de nuevo
-                    localStorageData[1] = localStorageData[2].filter(equipo => equipo.equipoID != equipoId);
+                    localStorageData[1] = localStorageData[1].filter(equipo => equipo.equipoID != equipoId);
                     localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
+
+                    // Si el array de favoritos está vacío, añade la clase 'hidden'
+                    if (localStorageData[2].length == 0 && localStorageData[1].length == 0 ) {
+                        liFavoritos.classList.add('hidden');
+                    }
         
                     // Llama a la función PHP para eliminar el Pokémon de favoritos
                     let formData = new URLSearchParams();
