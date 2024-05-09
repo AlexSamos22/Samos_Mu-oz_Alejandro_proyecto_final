@@ -133,9 +133,11 @@ async function mostrarDetallesPokemon(pokemonId) {
             <div class=" w-3/4 pequeño-s:w-1/2 h-auto rounded-md flex flex-col items-center justify-center">
                 <img id="normalImage" class="w-full h-auto rounded-md" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
                 <img id="shinyImage" class="w-full h-auto rounded-md hidden" src="${pokemonData.sprites.other['official-artwork'].front_shiny}" alt="${pokemonData.name}">
-                <div class="flex justify-between w-full">
+                <div class="flex justify-between gap-4">
                     <button onclick="document.getElementById('normalImage').classList.remove('hidden'); document.getElementById('shinyImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Normal</button>
                     <button onclick="document.getElementById('shinyImage').classList.remove('hidden'); document.getElementById('normalImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Shiny</button>
+                    <button id="${pokemonId}" class="boton-fav bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i class="fas fa-heart fa-lg"></i></button>
+
                 </div>
             </div>
             <div class="flex flex-col text-black rounded-lg items-center w-11/12">
@@ -240,6 +242,113 @@ document.getElementById('i').innerHTML += statsHTML;
 
     // Establece el HTML del elemento de la cadena de evolución
     document.getElementById("evo").innerHTML = evolutionHTML;
+
+    document.querySelectorAll('.boton-fav').forEach(function(button) {
+        // Obtiene el array del localStorage
+        let localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
+
+    
+        // Comprueba si el localStorage está iniciado
+        if (!localStorageData) {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alert('Para añadir pokemon a favoritos debes iniciar sesión');
+            });
+            return;
+        }
+    
+        const usuarioId = localStorageData[0];
+
+    
+        // Comprueba si el ID del botón está en el array
+        if (localStorageData && localStorageData[2].some(pokemon => pokemon.pokemonID == parseInt(button.id))) {
+            button.classList.remove("bg-blue-500");
+            button.classList.remove('hover:bg-blue-700');
+            button.classList.add('bg-red-500');
+            button.classList.add('hover:bg-red-700');
+        }
+    
+        button.addEventListener('click', async function(e) {
+            e.stopPropagation();
+            const pokemonId = parseInt(this.id);
+    
+            // Obtiene el elemento li
+            const liFavoritos = document.getElementById('favorites');
+
+            localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
+        
+    
+            if (this.classList.contains('bg-blue-500')) {
+                this.classList.remove("bg-blue-500");
+                this.classList.remove('hover:bg-blue-700');
+                this.classList.add('bg-red-500');
+                this.classList.add('hover:bg-red-700');
+    
+                // Almacena el ID del botón en el localStorage cuando se hace clic en él
+                localStorageData[2].push({pokemonID: pokemonId});
+                localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
+    
+                // Si el array de favoritos no está vacío, quita la clase 'hidden'
+                if (localStorageData[2].length > 0 || localStorageData[1].length > 0) {
+                    liFavoritos.classList.remove('hidden');
+                }
+    
+                // Llama a la función PHP para insertar el Pokémon en favoritos
+                let formData = new URLSearchParams();
+                formData.append('usuarioId', usuarioId);
+                formData.append('pokemonId', pokemonId);
+                formData.append('operacion', 'insertar');
+                try {
+                    let response = await fetch('../php/gestionarPokemonFavs.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const text = await response.text();
+                    if (text === "TRUE") {
+                        console.log("Hecho");
+                    } else {
+                        console.log("No hecho");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            } else {
+                this.classList.add("bg-blue-500");
+                this.classList.add('hover:bg-blue-700');
+                this.classList.remove('bg-red-500');
+                this.classList.remove('hover:bg-red-700');
+    
+                // Elimina el ID del botón del localStorage cuando se hace clic de nuevo
+                localStorageData[2] = localStorageData[2].filter(pokemon => pokemon.pokemonID != pokemonId);
+                localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
+    
+                // Si el array de favoritos está vacío, añade la clase 'hidden'
+                if (localStorageData[2].length == 0 && localStorageData[1].length == 0 ) {
+                    liFavoritos.classList.add('hidden');
+                }
+    
+                // Llama a la función PHP para eliminar el Pokémon de favoritos
+                let formData = new URLSearchParams();
+                formData.append('usuarioId', usuarioId);
+                formData.append('pokemonId', pokemonId);
+                formData.append('operacion', 'eliminar');
+                try {
+                    const response = await fetch('../php/gestionarPokemonFavs.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const text = await response.text();
+                    if (text === "TRUE") {
+                        console.log("Hecho");
+                    } else {
+                        console.log("No hecho");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        });
+    });
 
     setTimeout(() => {
         document.getElementById('pantalla-carga').classList.remove('flex');

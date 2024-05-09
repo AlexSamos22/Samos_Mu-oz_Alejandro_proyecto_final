@@ -69,7 +69,7 @@ Array.from(buscador).forEach(buscador => {
             let img = document.createElement("img");
             img.src = pokemon.imagen; 
             img.alt = pokemon.name;
-            img.classList.add("w-modificado-13" ,"mediano-sm:w-1/12", "h-auto", "md:w-1/3");
+            img.classList.add("w-1/6", "mediano-s:w-modificado-13" ,"mediano-xl:w-1/3", "h-auto");
         
             // Añade la imagen y el nombre del Pokémon al elemento de la lista
             li.appendChild(img);

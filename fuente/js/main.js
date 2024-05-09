@@ -167,8 +167,9 @@ async function obtenerPokemons(order = 'n-asc') {
 
     document.querySelectorAll('.boton-fav').forEach(function(button) {
         // Obtiene el array del localStorage
-        const localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
+        let localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
 
+    
         // Comprueba si el localStorage está iniciado
         if (!localStorageData) {
             button.addEventListener('click', function(e) {
@@ -177,9 +178,9 @@ async function obtenerPokemons(order = 'n-asc') {
             });
             return;
         }
-
+    
         const usuarioId = localStorageData[0];
-        console.log(usuarioId)
+
     
         // Comprueba si el ID del botón está en el array
         if (localStorageData && localStorageData[2].some(pokemon => pokemon.pokemonID == parseInt(button.id))) {
@@ -190,14 +191,17 @@ async function obtenerPokemons(order = 'n-asc') {
         button.addEventListener('click', async function(e) {
             e.stopPropagation();
             const pokemonId = parseInt(this.id);
-
+    
             // Obtiene el elemento li
             const liFavoritos = document.getElementById('favorites');
+
+            localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
+        
     
             if (this.classList.contains('text-black')) {
                 this.classList.remove("text-black");
                 this.classList.add('text-red-500');
-
+    
                 // Almacena el ID del botón en el localStorage cuando se hace clic en él
                 localStorageData[2].push({pokemonID: pokemonId});
                 localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
@@ -206,7 +210,7 @@ async function obtenerPokemons(order = 'n-asc') {
                 if (localStorageData[2].length > 0 || localStorageData[1].length > 0) {
                     liFavoritos.classList.remove('hidden');
                 }
-
+    
                 // Llama a la función PHP para insertar el Pokémon en favoritos
                 let formData = new URLSearchParams();
                 formData.append('usuarioId', usuarioId);
@@ -229,11 +233,11 @@ async function obtenerPokemons(order = 'n-asc') {
             } else {
                 this.classList.remove("text-red-500");
                 this.classList.add('text-black');
-
+    
                 // Elimina el ID del botón del localStorage cuando se hace clic de nuevo
                 localStorageData[2] = localStorageData[2].filter(pokemon => pokemon.pokemonID != pokemonId);
                 localStorage.setItem('sesion-iniciada', JSON.stringify(localStorageData));
-
+    
                 // Si el array de favoritos está vacío, añade la clase 'hidden'
                 if (localStorageData[2].length == 0 && localStorageData[1].length == 0 ) {
                     liFavoritos.classList.add('hidden');
@@ -574,7 +578,7 @@ Array.from(buscador1).forEach(buscador => {
             let img = document.createElement("img");
             img.src = pokemon.imagen; 
             img.alt = pokemon.name;
-            img.classList.add("w-modificado-13" ,"mediano-sm:w-1/12", "h-auto", "md:w-1/3");
+            img.classList.add("w-1/6", "mediano-s:w-modificado-13" ,"mediano-xl:w-1/3", "h-auto");
         
             // Añade la imagen y el nombre del Pokémon al elemento de la lista
             li.appendChild(img);

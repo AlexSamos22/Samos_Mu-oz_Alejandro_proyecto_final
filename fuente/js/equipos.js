@@ -30,7 +30,7 @@ async function obtenerEquipos() {
         // Añade un evento de clic a cada botón de favoritos
         document.querySelectorAll('.boton-fav').forEach(function(button) {
             // Obtiene el array del localStorage
-            const localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
+            let localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
     
             // Comprueba si el localStorage está iniciado
             if (!localStorageData) {
@@ -53,6 +53,11 @@ async function obtenerEquipos() {
             button.addEventListener('click', async function(e) {
                 e.stopPropagation();
                 const equipoId = parseInt(this.id);
+
+                localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
+
+                // Obtiene el elemento li
+                const liFavoritos = document.getElementById('favorites');
         
                 if (this.classList.contains('text-black')) {
                     this.classList.remove("text-black");

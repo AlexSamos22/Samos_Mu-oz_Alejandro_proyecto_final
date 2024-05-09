@@ -28,6 +28,7 @@ let pokemons = data[2];
 
 // Extrae el array de equipos
 let equipos = data[1];
+console.log(equipos.length);
 
 async function obtenerPokemonsYCrearTarjetas(pokemons) {
     // Crea un array de promesas para las peticiones a la API
@@ -38,6 +39,9 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
 
     // Crea las tarjetas de pokemon y añádelas al DOM
     document.getElementById('pokemon').innerHTML = pokemonDatas.map(pokemonData => crearTarjetaPokemon(pokemonData)).join('');
+
+    // Actualiza los estilos de los pokemons
+    actualizarEstilosPokemons(pokemons.length); 
 
     // Añade un evento de clic a cada tarjeta de Pokémon para tener mas info del pokemon
     document.querySelectorAll('.pokemon-card').forEach(card => {
@@ -62,8 +66,8 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
             const pokemonId = this.id;
 
             // Elimina el Pokémon del array de pokemons
-            pokemons = pokemons.filter(pokemon => pokemon.pokemonID !== pokemonId);
-
+            pokemons = pokemons.filter(pokemon => pokemon.pokemonID != pokemonId);
+            
             // Actualiza el localStorage
             data[2] = pokemons;
             localStorage.setItem('sesion-iniciada', JSON.stringify(data));
@@ -73,12 +77,13 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
 
             // Actualiza los estilos de los pokemons
             actualizarEstilosPokemons(pokemons.length);
+            console.log(pokemons.length);
 
             // Eliminar el pokemon de la base de datos
             let formData = new URLSearchParams();
             formData.append('pokemonId', pokemonId);
             formData.append('usuarioId', data[0]);
-            formData.append('accion', 'eliminar');
+            formData.append('operacion', 'eliminar');
             try {
                 const response = await fetch('../php/gestionarPokemonFavs.php', {
                     method: 'POST',
@@ -93,6 +98,7 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
             } catch (error) {
                 console.error('Error:', error);
             }
+            
 
         });
     });
@@ -154,6 +160,8 @@ async function obtenerEquiposYCrearTarjetas() {
     // Crea las tarjetas de equipo y añádelas al DOM
     document.getElementById('equiposFav').innerHTML = equiposData.map(equipoData => crearTarjeta(equipoData)).join('');
 
+    actualizarEstilosEquipos(equipos.length);
+
     // Añade un evento de clic a cada botón de eliminar equipo
     document.querySelectorAll('.boton-del-equipo').forEach(boton => {
         boton.addEventListener('click', async function(event) {
@@ -163,15 +171,16 @@ async function obtenerEquiposYCrearTarjetas() {
             const equipoId = this.id;
 
             // Elimina el equipo del array de equipos
-            equipos = equipos.filter(equipo => equipo.equipoID !== equipoId);
-            console.log(equipos);
-
+            equipos = equipos.filter(equipo => equipo.equipoID != equipoId);
+            
             // Actualiza el localStorage
             data[1] = equipos;
             localStorage.setItem('sesion-iniciada', JSON.stringify(data));
 
             // Elimina la tarjeta de equipo del DOM
-            this.parentElement.remove();
+            let parentElement = this.parentElement;
+            let grandParentElement = parentElement.parentElement;
+            grandParentElement.remove();
 
             // Actualiza los estilos de los equipos
             actualizarEstilosEquipos(equipos.length);
@@ -180,9 +189,9 @@ async function obtenerEquiposYCrearTarjetas() {
             let formData = new URLSearchParams();
             formData.append('equipoId', equipoId);
             formData.append('usuarioId', data[0]);
-            formData.append('accion', 'eliminar');
+            formData.append('operacion', 'eliminar');
             try {
-                const response = await fetch('../php/gestionarEquipoFavs.php', {
+                const response = await fetch('../php/gestionarEquiposFavs.php', {
                     method: 'POST',
                     body: formData
                 });
@@ -195,6 +204,13 @@ async function obtenerEquiposYCrearTarjetas() {
             } catch (error) {
                 console.error('Error:', error);
             }
+
+            document.querySelectorAll('.tarjetaEquipo').forEach(tarjeta => {
+                if (equipos.length === 1) {
+                    tarjeta.classList.add('mediano:w-3/5', 'grande:w-1/2');
+                }
+            });
+            
         });
     });
 }
@@ -213,7 +229,7 @@ function crearTarjeta(datos) {
 
         // Añade la tarjeta a la cadena de HTML
         tarjetasHtml += `
-            <div class="p-4 rounded-lg shadow-md mb-4 flex flex-col justify-center items-center bg-white border border-gray-200 space-y-2 ${equipos.length === 1 ? 'mediano:w-3/5 grande:w-1/2' : 'w-full'}">
+            <div class=" tarjetaEquipo p-4 rounded-lg shadow-md mb-4 flex flex-col justify-center items-center bg-white border border-gray-200 space-y-2 ${equipos.length === 1 ? 'mediano:w-3/5 grande:w-1/2' : 'w-full'}">
                 <div class="flex items-center justify-center  gap-3">
                     <p class="font-bold text-black mr-2">${campo.Autor}</p>
                     <img src="${campo.Pais}" class=" w-1/12 grande:w-modificado-5 h-auto">
@@ -244,34 +260,39 @@ let divPokemon = document.getElementById("pokemon");
 let divEquipos = document.getElementById("equiposFav");
 
 function actualizarEstilosPokemons(numeroPokemons) {
+    console.log(numeroPokemons);
     if (numeroPokemons == 0) {
-        divPokemon.innerHTML = `<p class="text-center text-xl">No tienes pokemons favoritos</p>`;
-        divPokemon.classList.remove();
+        divPokemon.className = "";
+        divPokemon.classList.add("flex", "items-center", "flex-col", "justify-center","w-10/12", "mb-5", "gap-4");
+        divPokemon.innerHTML = '<img id="vacio" src="../img/pokeball-abierta.jpg" alt="pokeball-abierta" class=" grande-s:w-1/6 h-auto mediano-sm:w-1/4 w-1/3">';
+        divPokemon.innerHTML += '<p id="vacio1" class="text-2xl font-bold text-center mediano-sm:text-start">Oops, it seems you dont have favorite Pokémon</p>';
     }else if (numeroPokemons == 1) {
-        divPokemon.classList.remove();
+        divPokemon.className = "";
         divPokemon.classList.add("grid", "grid-cols-1", "w-10/12" , "place-items-center", "mb-5");
     }else if (numeroPokemons == 2) {
-        divPokemon.classList.remove();
+        divPokemon.className = "";
         divPokemon.classList.add("grid", "grid-cols-1", "mediano:grid-cols-2", "gap-4", "mt-4", "mb-4", "w-10/12" , "mb-5");
     }else if (numeroPokemons == 3) {
-        divPokemon.classList.remove();
+        divPokemon.className = "";
         divPokemon.classList.add("grid", "grid-cols-1", "mediano-sm:grid-cols-2", "grande:grid-cols-3", "gap-3", "w-10/12" , "mb-5");
     }else if (numeroPokemons >= 4) {
-        divPokemon.classList.remove();
-        divPokemon.classList.add("grid", "grid-cols-1", "mediano-sm:grid-cols-2", "mediano-xl:grid-cols-3", "grande:grid-cols-4", "gap-4", "mt-4", "mb-5", "w-10/12");
+        divPokemon.className = "";
+        divPokemon.classList.add("grid", "grid-cols-1", "mediano-sm:grid-cols-2", "mediano-xl:grid-cols-3", "m-grande:grid-cols-4", "gap-4", "mt-4", "mb-5", "w-10/12");
     }
 
 }
 
 function actualizarEstilosEquipos(numeroEquipos) {
     if (numeroEquipos == 0) {
-        divEquipos.innerHTML = `<p class="text-center text-xl">No tienes equipos favoritos</p>`;
-        divEquipos.classList.remove();
+        divEquipos.className = "";
+        divEquipos.classList.add("flex", "items-center", "flex-col", "justify-center","w-10/12", "mb-5", "gap-4");
+        divEquipos.innerHTML = '<img id="vacio1" src="../img/pokeball-abierta.jpg" alt="pokeball-abierta" class=" grande-s:w-1/6 h-auto mediano-sm:w-1/4 w-1/3">';
+        divEquipos.innerHTML += '<p id="vacio1.1" class="text-2xl font-bold text-center mediano-sm:text-start">Oops, it seems you dont have favorite teams</p>';
     }else if (numeroEquipos == 1) {
-        divEquipos.classList.remove();
+        divEquipos.className = "";
         divEquipos.classList.add("grid", "grid-cols-1", "w-10/12" , "place-items-center");
     }else if (numeroEquipos >= 2) {
-        divEquipos.classList.remove();
+        divEquipos.className = "";
         divEquipos.classList.add("grid", "grid-cols-1", "mediano:grid-cols-2", "gap-3", "w-10/12");
     }
 }
@@ -282,8 +303,3 @@ obtenerPokemonsYCrearTarjetas(pokemons);
 // Llama a la función obtenerEquiposYCrearTarjetas
 obtenerEquiposYCrearTarjetas();
 
-// Actualiza los estilos de los equipos
-actualizarEstilosEquipos(equipos.length);
-
-// Actualiza los estilos de los pokemons
-actualizarEstilosPokemons(pokemons.length);

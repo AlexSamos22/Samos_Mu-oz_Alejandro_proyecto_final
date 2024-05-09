@@ -9,17 +9,18 @@
     <script src="../js/equipo.js" defer></script>
     <script src="../js/favoritos.js" defer></script>
     <script src="../js/btn-fav.js" defer></script>
+    <script src="../js/buscador.js" defer></script>
 </head>
 
 <body>
 
     <nav class="bg-fondo-menu-footer border-gray-200 dark:bg-gray-900 w-full relative flex flex-col flex-grow-p">
         <div class="w-11/12 flex flex-wrap items-center justify-between mx-auto">
-            <img src="../img/PokeCrew-14-3-2024.png" class=" w-1/2 pequeño:w-1/4 mediano:w-1/5 grande:w-modificado-13" alt="PokeCrew Logo" />
+            <img src="../img/PokeCrew-14-3-2024.png" class=" w-1/2 pequeño:w-1/4 mediano:w-1/5 grande:w-modificado-13"
+                alt="PokeCrew Logo" />
             <div class="flex mediano-xl:order-2">
                 <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search"
-                    aria-expanded="false"
-                    class="mediano-xl:hidden text-sm p-2.5 me-1">
+                    aria-expanded="false" class="mediano-xl:hidden text-sm p-2.5 me-1">
                     <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -51,7 +52,8 @@
                     </svg>
                 </button>
             </div>
-            <div class="items-center justify-between hidden w-full mediano-xl:flex mediano-xl:w-auto mediano-xl:order-1" id="navbar-search">
+            <div class="items-center justify-between hidden w-full mediano-xl:flex mediano-xl:w-auto mediano-xl:order-1"
+                id="navbar-search">
                 <div class="relative mt-3 mediano-xl:hidden">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
@@ -64,35 +66,42 @@
                         class=" search-navbar block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Search...">
                 </div>
-                <ul class="flex flex-col p-4 mediano-xl:p-0 mt-4 mb-4 font-medium text-lg border rounded-lg mediano-xl:space-x-8 rtl:space-x-reverse mediano-xl:flex-row mediano-xl:mt-0 mediano-xl:border-0 mediano-xl:mb-0">
+                <ul
+                    class="flex flex-col p-4 mediano-xl:p-0 mt-4 mb-4 font-medium text-lg border rounded-lg mediano-xl:space-x-8 rtl:space-x-reverse mediano-xl:flex-row mediano-xl:mt-0 mediano-xl:border-0 mediano-xl:mb-0">
                     <li class="p-2 hover:bg-red-500 w-full mediano-xl:w-1/3">
-                        <a href="../index.html" class="flex flex-row gap-4 mediano-xl:gap-0 mediano-xl:flex-col items-center space-x-2 text-white rounded  mediano-xl:hover:bg-transparent  mediano-xl:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white mediano-xl:dark:hover:bg-transparent dark:border-gray-700">
+                        <a href="../index.html"
+                            class="flex flex-row gap-4 mediano-xl:gap-0 mediano-xl:flex-col items-center space-x-2 text-white rounded  mediano-xl:hover:bg-transparent  mediano-xl:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white mediano-xl:dark:hover:bg-transparent dark:border-gray-700">
                             <img src="../img/pokeball-icon-256x256-r2f3u1oa.png" alt="" class="w-9">
                             Pokedex
                         </a>
                     </li>
                     <li class="p-2 hover:bg-red-500 w-full mediano-xl:w-1/3">
-                        <a href="../html/Equipos.html" class="flex flex-row gap-4 mediano-xl:gap-0 mediano-xl:flex-col items-center space-x-2 text-white rounded mediano-xl:hover:bg-transparent  mediano-xl:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white mediano-xl:dark:hover:bg-transparent dark:border-gray-700">
-                            <img src="../img/png-transparent-pokemon-go-pokemon-red-and-blue-t-shirt-decal-pokemon-team-logo-video-game-sticker-40-40.png" alt="" class="w-9">
+                        <a href="../html/Equipos.html"
+                            class="flex flex-row gap-4 mediano-xl:gap-0 mediano-xl:flex-col items-center space-x-2 text-white rounded mediano-xl:hover:bg-transparent  mediano-xl:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white mediano-xl:dark:hover:bg-transparent dark:border-gray-700">
+                            <img src="../img/png-transparent-pokemon-go-pokemon-red-and-blue-t-shirt-decal-pokemon-team-logo-video-game-sticker-40-40.png"
+                                alt="" class="w-9">
                             Teams
                         </a>
                     </li>
 
                     <li id="favorites" class="p-2 hover:bg-red-500 w-full mediano-xl:w-1/3 hidden">
-                        <a href="../html/favoritos.html" class="flex flex-row gap-4 mediano-xl:gap-0 mediano-xl:flex-col items-center space-x-2 text-white rounded  mediano-xl:hover:bg-transparent  mediano-xl:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white mediano-xl:dark:hover:bg-transparent dark:border-gray-700">
+                        <a href="../html/favoritos.html"
+                            class="flex flex-row gap-4 mediano-xl:gap-0 mediano-xl:flex-col items-center space-x-2 text-white rounded  mediano-xl:hover:bg-transparent  mediano-xl:p-0  dark:text-white dark:hover:bg-gray-700 dark:hover:text-white mediano-xl:dark:hover:bg-transparent dark:border-gray-700">
                             <img src="../img/icons8-corazón-pokemon-50.png" alt="" class="w-9">
                             Favorites
                         </a>
                     </li>
 
                     <li id="log-in" class="p-2 hover:bg-red-500 w-full mediano-xl:w-1/3">
-                        <a href="../html/Login-Registro.html" class="flex flex-row gap-4 mediano-xl:gap-0 mediano-xl:flex-col items-center space-x-2 text-white rounded  mediano-xl:hover:bg-transparent  mediano-xl:p-0 dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white mediano-xl:dark:hover:bg-transparent dark:border-gray-700">
+                        <a href="../html/Login-Registro.html"
+                            class="flex flex-row gap-4 mediano-xl:gap-0 mediano-xl:flex-col items-center space-x-2 text-white rounded  mediano-xl:hover:bg-transparent  mediano-xl:p-0 dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white mediano-xl:dark:hover:bg-transparent dark:border-gray-700">
                             <img src="../img/64572.png" alt="" class="w-9">
                             Log in
                         </a>
                     </li>
                     <li id="log-out" class="p-2 hover:bg-red-500 w-full hidden">
-                        <a href="#" class="flex flex-row gap-4 mediano-xl:gap-0 mediano-xl:flex-col items-center space-x-2 text-white rounded  mediano-xl:hover:bg-transparent  mediano-xl:p-0 dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white mediano-xl:dark:hover:bg-transparent dark:border-gray-700">
+                        <a href="#"
+                            class="flex flex-row gap-4 mediano-xl:gap-0 mediano-xl:flex-col items-center space-x-2 text-white rounded  mediano-xl:hover:bg-transparent  mediano-xl:p-0 dark:text-white  dark:hover:bg-gray-700 dark:hover:text-white mediano-xl:dark:hover:bg-transparent dark:border-gray-700">
                             <img src="../img/log-out.png" alt="" class="w-9">
                             Log out
                         </a>
@@ -104,21 +113,26 @@
 
     <section class="flex justify-center items-center flex-col">
 
-        <article id="bienvenida" class="flex flex-col items-center justify-center gap-6 w-10/12 mb-5">
+        <article id="bienvenida" class="flex flex-col items-center justify-center gap-6 w-10/12 mb-5 relative">
             <h1 class="text-4xl font-bold text-center text-blue-700 mt-6">Welcome to Your Pokémon Favorites Page</h1>
             <img src="../img/posible-fondo1.jpg" alt="fondo-bienvenida" class="w-full h-auto">
             <p class="font-semibold mt-4">
-                Welcome, Trainer! This is your very own Pokémon Favorites Page, where you can showcase your most
-                beloved Pokémon and the teams you've selected from our special collection.
+
+                "Welcome, Trainer! This is your very own Pokémon Favorites Page, a personalized space where you can
+                showcase your most beloved Pokémon and the teams you've selected with care from our special collection.
+                In addition to viewing your favorite teams and Pokémon, here you can explore detailed information about
+                each one, from their special abilities to their most powerful moves."
             </p>
         </article>
 
         <h1 class="text-4xl font-bold text-center text-blue-700 mb-4">Favorites Pokemon</h1>
-        <article id="pokemon"></article>
+        <article id="pokemon">
+           
+        </article>
 
         <h1 class="text-4xl font-bold text-center text-blue-700 mb-4">Favorites Teams</h1>
         <article id="equiposFav">
-
+            
         </article>
     </section>
 
