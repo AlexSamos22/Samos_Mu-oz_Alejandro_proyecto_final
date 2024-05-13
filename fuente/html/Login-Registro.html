@@ -1,202 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../estilos/salida.css">
-    <title>Document</title>
-    <script src="../js/login-Registro.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../estilos/salida.css">
+  <title>Document</title>
+  <script src="../js/login-Registro.js" defer></script>
 </head>
+
 <body>
-    <section class="bg-white">
-        <div class="grande:grid min-h-screen grande:grid-cols-12 flex justify-center items-center">
-          <aside class="relative h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6 hidden grande:block">
-            <img
-              alt=""
-              src="../img/pokemon___megalucario_vs_weavile_by_sa_dui_d8dj0pw-fullview.jpg"
-              class="absolute inset-0 h-full w-full object-cover"
-            />
-          </aside>
-      
-          <main
-            class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
-          >
-            <div class="max-w-xl lg:max-w-3xl hidden" id="registro">
-              <a class="grande:block text-blue-600 flex justify-center" href="../index.html">
-                <span class="sr-only">Home</span>
-                 <img src="../img/PokeCrew-14-3-2024.png" alt="" class="w-2/5">
-              </a>
-      
-              <h1 class="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-                Welcome to PokeCrew 🔥🌿💧
-              </h1>
-      
-              <p class="mt-4 leading-relaxed text-gray-500">
-                Register now to explore the world of Pokémon and connect with other fans of this incredible franchise. 
-                Become a member of PokeCrew and start your journey as a true Pokémon Master!
+  <section class="bg-white">
+    <div class="grande:grid min-h-screen grande:grid-cols-12 flex justify-center items-center">
+      <aside class="relative h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6 hidden grande:block">
+        <img alt="" src="../img/pokemon___megalucario_vs_weavile_by_sa_dui_d8dj0pw-fullview.jpg"
+          class="absolute inset-0 h-full w-full object-cover" />
+      </aside>
+
+      <main class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+        <div class="max-w-xl lg:max-w-3xl hidden" id="registro">
+          <a class="grande:block text-blue-600 flex justify-center" href="../index.html">
+            <span class="sr-only">Home</span>
+            <img src="../img/PokeCrew-14-3-2024.png" alt="" class="w-2/5">
+          </a>
+
+          <h1 class="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+            Welcome to PokeCrew 🔥🌿💧
+          </h1>
+
+          <p class="mt-4 leading-relaxed text-gray-500">
+            Register now to explore the world of Pokémon and connect with other fans of this incredible franchise.
+            Become a member of PokeCrew and start your journey as a true Pokémon Master!
+          </p>
+
+          <form action="#" id="form-registro" class="mt-8 grid grid-cols-6 gap-6">
+            <div class="col-span-6 sm:col-span-3">
+              <label for="nombre" class="block text-sm font-medium text-gray-700">
+                First Name
+              </label>
+
+              <input type="text" id="nombre" name="nombre"
+                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <label for="apellido" class="block text-sm font-medium text-gray-700">
+                Last Name
+              </label>
+
+              <input type="text" id="apellido" name="apellido"
+                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
+            </div>
+
+            <div class="col-span-6">
+              <label for="correo" class="block text-sm font-medium text-gray-700"> Email </label>
+
+              <input type="email" id="correo" name="correo"
+                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <label for="r-usuario" class="block text-sm font-medium text-gray-700"> Username </label>
+
+              <input type="text" id="r-usuario" name="r-usuario"
+                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <label for="r-contrasena" class="block text-sm font-medium text-gray-700">
+                Password
+              </label>
+
+              <input type="password" id="r-contrasena" name="r-contrasena"
+                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
+            </div>
+
+            <div class="col-span-6">
+              <label for="MarketingAccept" class="flex gap-4">
+                <input type="checkbox" id="MarketingAccept" name="marketing_accept"
+                  class="size-5 rounded-md border-gray-200 bg-white shadow-sm" />
+
+                <span class="text-sm text-gray-700">
+                  I want to receive emails about events, product updates and company announcements.
+                </span>
+              </label>
+            </div>
+
+            <div class="col-span-6">
+              <p class="text-sm text-gray-500">
+                By creating an account, you agree to our
+                <a href="#" class="text-gray-700 underline"> terms and conditions </a>
+                and
+                <a href="#" class="text-gray-700 underline">privacy policy</a>.
               </p>
-      
-              <form action="#" id="form-registro" class="mt-8 grid grid-cols-6 gap-6">
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="nombre" class="block text-sm font-medium text-gray-700">
-                    First Name
-                  </label>
-      
-                  <input
-                    type="text"
-                    id="nombre"
-                    name="nombre"
-                    class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
-                </div>
-      
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="apellido" class="block text-sm font-medium text-gray-700">
-                    Last Name
-                  </label>
-      
-                  <input
-                    type="text"
-                    id="apellido"
-                    name="apellido"
-                    class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
-                </div>
-      
-                <div class="col-span-6">
-                  <label for="correo" class="block text-sm font-medium text-gray-700"> Email </label>
-      
-                  <input
-                    type="email"
-                    id="correo"
-                    name="correo"
-                    class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
-                </div>
-      
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="r-usuario" class="block text-sm font-medium text-gray-700"> Username </label>
-      
-                  <input
-                    type="text"
-                    id="r-usuario"
-                    name="r-usuario"
-                    class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
-                </div>
-      
-                <div class="col-span-6 sm:col-span-3">
-                  <label for="r-contrasena" class="block text-sm font-medium text-gray-700">
-                    Password
-                  </label>
-      
-                  <input
-                    type="password"
-                    id="r-contrasena"
-                    name="r-contrasena"
-                    class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                  />
-                </div>
-      
-                <div class="col-span-6">
-                  <label for="MarketingAccept" class="flex gap-4">
-                    <input
-                      type="checkbox"
-                      id="MarketingAccept"
-                      name="marketing_accept"
-                      class="size-5 rounded-md border-gray-200 bg-white shadow-sm"
-                    />
-      
-                    <span class="text-sm text-gray-700">
-                      I want to receive emails about events, product updates and company announcements.
-                    </span>
-                  </label>
-                </div>
-      
-                <div class="col-span-6">
-                  <p class="text-sm text-gray-500">
-                    By creating an account, you agree to our
-                    <a href="#" class="text-gray-700 underline"> terms and conditions </a>
-                    and
-                    <a href="#" class="text-gray-700 underline">privacy policy</a>.
-                  </p>
-                </div>
-      
-                <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-                  <button
-                    type="submit"
-                    class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
-                  >
-                    Create an account
-                  </button>
-      
-                  <p class="mt-4 text-sm text-gray-500 sm:mt-0">
-                    Already have an account?
-                    <a href="#" class="text-gray-700 underline" id="r-login">Log in</a>.
-                  </p>
-                </div>
-              </form>
             </div>
 
-            <div class="max-w-xl lg:max-w-3xl" id="inicio-sesion">
-                <a class="block text-blue-600" href="../index.html">
-                    <span class="sr-only">Home</span>
-                   <img src="../img/PokeCrew-14-3-2024.png" alt="" class="w-2/5">
-                </a>
+            <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+              <button type="submit"
+                class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                Create an account
+              </button>
 
-                <h1 class="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-                    Welcome to PokeCrew 🔥🌿💧
-                </h1>
-
-                <p class="mt-4 leading-relaxed text-gray-500">
-                    Welcome back, Trainer! Log in to view your favorite teams and Pokémon, and continue learning about Pokémon
-                </p>
-
-                <form id="form-login" action="#" class="mt-8 grid grid-cols-6 gap-6">
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="usuario" class="block text-sm font-medium text-gray-700">
-                            Usuario
-                        </label>
-
-                        <input
-                                type="text"
-                                id="usuario"
-                                name="usuario"
-                                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                        />
-                    </div>
-
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="contrasena" class="block text-sm font-medium text-gray-700"> Contraseña </label>
-
-                        <input
-                                type="password"
-                                id="contrasena"
-                                name="contrasena"
-                                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                        />
-                    </div>
-
-                    <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-                        <button
-                                type="submit"
-                                class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
-                        >
-                            Login
-                        </button>
-
-                        <p class="mt-4 text-sm text-gray-500 sm:mt-0">
-                            Don't have an account yet?
-                            <a href="#" id="r-registro" class="text-gray-700 underline">Register here</a>.
-                        </p>
-                    </div>
-                </form>
+              <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+                Already have an account?
+                <a href="#" class="text-gray-700 underline" id="r-login">Log in</a>.
+              </p>
             </div>
-          </main>
+          </form>
         </div>
-      </section>
-    
 
-    <script src="https://kit.fontawesome.com/3276d08f21.js" crossorigin="anonymous"></script>
+        <div class="max-w-xl lg:max-w-3xl" id="inicio-sesion">
+          <a class="block text-blue-600" href="../index.html">
+            <span class="sr-only">Home</span>
+            <img src="../img/PokeCrew-14-3-2024.png" alt="" class="w-2/5">
+          </a>
+
+          <h1 class="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+            Welcome to PokeCrew 🔥🌿💧
+          </h1>
+
+          <p class="mt-4 leading-relaxed text-gray-500">
+            Welcome back, Trainer! Log in to view your favorite teams and Pokémon, and continue learning about Pokémon
+          </p>
+
+          <form id="form-login" action="#" class="mt-8 grid grid-cols-6 gap-6">
+            <div class="col-span-6 sm:col-span-3">
+              <label for="usuario" class="block text-sm font-medium text-gray-700">
+                Usuario
+              </label>
+
+              <input type="text" id="usuario" name="usuario"
+                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
+            </div>
+
+            <div class="col-span-6 sm:col-span-3">
+              <label for="contrasena" class="block text-sm font-medium text-gray-700"> Contraseña </label>
+
+              <input type="password" id="contrasena" name="contrasena"
+                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
+            </div>
+
+            <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+              <button type="submit"
+                class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                Login
+              </button>
+
+              <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+                Don't have an account yet?
+                <a href="#" id="r-registro" class="text-gray-700 underline">Register here</a>.
+              </p>
+
+              <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+                You want to delete your account?
+                <a href="#" id="borrar-cuenta" class="text-gray-700 underline">Click here</a>.
+              </p>
+            </div>
+          </form>
+        </div>
+
+        <div class="max-w-xl lg:max-w-3xl hidden" id="del-cuenta">
+          <a class="block text-blue-600" href="../index.html">
+            <span class="sr-only">Home</span>
+            <img src="../img/PokeCrew-14-3-2024.png" alt="" class="w-2/5">
+          </a>
+
+          <h1 class="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+            Delete Your Account 😔
+          </h1>
+
+          <p class="mt-4 leading-relaxed text-gray-500">
+            We're sad to see you go. If you proceed with deleting your account, all your data will be permanently
+            removed.
+          </p>
+
+          <form id="form-borrar-cuenta" action="#" class="mt-8 grid grid-cols-6 gap-6">
+            <div class="col-span-6 sm:col-span-3">
+              <label for="usuario-del" class="block text-sm font-medium text-gray-700">
+                Usuario
+              </label>
+  
+              <input type="text" id="usuario-del" name="usuario"
+                class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm" />
+            </div>
+  
+            <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+              <button type="submit"
+                class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
+                Delete Account
+              </button>
+  
+              <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+                Go back to the login page
+                <a href="#" id="to-login" class="text-gray-700 underline">Click here</a>.
+              </p>
+            </div>
+          </form>
+        </div>
+
+       
+      </main>
+    </div>
+  </section>
+
+
+  <script src="https://kit.fontawesome.com/3276d08f21.js" crossorigin="anonymous"></script>
 </body>
+
 </html>

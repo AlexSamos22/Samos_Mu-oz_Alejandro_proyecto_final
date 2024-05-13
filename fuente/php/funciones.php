@@ -46,10 +46,37 @@
         $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
         $db = new PDO($res[0], $res[1], $res[2]);
         $contrasenaCifrada = password_hash($clave, PASSWORD_DEFAULT);
+        $usuario_duplicado = false;
 
-        $ins = "INSERT INTO usuarios(usuario, clave, correo ,nombre, apellido) values('$usuario', '$contrasenaCifrada', '$correo', '$nombre', '$apellidos')";
+        // Comprueba si ya existe un usuario con el mismo nombre
+        $check = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
+        $checkResult = $db->query($check);
+        if ($checkResult->fetchColumn() > 0) {
+            $usuario_duplicado = true;
+        }
 
-        $result = $db->query($ins);
+        if ($usuario_duplicado) {
+            return false;
+        }else{
+            $ins = "INSERT INTO usuarios(usuario, clave, correo ,nombre, apellido) values('$usuario', '$contrasenaCifrada', '$correo', '$nombre', '$apellidos')";
+    
+            $result = $db->query($ins);
+        
+            if ($result) {
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+
+    function borrarUsuario($nombre){
+        $res = configuracionBaseDatos(dirname(__FILE__)."/configuracion.xml", dirname(__FILE__)."/configuracion.xsd");
+        $db = new PDO($res[0], $res[1], $res[2]);
+
+        $del = "DELETE FROM usuarios WHERE usuario = '$nombre'";
+
+        $result = $db->query($del);
 
         if ($result) {
             return true;

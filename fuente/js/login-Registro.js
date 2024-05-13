@@ -10,9 +10,25 @@ document.querySelector('#r-registro').addEventListener('click', function(e) {
     document.querySelector('#registro').classList.remove('hidden');
 });
 
+document.getElementById("borrar-cuenta").addEventListener("click", function(e) {
+    e.preventDefault();
+    document.querySelector('#inicio-sesion').classList.add('hidden');
+    document.querySelector('#registro').classList.add('hidden');
+    document.querySelector('#del-cuenta').classList.remove('hidden');
+});
+
+document.getElementById("to-login").addEventListener("click", function(e) {
+    e.preventDefault();
+    document.querySelector('#inicio-sesion').classList.remove('hidden');
+    document.querySelector('#registro').classList.add('hidden');
+    document.querySelector('#del-cuenta').classList.add('hidden');
+});
+
 document.getElementById("form-login").addEventListener("submit", login);
 
 document.getElementById("form-registro").addEventListener("submit", registrarse);
+
+document.getElementById("form-borrar-cuenta").addEventListener("submit", borrarCuenta);
 
 async function login(e) {
     e.preventDefault();
@@ -77,7 +93,8 @@ async function registrarse(e) {
         if (respuesta == "TRUE") {
             alert("Cuenta creada con exito");
         } else {
-            alert("Cuenta no creada");
+            alert("Nombre de usuario ya existente");
+            return;
         }
 
         document.getElementById("inicio-sesion").classList.remove("hidden");
@@ -86,4 +103,35 @@ async function registrarse(e) {
         console.error('Error:', error);
     }
     return false;
+}
+
+async function borrarCuenta(e) {
+    e.preventDefault();
+    let usuario = document.getElementById("usuario-del").value;
+
+    let formData = new URLSearchParams();
+    formData.append('usuario', usuario);
+
+    try {
+        let response = await fetch("../php/borrarCuenta.php", {
+            method: 'POST',
+            body: formData
+        });
+
+        let respuesta = await response.text();
+
+        if (respuesta == "TRUE") {
+            alert("Cuenta borrada con exito");
+        } else {
+            alert("Error al borrar la cuenta");
+        }
+
+        document.getElementById("inicio-sesion").classList.remove("hidden");
+        document.getElementById("registro").classList.add("hidden");
+        document.getElementById("del-cuenta").classList.add("hidden");
+    } catch (error) {
+        console.error('Error:', error);
+    }
+    return false;
+
 }
