@@ -2,12 +2,12 @@
   "name": "proyecto_final",
   "version": "1.0.0",
   "description": "Proyecto Final DAW",
-  "main": "index.js",
+
   "browsers":"> 0.5%, last 4 versions, not dead",
   "scripts": {
     "talwindcss_vigilante": "npx tailwindcss -i ./fuente/estilos/estilos.css -o ./fuente/estilos/salida.css --watch",
     "des": "parcel fuente/index.html fuente/html/*.html --dist-dir desarrollo",
-    "pord": "parcel build fuente/index.html -public-url './' --dist-dir produccion",
+    "pord": "parcel build fuente/index.html --public-url './' --dist-dir produccion",
     "limpia": "rimraf desarrollo produccion .parcel-cache",
     "desarrollo": "npm-run-all -p talwindcss_vigilante des",
     "produccion": "npm-run-all limpia talwindcss_vigilante pord",
