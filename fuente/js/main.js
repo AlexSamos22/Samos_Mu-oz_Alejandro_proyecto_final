@@ -62,7 +62,7 @@ async function obtenerTodosLosPokemonsBuscador() {
         url = data.next; // La URL para la siguiente página de resultados
     }
 
-    console.log(pokemonsBuscador);
+
 
     // Guarda los datos en el caché
     cache['pokemonsBuscador'] = pokemonsBuscador;
@@ -159,7 +159,6 @@ async function obtenerPokemons(order = 'n-asc') {
             
             // Obtén la clase con el nombre del Pokémon
             const pokemonClass = this.classList[0]; // La clase está en la posición 1 del array
-            console.log(pokemonClass);
             // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
             window.location.href = `../fuente/html/pokemon.html?id=${pokemonId}&name=${pokemonClass}`;
         });
@@ -345,7 +344,6 @@ async function mostrarPokemonsPorTipo() {
             
             // Obtén la clase con el nombre del Pokémon
             const pokemonClass = this.classList[0]; // La clase está en la posición 1 del array
-            console.log(pokemonClass);
             // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
             window.location.href = `../fuente/html/pokemon.html?id=${pokemonId}&name=${pokemonClass}`;
         });
@@ -366,7 +364,6 @@ async function mostrarPokemonsPorTipo() {
         }
 
         const usuarioId = localStorageData[0];
-        console.log(usuarioId)
     
         // Comprueba si el ID del botón está en el array
         if (localStorageData && localStorageData[2].some(pokemon => pokemon.pokemonID == parseInt(button.id))) {
@@ -438,7 +435,6 @@ async function mostrarPokemonsPorTipo() {
 document.querySelectorAll('.tag').forEach(tag => {
     tag.addEventListener('click', () => {
         ordenar = true;
-        console.log(tag.id);
         tipoActual = tag.id; 
         pokemonHTML = '';
         window.scrollTo(0, 0);
@@ -549,7 +545,7 @@ Array.from(buscador1).forEach(buscador => {
 
     buscador.addEventListener('input', () => {
         sugerencias.innerHTML = "";
-        console.log(buscador.value);
+
 
         if (buscador.value == '') {
             sugerencias.classList.add("hidden");

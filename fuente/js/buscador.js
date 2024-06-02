@@ -31,8 +31,6 @@ async function obtenerTodosLosPokemonsBuscador() {
         url = data.next; // La URL para la siguiente página de resultados
     }
 
-    console.log(pokemonsBuscador);
-
     // Guarda los datos en el caché
     cache['pokemonsBuscador'] = pokemonsBuscador;
 

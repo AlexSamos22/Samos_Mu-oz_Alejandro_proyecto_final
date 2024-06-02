@@ -53,7 +53,6 @@ async function mostrarDetallesPokemon(pokemonId) {
     // Encuentra la descripción en inglés
     const description = (speciesData.flavor_text_entries.find(entry => entry.language.name === 'en' && entry.version.name === 'x')
     || speciesData.flavor_text_entries.find(entry => entry.language.name === 'en')).flavor_text;
-    console.log(description);
 
     // Obtiene los tipos del Pokémon
     const types = pokemonData.types.map(typeInfo => typeInfo.type.name).join(', ');
@@ -92,14 +91,12 @@ async function mostrarDetallesPokemon(pokemonId) {
 
         try {
             pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${currentEvolution.species.name}`);
-            console.log(currentEvolution.species.name);
             if (!pokemonResponse.ok) {
                 throw new Error(`HTTP error! status: ${pokemonResponse.status}`);
             }
         } catch (error) {
             try {
                 pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-                console.log(pokemonName);
                 if (!pokemonResponse.ok) {
                     throw new Error(`HTTP error! status: ${pokemonResponse.status}`);
                 }
@@ -135,7 +132,7 @@ async function mostrarDetallesPokemon(pokemonId) {
                 <img id="shinyImage" class="w-full h-auto rounded-md hidden" src="${pokemonData.sprites.other['official-artwork'].front_shiny}" alt="${pokemonData.name}">
                 <div class="flex justify-between gap-4">
                     <button onclick="document.getElementById('normalImage').classList.remove('hidden'); document.getElementById('shinyImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Normal</button>
-                    <button onclick="document.getElementById('shinyImage').classList.remove('hidden'); document.getElementById('normalImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Shiny</button>
+                    ${pokemonData.sprites.other['official-artwork'].front_shiny ? `<button onclick="document.getElementById('shinyImage').classList.remove('hidden'); document.getElementById('normalImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Shiny</button>` : ''}
                     <button id="${pokemonId}" class="boton-fav bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i class="fas fa-heart fa-lg"></i></button>
 
                 </div>

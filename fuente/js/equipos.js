@@ -42,7 +42,6 @@ async function obtenerEquipos() {
             }
     
             const usuarioId = localStorageData[0];
-            console.log(usuarioId)
         
             // Comprueba si el ID del botón está en el array
             if (localStorageData && localStorageData[1].some(equipo => equipo.equipoID == parseInt(button.id))) {

@@ -115,13 +115,20 @@
 
         <article id="bienvenida" class="flex flex-col items-center justify-center gap-6 w-10/12 mb-5 relative">
             <h1 class="text-4xl font-bold text-center text-blue-700 mt-6">Welcome to Your Pokémon Favorites Page</h1>
-            <img src="../img/posible-fondo1.jpg" alt="fondo-bienvenida" class="w-full h-auto">
-            <p class="font-semibold mt-4">
+            <picture class="">
+                <source class="w-full" media="(min-width: 1600px)" srcset="../img/posible-fondo1.jpg">
+                <source class="w-full" media="(min-width: 1367px)" srcset="../img/posible-fondo1-1920x936.jpg">
+                <source class="w-full" media="(min-width: 1025px)" srcset="../img/posible-fondo1-1366x666.jpg">
+                <source class="w-full" media="(min-width: 769px)" srcset="../img/posible-fondo1-1024x499.jpg">
+                <source class="w-full" media="(min-width: 481px)" srcset="../img/posible-fondo1-768x374.jpg">
+                <img src="../img/posible-fondo1-480x234.jpg" alt="fondo favs" class="w-full">
+            </picture>
+            <p class="font-semibold mt-4 text-center pequeño-s:text-start">
 
-                "Welcome, Trainer! This is your very own Pokémon Favorites Page, a personalized space where you can
+                Welcome, Trainer! This is your very own Pokémon Favorites Page, a personalized space where you can
                 showcase your most beloved Pokémon and the teams you've selected with care from our special collection.
                 In addition to viewing your favorite teams and Pokémon, here you can explore detailed information about
-                each one, from their special abilities to their most powerful moves."
+                each one, from their special abilities to their most powerful moves.
             </p>
         </article>
 
@@ -136,22 +143,21 @@
         </article>
     </section>
 
-    <footer class="bg-fondo-menu-footer dark:bg-gray-900 w-full text-white">
+    <footer class="bg-fondo-menu-footer dark:bg-gray-900 w-full text-white flex flex-col flex-grow-p"> 
         <div class="mx-auto w-11/12 p-3 py-5 lg:py-8">
             <div class="grande:flex grande:justify-between">
                 <div class="mb-6 md:mb-0">
-                    <img src="../img/PokeCrew-14-3-2024.png" class=" w-1/2 mediano:w-1/3 grande:w-1/4"
-                        alt="PokeCrew Logo" />
+                    <img src="../img/PokeCrew-14-3-2024.png" class=" w-1/2 mediano:w-1/3 grande:w-1/4" alt="PokeCrew Logo" />
                 </div>
                 <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold uppercase">Resources</h2>
+                        <h2 class="mb-6 text-sm font-semibold uppercase">Collaborations</h2>
                         <ul class="font-medium">
                             <li class="mb-4">
-                                <a href="https://flowbite.com/" class="hover:underline">Flowbite</a>
+                                <a href="https://pokemonshowdown.com/" target="_blank" class="hover:underline">Showdown</a>
                             </li>
                             <li>
-                                <a href="https://tailwindcss.com/" class="hover:underline">Tailwind CSS</a>
+                                <a href="https://www.pikalytics.com/" target="_blank" class="hover:underline">Pikalytics</a>
                             </li>
                         </ul>
                     </div>
@@ -159,21 +165,21 @@
                         <h2 class="mb-6 text-sm font-semibold uppercase">Follow us</h2>
                         <ul class="font-medium">
                             <li class="mb-4">
-                                <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
+                                <a href="https://www.instagram.com/pokemon/" target="_blank" class="hover:underline ">Instagram</a>
                             </li>
                             <li>
-                                <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Discord</a>
+                                <a href="https://twitter.com/Pokemon_ES_ESP" target="_blank" class="hover:underline">Twitter</a>
                             </li>
                         </ul>
                     </div>
                     <div>
-                        <h2 class="mb-6 text-sm font-semibold uppercase">Legal</h2>
+                        <h2 class="mb-6 text-sm font-semibold uppercase">Shop</h2>
                         <ul class="font-medium">
                             <li class="mb-4">
-                                <a href="#" class="hover:underline">Privacy Policy</a>
+                                <a href="https://www.nintendo.com/es-es/Nintendo-eShop/Nintendo-eShop-1806894.html" target="_blank" class="hover:underline">Nintendo eShop</a>
                             </li>
                             <li>
-                                <a href="#" class="hover:underline">Terms &amp; Conditions</a>
+                                <a href="https://store.nintendo.es/es" class="hover:underline" target="_blank">Nintendo Store</a>
                             </li>
                         </ul>
                     </div>

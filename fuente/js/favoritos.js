@@ -28,7 +28,7 @@ let pokemons = data[2];
 
 // Extrae el array de equipos
 let equipos = data[1];
-console.log(equipos.length);
+
 
 async function obtenerPokemonsYCrearTarjetas(pokemons) {
     // Crea un array de promesas para las peticiones a la API
@@ -51,7 +51,7 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
             
             // Obtén la clase con el nombre del Pokémon
             const pokemonClass = this.classList[0]; // La clase está en la posición 1 del array
-            console.log(pokemonClass);
+
             // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
             window.location.href = `../html/pokemon.html?id=${pokemonId}&name=${pokemonClass}`;
         });
@@ -77,7 +77,6 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
 
             // Actualiza los estilos de los pokemons
             actualizarEstilosPokemons(pokemons.length);
-            console.log(pokemons.length);
 
             // Eliminar el pokemon de la base de datos
             let formData = new URLSearchParams();
@@ -138,7 +137,6 @@ async function obtenerEquiposYCrearTarjetas() {
             }
 
             let respuesta = await response.json();
-            console.log(respuesta);
 
             if (Object.keys(respuesta).length > 0) {
                 console.log("Realizado con éxito");
@@ -260,7 +258,6 @@ let divPokemon = document.getElementById("pokemon");
 let divEquipos = document.getElementById("equiposFav");
 
 function actualizarEstilosPokemons(numeroPokemons) {
-    console.log(numeroPokemons);
     if (numeroPokemons == 0) {
         divPokemon.className = "";
         divPokemon.classList.add("flex", "items-center", "flex-col", "justify-center","w-10/12", "mb-5", "gap-4");
