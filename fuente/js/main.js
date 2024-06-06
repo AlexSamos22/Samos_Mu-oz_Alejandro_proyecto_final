@@ -95,7 +95,7 @@ async function obtenerTodosLosPokemons() {
         document.getElementById('pantalla-carga').classList.remove('flex');
         document.getElementById('pantalla-carga').classList.add('hidden');
         document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-    }, 3000);
+    }, 1000);
 }
 
 async function cargarImagen(tarjetaPokemon) {
@@ -174,7 +174,7 @@ async function obtenerPokemons(order = 'n-asc') {
         const imgCarga = document.createElement('img');
         imgCarga.src = '../fuente/img/mas-pokemon.gif';
         imgCarga.alt = 'Cargando más Pokémon';
-        imgCarga.classList.add("w-1/2", "grande:w-modificado-5");
+        imgCarga.classList.add("w-1/5",  "mediano:w-modificado-10", "grande:w-modificado-5");
 
         masPokemonDiv.appendChild(imgCarga);
         document.querySelector('#pokemon').appendChild(masPokemonDiv);
@@ -386,7 +386,7 @@ async function mostrarPokemonsPorTipo() {
         const imgCarga = document.createElement('img');
         imgCarga.src = '../fuente/img/mas-pokemon.gif';
         imgCarga.alt = 'Cargando más Pokémon';
-        imgCarga.classList.add("w-1/2", "grande:w-modificado-5");
+        imgCarga.classList.add("w-1/5",  "mediano:w-modificado-10", "grande:w-modificado-5");
 
         masPokemonDiv.appendChild(imgCarga);
         document.querySelector('#pokemon').appendChild(masPokemonDiv);

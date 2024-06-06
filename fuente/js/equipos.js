@@ -2,6 +2,8 @@ const typeColors = {
     rojo: '#FF0000',
 };
 
+document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
+
 async function obtenerEquipos() {
     const response = await fetch('../php/equipos.php');
     const data = await response.json();
@@ -26,6 +28,12 @@ async function obtenerEquipos() {
     // Crea las tarjetas de no campeones
     const tarjetasNoCampeones = crearTarjeta(noCampeones);
     document.getElementById('resto-equipos').innerHTML = tarjetasNoCampeones;
+
+    setTimeout(() => {
+        document.getElementById('pantalla-carga').classList.remove('flex');
+        document.getElementById('pantalla-carga').classList.add('hidden');
+        document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
+    }, 1000);
 
         // Añade un evento de clic a cada botón de favoritos
         document.querySelectorAll('.boton-fav').forEach(function(button) {

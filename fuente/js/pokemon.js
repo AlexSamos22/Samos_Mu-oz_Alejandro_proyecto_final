@@ -19,20 +19,8 @@ const typeColors = {
     fairy: '#EE99AC',
 };
 
-const formasPokemon = [
-    "rotom-heat", "rotom-wash", "rotom-frost", "rotom-fan", "rotom-mow",
-    "giratina-origin", "giratina-altered",
-    "basculin-red-striped", "basculin-blue-striped",
-    "kyurem-black", "kyurem-white",
-    "thundurus-incarnate", "thundurus-therian",
-    "tornadus-incarnate", "tornadus-therian",
-    "landorus-incarnate", "landorus-therian",
-    "meowstic-male", "meowstic-female",
-    "hoopa-confined", "hoopa-unbound",
-    "zygarde-50", "zygarde-10", "zygarde-complete",
-    "lycanroc-midday", "lycanroc-midnight", "lycanroc-dusk",
-    "urshifu-single-strike", "urshifu-rapid-strike"
-  ];
+
+  document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
   
 
 // Recoge la ID del Pokémon de la URL
@@ -338,7 +326,7 @@ document.getElementById('i').innerHTML += statsHTML;
         document.getElementById('pantalla-carga').classList.remove('flex');
         document.getElementById('pantalla-carga').classList.add('hidden');
         document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-    }, 1000);
+    }, 3000);
 }
 
 async function getLevelUpMoves(pokemonId) {

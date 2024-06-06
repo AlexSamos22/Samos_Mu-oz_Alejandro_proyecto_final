@@ -1506,10 +1506,6 @@ input:checked + .toggle-bg {
   width: 95%;
 }
 
-.w-modificado-5 {
-  width: 5%;
-}
-
 .max-w-xl {
   max-width: 36rem;
 }
@@ -2887,14 +2883,6 @@ input:checked + .toggle-bg {
 
   .grande\:w-modificado-5 {
     width: 5%;
-  }
-
-  .grande\:w-1\/6 {
-    width: 16.666667%;
-  }
-
-  .grande\:w-1\/12 {
-    width: 8.333333%;
   }
 
   .grande\:grid-cols-12 {
