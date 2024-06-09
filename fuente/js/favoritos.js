@@ -18,6 +18,7 @@ const typeColors = {
     steel: '#B8B8D0',
     fairy: '#EE99AC',
 };
+document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
 let tarjetasPokemon = '';
 
 // Obtén los datos del localStorage
@@ -42,6 +43,12 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
 
     // Actualiza los estilos de los pokemons
     actualizarEstilosPokemons(pokemons.length); 
+
+    setTimeout(() => {
+        document.getElementById('pantalla-carga').classList.remove('flex');
+        document.getElementById('pantalla-carga').classList.add('hidden');
+        document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
+    }, 2000);
 
     // Añade un evento de clic a cada tarjeta de Pokémon para tener mas info del pokemon
     document.querySelectorAll('.pokemon-card').forEach(card => {

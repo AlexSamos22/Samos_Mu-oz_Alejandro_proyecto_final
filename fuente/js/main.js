@@ -142,7 +142,7 @@ async function obtenerPokemons(order = 'n-asc') {
             document.getElementById('pokemon').classList.remove("hidden");
             document.getElementById('pokemon').classList.add("grid");
             document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-        }, 4000);
+        }, 2000);
 
     }
 
@@ -189,7 +189,7 @@ async function obtenerPokemons(order = 'n-asc') {
             document.getElementById('pantalla-carga').classList.remove('flex');
             document.getElementById('pantalla-carga').classList.add('hidden');
             document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-        }, 3000);
+        }, 4000);
         primeraCarga = false;
     }
    
