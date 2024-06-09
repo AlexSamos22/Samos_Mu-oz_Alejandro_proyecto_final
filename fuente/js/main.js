@@ -30,6 +30,7 @@ let paginaActual = 0; // Almacena la página actual
 let pokemons = []; // Array global para almacenar los Pokémon
 let ordenar = false;
 let borrar = false;
+let primeraCarga = true;
 
 let pokemonsBuscador = [];
 let cache = {}; 
@@ -90,12 +91,7 @@ async function obtenerTodosLosPokemons() {
         url = data.next; // La URL para la siguiente página de resultados
     }
 
-    // Oculta la pantalla de carga
-    setTimeout(() => {
-        document.getElementById('pantalla-carga').classList.remove('flex');
-        document.getElementById('pantalla-carga').classList.add('hidden');
-        document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-    }, 1000);
+
 }
 
 async function cargarImagen(tarjetaPokemon) {
@@ -140,16 +136,14 @@ async function obtenerPokemons(order = 'n-asc') {
         } else if (order === 'n-desc') {
             pokemons = pokemons.sort((a, b) => b.numero - a.numero);
         }
-        
         setTimeout(() => {
             document.getElementById('pantalla-cambio').classList.remove('flex');
             document.getElementById('pantalla-cambio').classList.add('hidden');
             document.getElementById('pokemon').classList.remove("hidden");
             document.getElementById('pokemon').classList.add("grid");
             document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-            
-        }, 3000);
-        
+        }, 4000);
+
     }
 
     ordenar = false;
@@ -181,6 +175,7 @@ async function obtenerPokemons(order = 'n-asc') {
         borrar = false;
     }
 
+
     document.querySelector('#pokemon').innerHTML += pokemonHTML;
 
     
@@ -188,6 +183,15 @@ async function obtenerPokemons(order = 'n-asc') {
     document.getElementById('mas-pokemon').classList.remove('flex');
 
 
+    if(primeraCarga) {
+        // Oculta la pantalla de carga
+        setTimeout(() => {
+            document.getElementById('pantalla-carga').classList.remove('flex');
+            document.getElementById('pantalla-carga').classList.add('hidden');
+            document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
+        }, 3000);
+        primeraCarga = false;
+    }
    
 
     document.querySelectorAll('.pokemon-card').forEach(card => {
@@ -309,7 +313,7 @@ async function obtenerPokemonsPorTipo(type, order = 'n-asc') {
             document.getElementById('pokemon').classList.remove("hidden");
             document.getElementById('pokemon').classList.add("grid");
             document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-        }, 2000);
+        }, 4000);
 
     }else{
 
