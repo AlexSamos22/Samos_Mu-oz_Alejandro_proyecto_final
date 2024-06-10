@@ -113,15 +113,15 @@ async function mostrarDetallesPokemon(pokemonId) {
 
     // Crea una estructura HTML con los datos del Pokémon
     const pokemonHTML = `
-        <h1 class="text-4xl font-bold text-blue-600 mb-5 block mediano-g:hidden text-center">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
+        <h1 class="text-4xl font-bold text-titulos-subtitulos mb-5 block mediano-g:hidden text-center">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
         <div class="grid grid-cols-1 gap-3 mediano-g:grid-cols-2 mediano-g:gap-0 place-items-center w-full">
             <div class=" w-3/4 pequeño-s:w-1/2 h-auto rounded-md flex flex-col items-center justify-center">
                 <img id="normalImage" class="w-full h-auto rounded-md" src="${pokemonData.sprites.other['official-artwork'].front_default}" alt="${pokemonData.name}">
                 <img id="shinyImage" class="w-full h-auto rounded-md hidden" src="${pokemonData.sprites.other['official-artwork'].front_shiny}" alt="${pokemonData.name}">
                 <div class="flex justify-between gap-4">
-                    <button onclick="document.getElementById('normalImage').classList.remove('hidden'); document.getElementById('shinyImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Normal</button>
-                    ${pokemonData.sprites.other['official-artwork'].front_shiny ? `<button onclick="document.getElementById('shinyImage').classList.remove('hidden'); document.getElementById('normalImage').classList.add('hidden');" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Shiny</button>` : ''}
-                    <button id="${pokemonId}" class="boton-fav bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i class="fas fa-heart fa-lg"></i></button>
+                    <button onclick="document.getElementById('normalImage').classList.remove('hidden'); document.getElementById('shinyImage').classList.add('hidden');" class="bg-bg-botones hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Normal</button>
+                    ${pokemonData.sprites.other['official-artwork'].front_shiny ? `<button onclick="document.getElementById('shinyImage').classList.remove('hidden'); document.getElementById('normalImage').classList.add('hidden');" class="bg-bg-botones hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Shiny</button>` : ''}
+                    <button id="${pokemonId}" class="boton-fav bg-bg-botones hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"><i class="fas fa-heart fa-lg"></i></button>
 
                 </div>
             </div>
@@ -260,8 +260,8 @@ document.getElementById('i').innerHTML += statsHTML;
             localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
         
     
-            if (this.classList.contains('bg-blue-500')) {
-                this.classList.remove("bg-blue-500");
+            if (this.classList.contains('bg-bg-botones')) {
+                this.classList.remove("bg-bg-botones");
                 this.classList.remove('hover:bg-blue-700');
                 this.classList.add('bg-red-500');
                 this.classList.add('hover:bg-red-700');
@@ -290,7 +290,7 @@ document.getElementById('i').innerHTML += statsHTML;
                     console.error('Error:', error);
                 }
             } else {
-                this.classList.add("bg-blue-500");
+                this.classList.add("bg-bg-botones");
                 this.classList.add('hover:bg-blue-700');
                 this.classList.remove('bg-red-500');
                 this.classList.remove('hover:bg-red-700');
@@ -346,26 +346,31 @@ async function getLevelUpMoves(pokemonId) {
 
     // Mapea los movimientos a un formato más legible
     const movesHTML = await Promise.all(levelUpMoves.map(async move => {
-        // Encuentra los detalles del movimiento que corresponden al método de aprendizaje por nivel
-        const levelUpDetail = move.version_group_details.find(detail => detail.move_learn_method.name === 'level-up');
-
-        // Haz una solicitud a la API de Pokémon para obtener los datos del movimiento
-        const moveResponse = await fetch(move.move.url);
-        const moveData = await moveResponse.json();
-
-        // Devuelve el HTML para el movimiento
-        return `
-            <tr class="border-b border-gray-300 hover:bg-gray-200 transition-colors duration-200">
-                <td class="p-3 text-center">${moveData.name.charAt(0).toUpperCase() + moveData.name.slice(1)}</td>
-                <td class="p-3 text-center">${levelUpDetail.level_learned_at}</td>
-                <td class="p-3 text-center text-white flex justify-center"> <p class=" w-full font-semibold rounded px-2 py-1 m-1" style="background-color: ${typeColors[moveData.type.name]};" >${moveData.type.name}</p></td>
-                <td class="p-3 text-center">${moveData.pp}</td>
-                <td class="p-3 text-center">${moveData.accuracy || 0}</td>
-                <td class="p-3 text-center">${moveData.power || 0}</td>
-            </tr>
-        `;
+        try {
+            // Encuentra los detalles del movimiento que corresponden al método de aprendizaje por nivel
+            const levelUpDetail = move.version_group_details.find(detail => detail.move_learn_method.name === 'level-up');
+    
+            // Haz una solicitud a la API de Pokémon para obtener los datos del movimiento
+            const moveResponse = await fetch(move.move.url);
+            const moveData = await moveResponse.json();
+    
+            // Devuelve el HTML para el movimiento
+            return `
+                <tr class="border-b border-gray-300 hover:bg-gray-200 transition-colors duration-200">
+                    <td class="p-3 text-center">${moveData.name.charAt(0).toUpperCase() + moveData.name.slice(1)}</td>
+                    <td class="p-3 text-center">${levelUpDetail.level_learned_at}</td>
+                    <td class="p-3 text-center text-white flex justify-center"> <p class=" w-full font-semibold rounded px-2 py-1 m-1" style="background-color: ${typeColors[moveData.type.name]};" >${moveData.type.name}</p></td>
+                    <td class="p-3 text-center">${moveData.pp}</td>
+                    <td class="p-3 text-center">${moveData.accuracy || 0}</td>
+                    <td class="p-3 text-center">${moveData.power || 0}</td>
+                </tr>
+            `;
+        } catch (error) {
+            console.error(`Error fetching move data for ${move.move.url}:`, error);
+            return '';  // Devuelve una cadena vacía para este movimiento
+        }
     }));
-
+    
     // Devuelve el HTML de los movimientos
     const tableHTML = `
         <table class="w-full text-left table-auto shadow-lg">
@@ -384,7 +389,7 @@ async function getLevelUpMoves(pokemonId) {
             </tbody>
         </table>
     `;
-
+    
     // Establece el HTML de la lista de movimientos
     document.getElementById('ataques').innerHTML += tableHTML;
 }

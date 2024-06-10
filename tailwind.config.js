@@ -32,7 +32,9 @@ module.exports = {
         'bg-ghost-dark': '#50406A', 
         'bg-dragon-dark': '#5028A8', 
         'bg-dark-dark': '#504030',
-        'bg-info-pokemon': '#30a7d7' 
+        'bg-info-pokemon': '#30a7d7',
+        'bg-botones': '#3F83F8',
+        'titulos-subtitulos': '#1A56DB',
       },
 
       width: {

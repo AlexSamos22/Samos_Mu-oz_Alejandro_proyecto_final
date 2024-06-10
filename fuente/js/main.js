@@ -142,7 +142,7 @@ async function obtenerPokemons(order = 'n-asc') {
             document.getElementById('pokemon').classList.remove("hidden");
             document.getElementById('pokemon').classList.add("grid");
             document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
-        }, 2000);
+        }, 7000);
 
     }
 

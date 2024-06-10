@@ -150,7 +150,7 @@ function crearTarjeta(datos) {
             
                 ${imagenesPokemonHtml}
                 <div class="flex justify-between items-center w-full mt-4">
-                <a href="equipo-${campo.ID}.html" id="equipo-${campo.ID}" class="bg-blue-500 hover:bg-blue-800 text-white p-2 rounded inline-flex items-center">
+                <a href="equipo-${campo.ID}.html" id="equipo-${campo.ID}" class="bg-bg-botones hover:bg-blue-700 text-white p-2 rounded inline-flex items-center">
                 <i class="fas fa-file-export mr-1"></i>
                 See more
                 </a>
