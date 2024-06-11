@@ -46,13 +46,12 @@ async function mostrarDetallesPokemon(pokemonId) {
     const types = pokemonData.types.map(typeInfo => typeInfo.type.name).join(', ');
 
     // Obtiene las habilidades del Pokémon
-    const abilities = pokemonData.abilities.map(abilityInfo => {
-        return abilityInfo.is_hidden ? `${abilityInfo.ability.name.charAt(0).toUpperCase() + abilityInfo.ability.name.slice(1)} (hidden)` : abilityInfo.ability.name.charAt(0).toUpperCase() + abilityInfo.ability.name.slice(1);
-    }).join(' / ');
+    const abilities = pokemonData.abilities && pokemonData.abilities.length > 0 ? pokemonData.abilities.map(abilityInfo => { return abilityInfo.is_hidden ? `${abilityInfo.ability.name.charAt(0).toUpperCase() + abilityInfo.ability.name.slice(1)} (hidden)` : abilityInfo.ability.name.charAt(0).toUpperCase() + abilityInfo.ability.name.slice(1);
+    }).join(' / ') : '';
 
     // Obtiene la experiencia base, el ratio de captura y la felicidad base
-    const baseExperience = pokemonData.base_experience;
-    const captureRate = speciesData.capture_rate;
+    const baseExperience = pokemonData.base_experience || 0;
+    const captureRate = speciesData.capture_rate || 0;
 
     // Obtiene las estadísticas base del Pokémon
     const stats = pokemonData.stats;
@@ -89,7 +88,7 @@ async function mostrarDetallesPokemon(pokemonId) {
                     throw new Error(`HTTP error! status: ${pokemonResponse.status}`);
                 }
             } catch (error) {
-                // Manejar el error aquí
+               
             }
         }
         
@@ -109,6 +108,9 @@ async function mostrarDetallesPokemon(pokemonId) {
     
         currentEvolution = currentEvolution.evolves_to[0];
     } while (!!currentEvolution && currentEvolution.hasOwnProperty('evolves_to'));
+
+    const height = pokemonData.height || 0;
+    const weight = pokemonData.weight || 0;
     
 
     // Crea una estructura HTML con los datos del Pokémon
@@ -129,15 +131,15 @@ async function mostrarDetallesPokemon(pokemonId) {
             <h1 class="text-4xl font-bold text-blue-600 mb-5 hidden mediano-g:block">${pokemonData.name.charAt(0).toUpperCase() + pokemonData.name.slice(1)} #${pokemonId}</h1>
                 <p class="m-2 text-center">${description}</p>
                 <div class="hidden grid-cols-1 pequeño:grid  border-2 border-gray-300 rounded-lg shadow-lg p-2 grande:p-3 min-h-36 w-full">
-                    <p class=" p-1 grande-sm:p-5"><span class="text-black font-bold">Height:</span> <span>${pokemonData.height} m</span></p>
-                    <p class="p-1 grande-sm:p-5"><span class="text-black font-bold">Weight:</span> <span>${pokemonData.weight} kg</span></p>
+                    <p class=" p-1 grande-sm:p-5"><span class="text-black font-bold">Height:</span> <span>${height} m</span></p>
+                    <p class="p-1 grande-sm:p-5"><span class="text-black font-bold">Weight:</span> <span>${weight} kg</span></p>
                     <p class="p-1 grande-sm:p-5"><span class="text-black font-bold">Capture Rate:</span> <span>${captureRate}</span></p>
                     <p class="p-1 grande-sm:p-5"><span class="text-black font-bold">Base Experience:</span> <span>${baseExperience}</span></p>
                     <p class="p-1 grande-sm:p-5 col-span-2"><span class="text-black font-bold">Abilities:</span> <span>${abilities}</span></p>
                 </div>
                 <div class=" block pequeño:hidden border-2 border-gray-300 rounded-lg shadow-lg p-2 grande:p-4 min-h-36 w-full">
-                    <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Height</span> <span>${pokemonData.height} m</span></p>
-                    <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Weight</span> <span>${pokemonData.weight} kg</span></p>
+                    <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Height</span> <span>${weight} m</span></p>
+                    <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Weight</span> <span>${weight} kg</span></p>
                     <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Capture Rate</span> <span>${captureRate}</span></p>
                     <p class="flex flex-col justify-center items-center w-full mb-3"><span class="text-black font-bold">Base Experience</span> <span>${baseExperience}</span></p>
                     <p class="flex flex-col justify-center items-center w-full"><span class="text-black font-bold">Abilities</span> <span class="block text-center mx-auto">${abilities}</span></p>
