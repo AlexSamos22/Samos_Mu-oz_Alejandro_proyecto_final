@@ -40,7 +40,7 @@ async function mostrarDetallesPokemon(pokemonId) {
 
     // Encuentra la descripción en inglés
     const description = (speciesData.flavor_text_entries.find(entry => entry.language.name === 'en' && entry.version.name === 'x')
-    || speciesData.flavor_text_entries.find(entry => entry.language.name === 'en')).flavor_text;
+    || speciesData.flavor_text_entries.find(entry => entry.language.name === 'en'))?.flavor_text || '';
 
     // Obtiene los tipos del Pokémon
     const types = pokemonData.types.map(typeInfo => typeInfo.type.name).join(', ');
