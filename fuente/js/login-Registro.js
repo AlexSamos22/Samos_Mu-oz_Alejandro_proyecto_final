@@ -12,19 +12,21 @@ apellido_registro.disabled = true;
 cont_registro.disabled = true;
 btn_registro.disabled = true;
 
-
+//Oculta el registro y muestra el inicio de sesion
 document.querySelector('#r-login').addEventListener('click', function(e) {
     e.preventDefault();
     document.querySelector('#registro').classList.add('hidden');
     document.querySelector('#inicio-sesion').classList.remove('hidden');
 });
 
+//Oculta el inicio de sesion y muestra el registro
 document.querySelector('#r-registro').addEventListener('click', function(e) {
     e.preventDefault();
     document.querySelector('#inicio-sesion').classList.add('hidden');
     document.querySelector('#registro').classList.remove('hidden');
 });
 
+//Oculta el inicio de sesion y muestra el borrar cuenta
 document.getElementById("borrar-cuenta").addEventListener("click", function(e) {
     e.preventDefault();
     document.querySelector('#inicio-sesion').classList.add('hidden');
@@ -32,6 +34,7 @@ document.getElementById("borrar-cuenta").addEventListener("click", function(e) {
     document.querySelector('#del-cuenta').classList.remove('hidden');
 });
 
+//Oculta el borrar cuenta y muestra el inicio de sesion
 document.getElementById("to-login").addEventListener("click", function(e) {
     e.preventDefault();
     document.querySelector('#inicio-sesion').classList.remove('hidden');
@@ -39,21 +42,26 @@ document.getElementById("to-login").addEventListener("click", function(e) {
     document.querySelector('#del-cuenta').classList.add('hidden');
 });
 
+//Se le añade un evento a los formularios para que se envien los datos a la base de datos
 document.getElementById("form-login").addEventListener("submit", login);
 
 document.getElementById("form-registro").addEventListener("submit", registrarse);
 
 document.getElementById("form-borrar-cuenta").addEventListener("submit", borrarCuenta);
 
+//Funcion para el inicio de sesion
 async function login(e) {
     e.preventDefault();
+    //Se obtienen los valores de los campos de usuario y contraseña
     let usuario = document.getElementById("usuario").value;
     let cont = document.getElementById("contrasena").value;
 
+    //Se crea un objeto URLSearchParams para enviar los datos al servidor
     let formData = new URLSearchParams();
     formData.append('usuario', usuario);
     formData.append('contrasena', cont);
 
+    //Se hace una peticion al servidor para verificar si los datos son correctos
     try {
         let response = await fetch("../php/login.php", {
             method: 'POST',
@@ -66,7 +74,7 @@ async function login(e) {
 
         let respuesta = await response.json();
 
-
+        //Si la respuesta no esta vacia, se inicia la sesion y se redirige al index
         if (Object.keys(respuesta).length > 0) {
             alert("Inicio de sesión exitoso");
             localStorage.setItem("sesion-iniciada", JSON.stringify(respuesta));
@@ -82,14 +90,17 @@ async function login(e) {
     return false;
 }
 
+//Funcion para el registro de un nuevo usuario
 async function registrarse(e) {
     e.preventDefault();
+    //Se obtienen los valores de los campos de usuario, correo, nombre, apellido y contraseña
     let usuario = document.getElementById("r-usuario").value;
     let correo = document.getElementById("correo").value;
     let nombre = document.getElementById("nombre").value;
     let apellido = document.getElementById("apellido").value;
     let cont = document.getElementById("r-contrasena").value;
 
+    //Se crea un objeto URLSearchParams para enviar los datos al servidor
     let formData = new URLSearchParams();
     formData.append('r-usuario', usuario);
     formData.append('r-contrasena', cont);
@@ -97,6 +108,7 @@ async function registrarse(e) {
     formData.append('nombre', nombre);
     formData.append('apellido', apellido);
 
+    //Se hace una peticion al servidor para registrar los datos
     try {
         let response = await fetch("../php/registro.php", {
             method: 'POST',
@@ -112,6 +124,7 @@ async function registrarse(e) {
             return;
         }
 
+        //Se oculta el registro y se muestra el inicio de sesion en caso de que el registro sea exitoso
         document.getElementById("inicio-sesion").classList.remove("hidden");
         document.getElementById("registro").classList.add("hidden");
     } catch (error) {
@@ -120,13 +133,17 @@ async function registrarse(e) {
     return false;
 }
 
+//Funcion para borrar una cuenta
 async function borrarCuenta(e) {
     e.preventDefault();
+    //Se obtiene el valor del campo de usuario
     let usuario = document.getElementById("usuario-del").value;
 
+    //Se crea un objeto URLSearchParams para enviar los datos al servidor
     let formData = new URLSearchParams();
     formData.append('usuario', usuario);
 
+    //Se hace una peticion al servidor para borrar la cuenta
     try {
         let response = await fetch("../php/borrarCuenta.php", {
             method: 'POST',
@@ -141,6 +158,7 @@ async function borrarCuenta(e) {
             alert("Error al borrar la cuenta");
         }
 
+        //Se oculta el borrar cuenta y se muestra el inicio de sesion en caso de que el borrado sea exitoso
         document.getElementById("inicio-sesion").classList.remove("hidden");
         document.getElementById("registro").classList.add("hidden");
         document.getElementById("del-cuenta").classList.add("hidden");

@@ -1,3 +1,4 @@
+//Objeto que contiene los colores de los tipos de pokémon
 const typeColors = {
     normal: '#A8A878',
     fire: '#F08030',
@@ -18,10 +19,11 @@ const typeColors = {
     steel: '#B8B8D0',
     fairy: '#EE99AC',
 };
+// Hace que no se pueda hacer scroll en la página mientras se carga
 document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
 let tarjetasPokemon = '';
 
-// Obtén los datos del localStorage
+// Obtener los datos del localStorage
 let data = JSON.parse(localStorage.getItem('sesion-iniciada'));
 
 // Extrae el array de pokemons
@@ -30,7 +32,7 @@ let pokemons = data[2];
 // Extrae el array de equipos
 let equipos = data[1];
 
-
+// Obtiene los datos de los pokemons y crea las tarjetas
 async function obtenerPokemonsYCrearTarjetas(pokemons) {
     // Crea un array de promesas para las peticiones a la API
     let promises = pokemons.map(pokemon => fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.pokemonID}`).then(response => response.json()));
@@ -38,12 +40,13 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
     // Espera a que todas las peticiones se completen
     let pokemonDatas = await Promise.all(promises);
 
-    // Crea las tarjetas de pokemon y añádelas al DOM
+    // Crea las tarjetas de pokemon y las añáde al DOM
     document.getElementById('pokemon').innerHTML = pokemonDatas.map(pokemonData => crearTarjetaPokemon(pokemonData)).join('');
 
     // Actualiza los estilos de los pokemons
     actualizarEstilosPokemons(pokemons.length); 
 
+    // Hace que se muestre la página después de 2 segundos
     setTimeout(() => {
         document.getElementById('pantalla-carga').classList.remove('flex');
         document.getElementById('pantalla-carga').classList.add('hidden');
@@ -53,11 +56,11 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
     // Añade un evento de clic a cada tarjeta de Pokémon para tener mas info del pokemon
     document.querySelectorAll('.pokemon-card').forEach(card => {
         card.addEventListener('click', function() {
-            // Obtén el ID del Pokémon de la tarjeta haciendo referencia al ID del elemento HTML
+            // Obtiene el ID del Pokémon de la tarjeta haciendo referencia al ID del elemento HTML
             const pokemonId = this.id;
             
-            // Obtén la clase con el nombre del Pokémon
-            const pokemonClass = this.classList[0]; // La clase está en la posición 1 del array
+            // Obtiene la clase con el nombre del Pokémon
+            const pokemonClass = this.classList[0]; 
 
             // Redirige al usuario a la página pokemon.html con el ID del Pokémon como parámetro de consulta
             window.location.href = `../html/pokemon.html?id=${pokemonId}&name=${pokemonClass}`;
@@ -113,6 +116,7 @@ async function obtenerPokemonsYCrearTarjetas(pokemons) {
 // Llama a la función obtenerPokemonsYCrearTarjetas con el array de pokemons
 obtenerPokemonsYCrearTarjetas(pokemons);
 
+// Obtiene los datos de los equipos y crea las tarjetas
 function crearTarjetaPokemon(pokemonData) {
     return  `
     <div id="${pokemonData.id}" class=" ${pokemonData.forms[0].name} pokemon-card bg-white border-2 border-gray-300 p-4 relative flex flex-col items-center mx-auto cursor-pointer transform transition duration-500 ease-in-out hover:-translate-y-1">
@@ -127,12 +131,14 @@ function crearTarjetaPokemon(pokemonData) {
     `;
 }
 
+// Obtiene los datos de los equipos y crea las tarjetas
 async function obtenerEquiposYCrearTarjetas() {
     // Crea un array de promesas para las peticiones a la API
     let promises = equipos.map(async equipo => {
         let formData = new URLSearchParams();
         formData.append('equipoId', equipo.equipoID);
 
+        //Coge de la base de datos los datos los equipos del usuario por ID
         try {
             let response = await fetch('../php/equipoPorID.php', {
                 method: 'POST',
@@ -162,9 +168,10 @@ async function obtenerEquiposYCrearTarjetas() {
     // Filtra los resultados nulos (en caso de error)
     let equiposData = (await Promise.all(promises)).filter(result => result !== null);
 
-    // Crea las tarjetas de equipo y añádelas al DOM
+    // Crea las tarjetas de equipo y la añáde al DOM
     document.getElementById('equiposFav').innerHTML = equiposData.map(equipoData => crearTarjeta(equipoData)).join('');
 
+    // Actualiza los estilos de los equipos
     actualizarEstilosEquipos(equipos.length);
 
     // Añade un evento de clic a cada botón de eliminar equipo
@@ -220,7 +227,7 @@ async function obtenerEquiposYCrearTarjetas() {
     });
 }
 
-
+// Crea las tarjetas de los equipos
 function crearTarjeta(datos) {
     let tarjetasHtml = '';
 
@@ -261,9 +268,11 @@ function crearTarjeta(datos) {
     return tarjetasHtml;
 }
 
+//Obtiene los divs de equipos y pokemon
 let divPokemon = document.getElementById("pokemon");
 let divEquipos = document.getElementById("equiposFav");
 
+//Actualiza los estilos de los pokemons segun el numero de pokemon favoritos del usuario
 function actualizarEstilosPokemons(numeroPokemons) {
     if (numeroPokemons == 0) {
         divPokemon.className = "";
@@ -286,6 +295,7 @@ function actualizarEstilosPokemons(numeroPokemons) {
 
 }
 
+//Actualiza los estilos de los equipos segun el numero de equipos favoritos del usuario
 function actualizarEstilosEquipos(numeroEquipos) {
     if (numeroEquipos == 0) {
         divEquipos.className = "";

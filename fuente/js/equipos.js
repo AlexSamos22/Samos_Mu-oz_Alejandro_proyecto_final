@@ -2,8 +2,10 @@ const typeColors = {
     rojo: '#FF0000',
 };
 
+// Hace que no se pueda hacer scroll en la página mientras se carga
 document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
 
+// Obtiene los equipos de la base de datos
 async function obtenerEquipos() {
     const response = await fetch('../php/equipos.php');
     const data = await response.json();
@@ -11,6 +13,7 @@ async function obtenerEquipos() {
     const campeones = [];
     const noCampeones = [];
 
+    // Separa los equipos en campeones y no campeones
     data.forEach((arrayDeCampos) => {
         arrayDeCampos.forEach((campo) => {
             if (campo.Posicion === 'Champion') {
@@ -29,6 +32,7 @@ async function obtenerEquipos() {
     const tarjetasNoCampeones = crearTarjeta(noCampeones);
     document.getElementById('resto-equipos').innerHTML = tarjetasNoCampeones;
 
+    // Hace que se muestre la página después de 1 segundo
     setTimeout(() => {
         document.getElementById('pantalla-carga').classList.remove('flex');
         document.getElementById('pantalla-carga').classList.add('hidden');
@@ -57,6 +61,7 @@ async function obtenerEquipos() {
                 button.classList.add('text-red-500');
             }
         
+            // Añade un evento de clic a cada botón de favoritos
             button.addEventListener('click', async function(e) {
                 e.stopPropagation();
                 const equipoId = parseInt(this.id);
@@ -123,9 +128,11 @@ async function obtenerEquipos() {
         });
 }
 
+// Crea las tarjetas de los equipos
 function crearTarjeta(datos) {
     let tarjetasHtml = '';
 
+    // Itera sobre los datos para crear las tarjetas
     datos.forEach(campo => {
         // Crea la cadena de HTML para las imágenes de los Pokémon
         let imagenesPokemonHtml = '<div class="grid grid-cols-3  w-full justify-items-center items ">';
@@ -163,17 +170,18 @@ function crearTarjeta(datos) {
     return tarjetasHtml;
 }
 
+// Si existe la sesión iniciada, oculta el botón de iniciar sesión y muestra el de cerrar sesión
 if (localStorage.getItem('sesion-iniciada')) {
     document.getElementById('log-in').classList.add('hidden');
     document.getElementById('log-out').classList.remove('hidden');
     
 }
-
+// Añade un evento de clic al botón de cerrar sesión
 document.getElementById('log-out').addEventListener('click', function() {
     alert('Sesión cerrada');
     localStorage.removeItem('sesion-iniciada');
     window.location.reload();
 })
-
+// Llama a la función para obtener los equipos
 obtenerEquipos();
 

@@ -1,3 +1,4 @@
+//Objeto con los colores de los tipos de Pokémon
 const typeColors = {
     normal: '#A8A878',
     fire: '#F08030',
@@ -20,15 +21,15 @@ const typeColors = {
 };
 
 
-  document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
+document.getElementsByTagName('body')[0].classList.add("overflow-hidden");
   
 
-// Recoge la ID del Pokémon de la URL
+// Recoge la ID y el nombre del Pokémon de la URL
 const urlParams = new URLSearchParams(window.location.search);
 const pokemonId = urlParams.get('id');
 const pokemonName = urlParams.get('name');
 
-
+// Muestra los detalles del Pokémon
 async function mostrarDetallesPokemon(pokemonId) {
     // Obtiene los datos del Pokémon de la API
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
@@ -96,7 +97,7 @@ async function mostrarDetallesPokemon(pokemonId) {
         
         const pokemonData = await pokemonResponse.json();
  
-    
+        // Añade los datos del Pokémon a la cadena de evolución
         evolutionChain.push({
             species_name: currentEvolution.species.name.charAt(0).toUpperCase() + currentEvolution.species.name.slice(1),
             sprite: pokemonData.sprites.other['official-artwork'].front_default,
@@ -151,7 +152,7 @@ async function mostrarDetallesPokemon(pokemonId) {
     // Añade la estructura HTML al contenedor
     document.getElementById('info-principal').innerHTML = pokemonHTML;
 
-    // Añadir contenedor de estadísticas base del Pokémon
+    // Añade el contenedor de estadísticas base del Pokémon
     const statsHTML = `
     <div class="w-full flex flex-col items-center self-start">
     <h2 class="text-xl font-bold mb-4">Base Stats</h2>
@@ -230,6 +231,7 @@ document.getElementById('i').innerHTML += statsHTML;
     // Establece el HTML del elemento de la cadena de evolución
     document.getElementById("evo").innerHTML = evolutionHTML;
 
+    // Añade el evento de clic a los botones de favoritos
     document.querySelectorAll('.boton-fav').forEach(function(button) {
         // Obtiene el array del localStorage
         let localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
@@ -254,14 +256,14 @@ document.getElementById('i').innerHTML += statsHTML;
             button.classList.add('bg-red-500');
             button.classList.add('hover:bg-red-700');
         }
-    
+        // Añade el evento de clic a los botones de favoritos
         button.addEventListener('click', async function(e) {
             e.stopPropagation();
             const pokemonId = parseInt(this.id);
 
             localStorageData = JSON.parse(localStorage.getItem('sesion-iniciada'));
         
-    
+            // Comprueba si el botón está en favoritos
             if (this.classList.contains('bg-bg-botones')) {
                 this.classList.remove("bg-bg-botones");
                 this.classList.remove('hover:bg-blue-700');
@@ -323,16 +325,16 @@ document.getElementById('i').innerHTML += statsHTML;
             }
         });
     });
-
+    // Quita la pantalla de carga a los 3 segundos
     setTimeout(() => {
         document.getElementById('pantalla-carga').classList.remove('flex');
         document.getElementById('pantalla-carga').classList.add('hidden');
         document.getElementsByTagName('body')[0].classList.remove("overflow-hidden");
     }, 3000);
 }
-
+// Obtiene los movimientos que el Pokémon aprende por nivel
 async function getLevelUpMoves(pokemonId) {
-    // Haz una solicitud a la API de Pokémon para obtener los datos del Pokémon
+    //Solicitud a la API de Pokémon para obtener los datos del Pokémon
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
     const pokemonData = await response.json();
 
@@ -352,7 +354,7 @@ async function getLevelUpMoves(pokemonId) {
             // Encuentra los detalles del movimiento que corresponden al método de aprendizaje por nivel
             const levelUpDetail = move.version_group_details.find(detail => detail.move_learn_method.name === 'level-up');
     
-            // Haz una solicitud a la API de Pokémon para obtener los datos del movimiento
+            //Solicitud a la API de Pokémon para obtener los datos del movimiento
             const moveResponse = await fetch(move.move.url);
             const moveData = await moveResponse.json();
     
@@ -368,8 +370,9 @@ async function getLevelUpMoves(pokemonId) {
                 </tr>
             `;
         } catch (error) {
+            //Si el movimiento no se puede obtener, devuelve una cadena vacía
             console.error(`Error fetching move data for ${move.move.url}:`, error);
-            return '';  // Devuelve una cadena vacía para este movimiento
+            return '';  
         }
     }));
     
@@ -395,7 +398,7 @@ async function getLevelUpMoves(pokemonId) {
     // Establece el HTML de la lista de movimientos
     document.getElementById('ataques').innerHTML += tableHTML;
 }
-
+// Calcula las debilidades del Pokémon
 function calculateWeaknesses(types) {
     var weaknesses = [];
     var weaknessChart = {
@@ -430,7 +433,7 @@ function calculateWeaknesses(types) {
     
     return weaknesses;
 }
-
+// Calcula las fortalezas del Pokémon
 function calculateStrengths(types) {
     var strengths = [];
     var strengthChart = {
@@ -465,7 +468,7 @@ function calculateStrengths(types) {
     
     return strengths;
 }
-
+// Devuelve la etiqueta de la estadística
 function getStatLabel(statName) {
     switch (statName) {
         case 'hp':
@@ -484,7 +487,7 @@ function getStatLabel(statName) {
             return statName;
     }
 }
-
+// Devuelve el color de la barra de estadísticas
 function getBarColor(value) {
     if (value <= 25) {
         return '#FF6347'; // Rojo para valores bajos
@@ -496,10 +499,11 @@ function getBarColor(value) {
         return '#32CD32'; // Verde puro para valores altos
     }
 }
-
+// Cambia a la página de detalles del Pokémon
 function changePokemon(id, name=pokemonName) {
     window.location.href = `../html/pokemon.html?id=${id}&name=${name}`;
 }
-
+// Muestra los detalles del Pokémon
 mostrarDetallesPokemon(pokemonId);
+// Obtiene los movimientos que el Pokémon aprende por nivel
 getLevelUpMoves(pokemonId);
